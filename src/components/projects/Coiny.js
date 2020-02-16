@@ -1,6 +1,6 @@
 import React from "react"
 const Coiny = () => {
-	return <div></div>
+	return <div>coiny</div>
 }
 
 export default Coiny
