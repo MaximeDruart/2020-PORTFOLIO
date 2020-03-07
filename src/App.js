@@ -15,11 +15,11 @@ const App = () => {
   ))
   return (
     <Router>
-      <Loader />
       <Header />
+      <Loader />
       <MouseFollower />
       <Switch>
-        <Route path='/' exact component={Home} />
+        {/* <Route path='/' exact component={Home} /> */}
         <Route path='/about' exact component={About} />
       </Switch>
 

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { render, Sprite, Graphics, Stage, useTick, Container } from "@inlet/react-pixi"
-import { Application, Graphics as Graph } from "pixi.js"
+import { Sprite, Stage, useTick, Graphics } from "@inlet/react-pixi"
+import { Graphics as Graph } from "pixi.js"
 import SimplexNoise from "simplex-noise"
+import gsap, { Power2, Power3 } from "gsap"
 
 let simplex = new SimplexNoise(Math.random())
 const Wiggly = props => {
@@ -10,74 +11,92 @@ const Wiggly = props => {
   const map = (n, start1, stop1, start2, stop2) => ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2
   const constrain = (n, low, high) => Math.max(Math.min(n, high), low)
 
-  const c = {
+  let [circleData, setCircleData] = useState({
     noiseStrength: 0.07,
     vertexCount: 30,
     yOffsetIncrement: 0.01,
     size: {
-      value: 230,
-      baseValue: 230,
+      value: props.spawn ? 1 : 230,
+      baseValue: props.spawn ? 1 : 230,
       variation: 15
     },
-    fill: true
-  }
+    fill: props.fill
+  })
 
-  const getCircle = data => {
-    console.log("getting points")
+  const getCircle = () => {
     let points = []
-    for (let i = 0; i < data.vertexCount; i++) {
-      let angleRad = ((i / data.vertexCount) * 360 * Math.PI) / 180
-      let angleDeg = (i / data.vertexCount) * 360
-      let noiseVal = map(simplex.noise2D(angleDeg, yOffset), -1, 1, 1 - data.noiseStrength, 1 + data.noiseStrength)
-      let x = Math.cos(angleRad) * data.size.value * noiseVal
-      let y = Math.sin(angleRad) * data.size.value * noiseVal
+    for (let i = 0; i < circleData.vertexCount; i++) {
+      let angleRad = ((i / circleData.vertexCount) * 360 * Math.PI) / 180
+      let angleDeg = (i / circleData.vertexCount) * 360
+      let noiseVal = map(
+        simplex.noise2D(angleDeg, yOffset),
+        -1,
+        1,
+        1 - circleData.noiseStrength,
+        1 + circleData.noiseStrength
+      )
+      let x = Math.cos(angleRad) * circleData.size.value * noiseVal
+      let y = Math.sin(angleRad) * circleData.size.value * noiseVal
       points.push({ x, y })
     }
     return points
   }
 
-  const draw = (graphics, points) => {
+  const draw = (graphics, points, offset = 0) => {
     graphics.clear()
     graphics.lineStyle(15, 0xffffff)
-    c.fill && graphics.beginFill(0xffffff)
+    circleData.fill && graphics.beginFill(0xffffff)
 
     // https://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas
-    graphics.moveTo(points[0].x + 350, points[0].y + 350)
+    graphics.moveTo(points[0].x + offset, points[0].y + offset)
     for (let i = 1; i <= points.length - 2; i++) {
-      const xc = (points[i].x + 350 + points[i + 1].x + 350) / 2
-      const yc = (points[i].y + 350 + points[i + 1].y + 350) / 2
-      graphics.quadraticCurveTo(points[i].x + 350, points[i].y + 350, xc, yc)
+      const xc = (points[i].x + offset + points[i + 1].x + offset) / 2
+      const yc = (points[i].y + offset + points[i + 1].y + offset) / 2
+      graphics.quadraticCurveTo(points[i].x + offset, points[i].y + offset, xc, yc)
     }
     // curve through the last two points
-    let xc = (points[points.length - 1].x + 350 + points[0].x + 350) / 2
-    let yc = (points[points.length - 1].y + 350 + points[0].y + 350) / 2
-    graphics.quadraticCurveTo(points[points.length - 1].x + 350, points[points.length - 1].y + 350, xc, yc)
-    xc = (points[0].x + 350 + points[1].x + 350) / 2
-    yc = (points[0].y + 350 + points[1].y + 350) / 2
-    graphics.quadraticCurveTo(points[0].x + 350, points[0].y + 350, xc, yc)
+    let xc = (points[points.length - 1].x + offset + points[0].x + offset) / 2
+    let yc = (points[points.length - 1].y + offset + points[0].y + offset) / 2
+    graphics.quadraticCurveTo(points[points.length - 1].x + offset, points[points.length - 1].y + offset, xc, yc)
+    xc = (points[0].x + offset + points[1].x + offset) / 2
+    yc = (points[0].y + offset + points[1].y + offset) / 2
+    graphics.quadraticCurveTo(points[0].x + offset, points[0].y + offset, xc, yc)
 
-    c.fill && graphics.endFill()
+    circleData.fill && graphics.endFill()
   }
 
-  useTick(delta => {
-    setYOffset(yOffset => yOffset + c.yOffsetIncrement)
-    c.size.value += map(simplex.noise3D(0, 0, yOffset), -1, 1, -0.25, 0.25)
-    c.size.value = constrain(c.size.value, c.size.baseValue - c.size.variation, c.size.baseValue + c.size.variation)
+  useTick(() => {
+    setYOffset(yOffset => yOffset + circleData.yOffsetIncrement)
+    circleData.size.value += map(simplex.noise3D(0, 0, yOffset), -1, 1, -0.25, 0.25)
+    circleData.size.value = constrain(
+      circleData.size.value,
+      circleData.size.baseValue - circleData.size.variation,
+      circleData.size.baseValue + circleData.size.variation
+    )
   })
 
   let mask = new Graph()
-  let points = getCircle(c)
-  draw(mask, points)
+  let points = getCircle()
+  draw(mask, points, 350)
 
   useEffect(() => {
+    props.spawn && gsap.to(circleData.size, 1.8, { ease: Power3.easeOut, baseValue: 230 })
     simplex = new SimplexNoise(Math.random())
   }, [])
 
   // WHAT WORKS AS A MASK : New Graph(), new Cont()
-  return (
-    <Container>
-      <Sprite interactive buttonMode image={props.img} anchor={[0.5, 0.5]} x={350} y={350} mask={mask} />
-    </Container>
+  return props.img ? (
+    <Sprite interactive buttonMode image={props.img} anchor={[0.5, 0.5]} x={350} y={350} mask={mask} />
+  ) : (
+    <Graphics
+      x={350}
+      y={350}
+      draw={g => {
+        console.log(circleData)
+        let points = getCircle()
+        draw(g, points)
+      }}
+    />
   )
 }
 
@@ -89,11 +108,10 @@ const WigglyContainer = props => {
       options={{
         antialias: true,
         transparent: true,
-        backgroundColor: 0x131313,
         resolution: 1
       }}
     >
-      <Wiggly img={props.img} />
+      <Wiggly {...props} img={props.img} />
     </Stage>
   )
 }

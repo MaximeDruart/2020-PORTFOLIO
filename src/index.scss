@@ -3,6 +3,10 @@
   src: local("DrukWideBold"), url("./assets/fonts/DrukWideBold.woff") format("truetype");
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -28,6 +32,7 @@ $project-width: 700px;
 $project-number: 4;
 
 #root {
+  overflow: hidden;
   width: 100%;
   height: 100%;
   .mouseFollower {
@@ -72,6 +77,40 @@ $project-number: 4;
       .about {
         margin-right: 25px;
       }
+    }
+  }
+
+  .preloadContainer {
+    width: 700px;
+    height: 700px;
+    border: 1px solid yellow;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    h1 {
+      font-size: 50px;
+      position: absolute;
+      &:after {
+        position: absolute;
+        content: "druart";
+        top: 80%;
+        left: 5%;
+        width: 120%;
+        color: rgba(255, 255, 255, 0.6);
+      }
+    }
+    h1.dev:after {
+      content: "developper";
+    }
+    .load-percentage {
+      position: absolute;
+      top: -30%;
+      right: -120%;
+      font-size: 320px;
+      opacity: 0.2;
+      pointer-events: none;
     }
   }
 
