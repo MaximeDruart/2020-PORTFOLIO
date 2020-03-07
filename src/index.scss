@@ -14,7 +14,7 @@ body {
   text-transform: uppercase;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #222;
+  background: black;
   height: 100vh;
   width: 100vw;
   color: white;
@@ -28,7 +28,8 @@ a {
   padding: 0;
 }
 
-$project-width: 700px;
+$project-width: 60vw;
+$project-height: 700px;
 $project-number: 4;
 
 #root {
@@ -42,6 +43,16 @@ $project-number: 4;
     background: red;
     top: 0;
     left: 0;
+  }
+
+  .background {
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url("./assets/img/noise.gif");
+    opacity: 0.1;
+    z-index: 100;
   }
   header {
     display: flex;
@@ -89,21 +100,36 @@ $project-number: 4;
     left: 50%;
     transform: translate(-50%, -50%);
 
-    h1 {
-      font-size: 50px;
+    .title-container {
+      overflow-x: hidden;
       position: absolute;
-      &:after {
-        position: absolute;
-        content: "druart";
-        top: 80%;
-        left: 5%;
-        width: 120%;
+      top: 17%;
+      left: -20%;
+      p {
+        margin: 0;
+        color: white;
+        z-index: 10;
+        font-size: 55px;
+      }
+      p:not(:first-child) {
+        margin-left: 15px;
+        margin-top: -18px;
+      }
+    }
+    .title-dev {
+      top: 65%;
+      left: 50%;
+      p {
+        margin: 0;
+        color: white;
+        z-index: 10;
+        font-size: 65px;
+      }
+      p:not(:first-child) {
         color: rgba(255, 255, 255, 0.6);
       }
     }
-    h1.dev:after {
-      content: "developper";
-    }
+
     .load-percentage {
       position: absolute;
       top: -30%;
@@ -125,16 +151,16 @@ $project-number: 4;
       padding: 0;
       margin: 0;
       width: $project-width * $project-number;
-      //   transform: translateX(-($project-width * $project-number) / 2);
+      transform: translateX($project-width / 3 -$project-width);
 
       .project {
-        list-style-type: none;
-        text-decoration: none;
-        display: block;
-        height: $project-width;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: $project-height;
         width: $project-width;
         border: 1px solid red;
-        margin: 20px;
+        // margin: 20px;
         position: relative;
 
         .canvasContainer {
@@ -161,26 +187,40 @@ $project-number: 4;
       justify-content: center;
       position: relative;
 
-      .circle {
+      .circle-container {
         position: absolute;
-        width: 160px;
-        height: 160px;
-        border: 1px solid white;
-        border-radius: 80px;
         top: 100%;
         left: 50%;
         transform: translate(-50%, -50%);
-      }
-      .circle-txt {
-        text-align: center;
-        position: absolute;
-        width: 50px;
-        height: 25px;
-        color: white;
-        background-color: black;
-        left: 50%;
-        top: 15%;
-        transform: translate(-50%, -50%);
+        transition: all 0.6s ease-in-out;
+        transform-origin: center;
+
+        &-appear {
+          transform: translate(-50%, -50%) rotate(720deg);
+          opacity: 0;
+        }
+        &-appear-active {
+          transform: translate(-50%, -50%) rotate(0deg);
+          opacity: 1;
+        }
+
+        .circle {
+          width: 160px;
+          height: 160px;
+          border: 1px solid white;
+          border-radius: 80px;
+        }
+        .circle-txt {
+          text-align: center;
+          position: absolute;
+          width: 50px;
+          height: 25px;
+          color: white;
+          background-color: black;
+          left: 50%;
+          top: 0;
+          transform: translate(-50%, -50%);
+        }
       }
     }
   }

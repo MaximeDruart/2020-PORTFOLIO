@@ -5,6 +5,7 @@ import SimplexNoise from "simplex-noise"
 import gsap, { Power2, Power3 } from "gsap"
 
 let simplex = new SimplexNoise(Math.random())
+let spawnTl = gsap.timeline({ paused: true })
 const Wiggly = props => {
   let [yOffset, setYOffset] = useState(0)
 
@@ -16,9 +17,9 @@ const Wiggly = props => {
     vertexCount: 30,
     yOffsetIncrement: 0.01,
     size: {
-      value: props.spawn ? 1 : 230,
-      baseValue: props.spawn ? 1 : 230,
-      variation: 15
+      value: props.spawn ? 0 : 300,
+      baseValue: props.spawn ? 0 : 300,
+      variation: props.spawn ? 0 : 15
     },
     fill: props.fill
   })
@@ -80,11 +81,18 @@ const Wiggly = props => {
   draw(mask, points, 350)
 
   useEffect(() => {
-    props.spawn && gsap.to(circleData.size, 1.8, { ease: Power3.easeOut, baseValue: 230 })
     simplex = new SimplexNoise(Math.random())
+    spawnTl.to(circleData.size, 1.8, { ease: Power3.easeOut, baseValue: 300 })
+    props.spawn && spawnTl.play()
   }, [])
 
-  // WHAT WORKS AS A MASK : New Graph(), new Cont()
+  useEffect(() => {
+    if (props.despawn) {
+      spawnTl.timeScale(1.6)
+      spawnTl.reverse()
+    }
+  }, [props])
+
   return props.img ? (
     <Sprite interactive buttonMode image={props.img} anchor={[0.5, 0.5]} x={350} y={350} mask={mask} />
   ) : (
@@ -92,7 +100,6 @@ const Wiggly = props => {
       x={350}
       y={350}
       draw={g => {
-        console.log(circleData)
         let points = getCircle()
         draw(g, points)
       }}
@@ -111,7 +118,7 @@ const WigglyContainer = props => {
         resolution: 1
       }}
     >
-      <Wiggly {...props} img={props.img} />
+      <Wiggly {...props} />
     </Stage>
   )
 }
