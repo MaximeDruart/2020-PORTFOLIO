@@ -11,16 +11,16 @@ import pgCover from "../assets/img/css-piano.PNG"
 
 export default [
   {
-    name: "Coiny",
-    path: "coiny",
-    coverImg: coinyCover,
-    component: Coiny
-  },
-  {
     name: "Ninjavascript",
     path: "ninjavascript",
     coverImg: njsCover,
     component: Ninjavascript
+  },
+  {
+    name: "Coiny",
+    path: "coiny",
+    coverImg: coinyCover,
+    component: Coiny
   },
   {
     name: "Playing Grounds",

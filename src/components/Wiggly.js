@@ -5,7 +5,9 @@ import SimplexNoise from "simplex-noise"
 import gsap, { Power2, Power3 } from "gsap"
 
 let simplex = new SimplexNoise(Math.random())
-let spawnTl = gsap.timeline({ paused: true })
+let spawnTl
+let mask
+let points
 const Wiggly = props => {
   let [yOffset, setYOffset] = useState(0)
 
@@ -74,15 +76,19 @@ const Wiggly = props => {
       circleData.size.baseValue - circleData.size.variation,
       circleData.size.baseValue + circleData.size.variation
     )
+    if (props.img) {
+      points = getCircle()
+      draw(mask, points, 350)
+    }
   })
 
-  let mask = new Graph()
-  let points = getCircle()
-  draw(mask, points, 350)
-
   useEffect(() => {
+    mask = new Graph()
     simplex = new SimplexNoise(Math.random())
-    spawnTl.to(circleData.size, 1.8, { ease: Power3.easeOut, baseValue: 300 })
+    spawnTl = gsap.timeline({ paused: true })
+    props.fill
+      ? spawnTl.to(circleData.size, 1, { ease: Power3.easeOut, baseValue: 300 })
+      : spawnTl.to(circleData.size, 1.8, { ease: Power3.easeOut, baseValue: 300 })
     props.spawn && spawnTl.play()
   }, [])
 
@@ -99,9 +105,9 @@ const Wiggly = props => {
     <Graphics
       x={350}
       y={350}
-      draw={g => {
+      draw={graphics => {
         let points = getCircle()
-        draw(g, points)
+        draw(graphics, points, yOffset)
       }}
     />
   )
