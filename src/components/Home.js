@@ -3,19 +3,25 @@ import projectData from "../assets/projectData"
 import uuid from "uuid"
 import { Link } from "react-router-dom"
 
+import Wiggly from "./Wiggly"
+
 const Home = () => {
-	let mappedData = projectData.map(({ path, name }) => (
-		<Link key={uuid()} to={`/projects/${path}`}>
-			<li>{name}</li>
-		</Link>
-	))
-	return (
-		<div>
-			<h1>Home</h1>
-			<ul>{mappedData}</ul>
-			<Link to="/about">About</Link>
-		</div>
-	)
+  let mappedData = projectData.map(project => (
+    <div className='project' key={uuid()} to={`/projects/${project.path}`}>
+      <Wiggly img={project.coverImg} />
+      <h2>{project.name}</h2>
+    </div>
+  ))
+  return (
+    <div className='home'>
+      <ul className='projects'>{mappedData}</ul>
+
+      <div className='projects-progression'>
+        <div className='circle'></div>
+        <div className='circle-txt'>01</div>
+      </div>
+    </div>
+  )
 }
 
 export default Home

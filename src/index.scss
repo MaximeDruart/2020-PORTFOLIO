@@ -1,9 +1,148 @@
+@font-face {
+  font-family: "DrukWideBold";
+  src: local("DrukWideBold"), url("./assets/fonts/DrukWideBold.woff") format("truetype");
+}
+
 body {
-	margin: 0;
-	padding: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-		sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  font-family: "DrukWideBold";
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #222;
+  height: 100vh;
+  width: 100vw;
+  color: white;
+  overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+$project-width: 700px;
+$project-number: 4;
+
+#root {
+  width: 100%;
+  height: 100%;
+  .mouseFollower {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    background: red;
+    top: 0;
+    left: 0;
+  }
+  header {
+    display: flex;
+    width: 100%;
+    height: 10vh;
+    border: 1px solid yellow;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    .left {
+      margin-left: 25px;
+      position: relative;
+      &:after {
+        position: absolute;
+        content: "Web developper";
+        top: 100%;
+        left: 5%;
+        width: 120%;
+        color: rgba(255, 255, 255, 0.6);
+      }
+    }
+
+    .right {
+      display: flex;
+      flex-flow: row nowrap;
+
+      .contact,
+      .about {
+        margin: 5px;
+      }
+
+      .about {
+        margin-right: 25px;
+      }
+    }
+  }
+
+  .home {
+    // width: 200vw;
+    height: 90vh;
+
+    .projects {
+      display: flex;
+      align-items: center;
+      height: 80vh;
+      padding: 0;
+      margin: 0;
+      width: $project-width * $project-number;
+      //   transform: translateX(-($project-width * $project-number) / 2);
+
+      .project {
+        list-style-type: none;
+        text-decoration: none;
+        display: block;
+        height: $project-width;
+        width: $project-width;
+        border: 1px solid red;
+        margin: 20px;
+        position: relative;
+
+        .canvasContainer {
+          z-index: -1;
+        }
+
+        h2 {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          color: black;
+          transform: translate(-50%, -50%);
+          font-size: 40px;
+          padding: 0;
+          margin: 0;
+        }
+      }
+    }
+
+    .projects-progression {
+      height: 10vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      .circle {
+        position: absolute;
+        width: 160px;
+        height: 160px;
+        border: 1px solid white;
+        border-radius: 80px;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .circle-txt {
+        text-align: center;
+        position: absolute;
+        width: 50px;
+        height: 25px;
+        color: white;
+        background-color: black;
+        left: 50%;
+        top: 15%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
 }
