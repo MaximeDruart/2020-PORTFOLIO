@@ -1,6 +1,12 @@
 import React from "react"
+import ProjectDetail from "./ProjectDetail"
+
 const Ninjavascript = () => {
-	return <div>njs</div>
+  return (
+    <div>
+      <ProjectDetail />
+    </div>
+  )
 }
 
 export default Ninjavascript

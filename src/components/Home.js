@@ -12,21 +12,14 @@ const Home = props => {
   let [activeProject, setActiveProject] = useState(0)
   let [transform, setTransform] = useState(-projectWidth + 100 / 2 - projectWidth / 2)
   let $projects = useRef(null)
-
-  // translateX($project-width / 3 -$project-width);
+  let $parentCanvas = useRef(null)
 
   const scrollHandler = event => {
-    setTransform(-(transform + event.deltaY / 8))
-    setActiveProject((transform - projectWidth / 2) / projectWidth)
-    gsap.to($projects.current, 0.6, { x: transform + "vw", ease: Power2 })
+    // console.log(event.deltaY)
+    setTransform(transform - event.deltaY / 10)
+    setActiveProject(Math.round(transform))
+    // gsap.to($projects.current, 0.6, { x: transform + "vw", ease: Power2 })
   }
-
-  useEffect(() => {
-    console.log("run")
-    gsap.set($projects.current, { x: transform + "vw" })
-  }, [])
-
-  let $parentCanvas = useRef(null)
 
   const getMappedData = useCallback(
     data => {
@@ -39,6 +32,8 @@ const Home = props => {
             spawn={true}
             fill={true}
             img={project.coverImg}
+            setTransform={setTransform}
+            projectWidth={projectWidth}
           />
           <h2>{project.name}</h2>
         </div>
@@ -51,14 +46,14 @@ const Home = props => {
 
   return (
     <div onWheel={e => scrollHandler(e)} className='home'>
-      <ul ref={$projects} className='projects'>
+      <ul style={{ transform: `translateX(${transform}vw)` }} ref={$projects} className='projects'>
         {mappedData}
       </ul>
       <div className='projects-progression'>
         <CSSTransition appear={true} in={true} timeout={0} classNames='circle-container'>
           <div className='circle-container'>
             <div className='circle'></div>
-            <div className='circle-txt'>01</div>
+            <div className='circle-txt'>0{activeProject + 1}</div>
           </div>
         </CSSTransition>
       </div>

@@ -33,7 +33,6 @@ $project-height: 700px;
 $project-number: 4;
 
 #root {
-  overflow: hidden;
   width: 100%;
   height: 100%;
   .mouseFollower {
@@ -55,6 +54,9 @@ $project-number: 4;
     z-index: 100;
   }
   header {
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     width: 100%;
     height: 10vh;
@@ -92,56 +94,64 @@ $project-number: 4;
   }
 
   .preloadContainer {
-    width: 700px;
-    height: 700px;
-    border: 1px solid yellow;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    .title-container {
-      overflow-x: hidden;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    background: black;
+    .preload-wrapper {
+      width: 700px;
+      height: 700px;
+      border: 1px solid yellow;
       position: absolute;
-      top: 17%;
-      left: -20%;
-      p {
-        margin: 0;
-        color: white;
-        z-index: 10;
-        font-size: 55px;
-      }
-      p:not(:first-child) {
-        margin-left: 15px;
-        margin-top: -18px;
-      }
-    }
-    .title-dev {
-      top: 65%;
+      top: 50%;
       left: 50%;
-      p {
-        margin: 0;
-        color: white;
-        z-index: 10;
-        font-size: 65px;
-      }
-      p:not(:first-child) {
-        color: rgba(255, 255, 255, 0.6);
-      }
-    }
+      transform: translate(-50%, -50%);
 
-    .load-percentage {
-      position: absolute;
-      top: -30%;
-      right: -120%;
-      font-size: 320px;
-      opacity: 0.2;
-      pointer-events: none;
+      .title-container {
+        overflow-x: hidden;
+        position: absolute;
+        top: 17%;
+        left: -20%;
+        p {
+          margin: 0;
+          color: white;
+          z-index: 10;
+          font-size: 55px;
+        }
+        p:not(:first-child) {
+          margin-left: 15px;
+          margin-top: -18px;
+        }
+      }
+      .title-dev {
+        top: 65%;
+        left: 50%;
+        p {
+          margin: 0;
+          color: white;
+          z-index: 10;
+          font-size: 65px;
+        }
+        p:not(:first-child) {
+          color: rgba(255, 255, 255, 0.6);
+        }
+      }
+
+      .load-percentage {
+        position: absolute;
+        top: -30%;
+        right: -120%;
+        font-size: 320px;
+        opacity: 0.2;
+        pointer-events: none;
+      }
     }
   }
 
   .home {
     // width: 200vw;
+    margin-top: 10vh;
     height: 90vh;
 
     .projects {
@@ -152,6 +162,7 @@ $project-number: 4;
       margin: 0;
       width: $project-width * $project-number;
       // transform: translateX((100vw / 2) - $project-width / 2);
+      transition: all 0.3s ease-in-out;
 
       .project {
         display: flex;
@@ -173,11 +184,12 @@ $project-number: 4;
           position: absolute;
           top: 50%;
           left: 50%;
-          color: black;
+          color: white;
           transform: translate(-50%, -50%);
-          font-size: 40px;
+          font-size: 100px;
           padding: 0;
           margin: 0;
+          // opacity: 0.8;
         }
       }
     }
@@ -224,6 +236,20 @@ $project-number: 4;
           transform: translate(-50%, -50%);
         }
       }
+    }
+  }
+
+  .projectDetail {
+    width: 100%;
+    .banner {
+      background-image: url("./assets/img/coiny.jpg");
+      width: 100vw;
+      height: 100vh;
+    }
+    .content {
+      width: 100vw;
+      height: 200vh;
+      background: white;
     }
   }
 }

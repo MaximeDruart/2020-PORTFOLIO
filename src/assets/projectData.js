@@ -11,7 +11,7 @@ import pgCover from "../assets/img/css-piano.PNG"
 
 export default [
   {
-    name: "Ninjavascript",
+    name: "njs",
     path: "ninjavascript",
     coverImg: njsCover,
     component: Ninjavascript

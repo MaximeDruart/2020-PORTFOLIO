@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef, useCallback } from "react"
 import { Sprite, Stage, useTick, Graphics, withFilters, Container } from "@inlet/react-pixi"
 import { AdjustmentFilter } from "@pixi/filter-adjustment"
 import { ShockwaveFilter } from "@pixi/filter-shockwave"
-import { Graphics as Graph } from "pixi.js"
+// import { Graphics as Graph } from "pixi.js"
+import * as PIXI from "pixi.js"
 import SimplexNoise from "simplex-noise"
 import gsap, { Power2, Power3 } from "gsap"
 
@@ -17,6 +18,8 @@ const Wiggly = props => {
   let [yOffset, setYOffset] = useState(0)
   let [alpha, setAlpha] = useState(0.8)
   let [interactive, setInteractive] = useState(true)
+  let [drawOffset, setDrawOffset] = useState({ x: 350, y: 350 })
+  let [isOpen, setIsOpen] = useState(false)
 
   let [circleData, setCircleData] = useState({
     noiseStrength: 0.07,
@@ -49,25 +52,25 @@ const Wiggly = props => {
     return points
   }
 
-  const draw = (graphics, points, offset = 0) => {
+  const draw = (graphics, points, offsetX = 0, offsetY = 0) => {
     graphics.clear()
     graphics.lineStyle(15, 0xffffff)
     circleData.fill && graphics.beginFill(0xffffff)
 
     // https://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas
-    graphics.moveTo(points[0].x + offset, points[0].y + offset)
+    graphics.moveTo(points[0].x + offsetX, points[0].y + offsetY)
     for (let i = 1; i <= points.length - 2; i++) {
-      const xc = (points[i].x + offset + points[i + 1].x + offset) / 2
-      const yc = (points[i].y + offset + points[i + 1].y + offset) / 2
-      graphics.quadraticCurveTo(points[i].x + offset, points[i].y + offset, xc, yc)
+      const xc = (points[i].x + offsetX + points[i + 1].x + offsetX) / 2
+      const yc = (points[i].y + offsetY + points[i + 1].y + offsetY) / 2
+      graphics.quadraticCurveTo(points[i].x + offsetX, points[i].y + offsetY, xc, yc)
     }
     // curve through the last two points
-    let xc = (points[points.length - 1].x + offset + points[0].x + offset) / 2
-    let yc = (points[points.length - 1].y + offset + points[0].y + offset) / 2
-    graphics.quadraticCurveTo(points[points.length - 1].x + offset, points[points.length - 1].y + offset, xc, yc)
-    xc = (points[0].x + offset + points[1].x + offset) / 2
-    yc = (points[0].y + offset + points[1].y + offset) / 2
-    graphics.quadraticCurveTo(points[0].x + offset, points[0].y + offset, xc, yc)
+    let xc = (points[points.length - 1].x + offsetX + points[0].x + offsetX) / 2
+    let yc = (points[points.length - 1].y + offsetY + points[0].y + offsetY) / 2
+    graphics.quadraticCurveTo(points[points.length - 1].x + offsetX, points[points.length - 1].y + offsetY, xc, yc)
+    xc = (points[0].x + offsetX + points[1].x + offsetX) / 2
+    yc = (points[0].y + offsetY + points[1].y + offsetY) / 2
+    graphics.quadraticCurveTo(points[0].x + offsetX, points[0].y + offsetY, xc, yc)
 
     circleData.fill && graphics.endFill()
   }
@@ -82,12 +85,12 @@ const Wiggly = props => {
     )
     if (props.img) {
       points = getCircle()
-      draw(mask, points, 350)
+      draw(mask, points, drawOffset.x, drawOffset.y)
     }
   })
 
   useEffect(() => {
-    mask = new Graph()
+    mask = new PIXI.Graphics()
     simplex = new SimplexNoise(Math.random())
     spawnTl = gsap.timeline({ paused: true })
 
@@ -120,11 +123,13 @@ const Wiggly = props => {
   }, [props])
 
   const openProject = () => {
+    props.setTransform(-props.projectWidth * props.index + 100 / 2 - props.projectWidth / 2)
+    props.setZIndex(10)
     props.updateCSize()
-    let openProjectTl = gsap.timeline({
-      ease: Power2.easeInOut,
-      onStart: () => setInteractive(false)
-    })
+    setDrawOffset({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
+    setInteractive(false)
+    setIsOpen(true)
+    let openProjectTl = gsap.timeline({ ease: Power2.easeInOut })
     openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6 })
     openProjectTl.to(circleData.size, 0.2, { baseValue: circleData.size.baseValue * 0.7, delay: -0.2 })
     openProjectTl.to(circleData.size, 1, { ease: Power2.easeIn, baseValue: window.innerWidth })
@@ -141,23 +146,25 @@ const Wiggly = props => {
         gsap.to(circleData.size, 0.6, { baseValue: 300 })
         // setAlpha(0.8)
       }}
-      alpha={alpha}
-      interactive
-      buttonMode
+      alpha={isOpen ? 1 : alpha}
+      interactive={interactive}
+      buttonMode={interactive}
       image={props.img}
       anchor={[0.5, 0.5]}
-      x={350}
-      y={350}
+      // x={350}
+      // y={350}
+      width={window.innerWidth}
+      // height={window.innerHeight}
+      position={isOpen ? [window.innerWidth / 2, window.innerHeight / 2] : [350, 350]}
       mask={mask}
     />
   ) : (
     <Graphics
-      alpha={alpha}
       x={350}
       y={350}
       draw={graphics => {
         let points = getCircle()
-        draw(graphics, points, yOffset)
+        draw(graphics, points)
       }}
     />
   )
@@ -171,13 +178,15 @@ const Filters = withFilters(Container, {
 const WigglyContainer = props => {
   let [cWidth, setCWidth] = useState(700)
   let [cHeight, setCHeight] = useState(700)
+  let [zIndex, setZIndex] = useState(0)
 
   const updateCSize = () => {
-    // setCWidth(1400)
-    // setCHeight(1400)
+    setCWidth(window.innerWidth)
+    setCHeight(window.innerHeight)
   }
   return (
     <Stage
+      style={{ zIndex }}
       onClick={e => console.log(props.index)}
       width={cWidth}
       height={cHeight}
@@ -193,7 +202,7 @@ const WigglyContainer = props => {
           alpha: 0.8
         }}
       > */}
-      <Wiggly updateCSize={updateCSize} {...props} />
+      <Wiggly setZIndex={setZIndex} updateCSize={updateCSize} {...props} />
       {/* </Filters> */}
     </Stage>
   )
