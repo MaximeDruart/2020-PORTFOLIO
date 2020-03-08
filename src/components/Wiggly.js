@@ -10,11 +10,13 @@ let simplex = new SimplexNoise(Math.random())
 let spawnTl
 let mask
 let points
+const map = (n, start1, stop1, start2, stop2) => ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2
+const constrain = (n, low, high) => Math.max(Math.min(n, high), low)
+
 const Wiggly = props => {
   let [yOffset, setYOffset] = useState(0)
-
-  const map = (n, start1, stop1, start2, stop2) => ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2
-  const constrain = (n, low, high) => Math.max(Math.min(n, high), low)
+  let [alpha, setAlpha] = useState(0.8)
+  let [interactive, setInteractive] = useState(true)
 
   let [circleData, setCircleData] = useState({
     noiseStrength: 0.07,
@@ -100,12 +102,7 @@ const Wiggly = props => {
     let x = (right + left) / 2
     let y = (bottom + top) / 2
 
-    let lastCursor = null
     let mousePosHandler = e => {
-      e.target.style.cursor === "pointer"
-        ? gsap.to(circleData.size, 0.6, { baseValue: 335 })
-        : lastCursor === "pointer" && gsap.to(circleData.size, 0.6, { baseValue: 300 })
-      lastCursor = e.target.style.cursor
       let distanceToWiggly =
         1 -
         Math.sqrt(Math.pow((x - e.clientX) / window.innerWidth, 2) + Math.pow((y - e.clientY) / window.innerHeight, 2))
@@ -122,13 +119,28 @@ const Wiggly = props => {
     }
   }, [props])
 
-  useEffect(() => {})
+  const openProject = () => {
+    let openProjectTl = gsap.timeline({
+      ease: Power2.easeInOut,
+      onStart: () => setInteractive(false)
+    })
+    openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6 })
+    openProjectTl.to(circleData.size, 0.2, { baseValue: circleData.size.baseValue * 0.7, delay: -0.2 })
+    openProjectTl.to(circleData.size, 1, { ease: Power2.easeIn, baseValue: window.innerWidth })
+  }
 
   return props.img ? (
     <Sprite
-      onMouseOver={() => {
-        console.log("click !", props.index)
+      pointerdown={() => openProject()}
+      pointerover={() => {
+        gsap.to(circleData.size, 0.6, { baseValue: 340 })
+        // setAlpha(0.85)
       }}
+      pointerout={() => {
+        gsap.to(circleData.size, 0.6, { baseValue: 300 })
+        // setAlpha(0.8)
+      }}
+      alpha={alpha}
       interactive
       buttonMode
       image={props.img}
@@ -139,6 +151,7 @@ const Wiggly = props => {
     />
   ) : (
     <Graphics
+      alpha={alpha}
       x={350}
       y={350}
       draw={graphics => {
@@ -155,6 +168,8 @@ const Filters = withFilters(Container, {
 })
 
 const WigglyContainer = props => {
+  let [cWidth, setCWidth] = useState(700)
+  let [cHeight, setCHeight] = useState(700)
   return (
     <Stage
       onClick={e => console.log(props.index)}
@@ -166,13 +181,13 @@ const WigglyContainer = props => {
         resolution: 1
       }}
     >
-      <Filters
+      {/* <Filters
         adjust={{
           alpha: 0.8
         }}
-      >
-        <Wiggly {...props} />
-      </Filters>
+      > */}
+      <Wiggly {...props} />
+      {/* </Filters> */}
     </Stage>
   )
 }
