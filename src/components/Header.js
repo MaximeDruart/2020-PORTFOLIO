@@ -9,7 +9,9 @@ const Header = () => {
         <Link to='/about' className='contact'>
           Contact
         </Link>
-        <div className='about'>About</div>
+        <a className='about' href='mailto:maxime.druart@hetic.net'>
+          About
+        </a>
       </div>
     </header>
   )

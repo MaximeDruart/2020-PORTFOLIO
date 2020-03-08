@@ -28,7 +28,7 @@ a {
   padding: 0;
 }
 
-$project-width: 60vw;
+$project-width: 50vw;
 $project-height: 700px;
 $project-number: 4;
 
@@ -151,7 +151,7 @@ $project-number: 4;
       padding: 0;
       margin: 0;
       width: $project-width * $project-number;
-      // transform: translateX($project-width / 3 -$project-width);
+      // transform: translateX((100vw / 2) - $project-width / 2);
 
       .project {
         display: flex;
@@ -168,6 +168,8 @@ $project-number: 4;
         }
 
         h2 {
+          text-align: center;
+          pointer-events: none;
           position: absolute;
           top: 50%;
           left: 50%;

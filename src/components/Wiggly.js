@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react"
-import { Sprite, Stage, useTick, Graphics } from "@inlet/react-pixi"
+import React, { useEffect, useState, useRef, useCallback } from "react"
+import { Sprite, Stage, useTick, Graphics, withFilters, Container } from "@inlet/react-pixi"
+import { AdjustmentFilter } from "@pixi/filter-adjustment"
+import { ShockwaveFilter } from "@pixi/filter-shockwave"
 import { Graphics as Graph } from "pixi.js"
 import SimplexNoise from "simplex-noise"
 import gsap, { Power2, Power3 } from "gsap"
@@ -8,6 +10,7 @@ let simplex = new SimplexNoise(Math.random())
 let spawnTl
 let mask
 let points
+let hoverTl
 const Wiggly = props => {
   let [yOffset, setYOffset] = useState(0)
 
@@ -68,6 +71,12 @@ const Wiggly = props => {
     circleData.fill && graphics.endFill()
   }
 
+  const getHoverTl = useCallback(() => {
+    let hoverTl = gsap.timeline({ paused: true })
+    hoverTl.to(circleData.size, 0.6, { baseValue: 350 })
+    return hoverTl
+  }, [])
+
   useTick(() => {
     setYOffset(yOffset => yOffset + circleData.yOffsetIncrement)
     circleData.size.value += map(simplex.noise3D(0, 0, yOffset), -1, 1, -0.25, 0.25)
@@ -83,14 +92,36 @@ const Wiggly = props => {
   })
 
   useEffect(() => {
+    hoverTl = getHoverTl()
     mask = new Graph()
     simplex = new SimplexNoise(Math.random())
     spawnTl = gsap.timeline({ paused: true })
+
     props.fill
-      ? spawnTl.to(circleData.size, 1, { ease: Power3.easeOut, baseValue: 300 })
-      : spawnTl.to(circleData.size, 1.8, { ease: Power3.easeOut, baseValue: 300 })
+      ? spawnTl.to(circleData.size, 2.3, { ease: Power3.easeOut, baseValue: 300 })
+      : spawnTl.to(circleData.size, 1.5, { ease: Power3.easeOut, baseValue: 300 })
     props.spawn && spawnTl.play()
   }, [])
+
+  useEffect(() => {
+    let { top, bottom, right, left } = props.parentCanvasRef.current.getBoundingClientRect()
+    let x = (right + left) / 2
+    let y = (bottom + top) / 2
+
+    let lastCursor = null
+    let mousePosHandler = e => {
+      e.target.style.cursor === "pointer"
+        ? gsap.to(circleData.size, 0.6, { baseValue: 335 })
+        : lastCursor === "pointer" && gsap.to(circleData.size, 0.6, { baseValue: 300 })
+      lastCursor = e.target.style.cursor
+      let distanceToWiggly =
+        1 -
+        Math.sqrt(Math.pow((x - e.clientX) / window.innerWidth, 2) + Math.pow((y - e.clientY) / window.innerHeight, 2))
+      circleData.yOffsetIncrement = map(distanceToWiggly, 0.3, 1, 0.01, 0.05)
+    }
+    window.addEventListener("mousemove", mousePosHandler)
+    return () => window.removeEventListener("mousemove", mousePosHandler)
+  }, [props.parentCanvasRef])
 
   useEffect(() => {
     if (props.despawn) {
@@ -99,8 +130,21 @@ const Wiggly = props => {
     }
   }, [props])
 
+  useEffect(() => {})
+
   return props.img ? (
-    <Sprite interactive buttonMode image={props.img} anchor={[0.5, 0.5]} x={350} y={350} mask={mask} />
+    <Sprite
+      onMouseOver={() => {
+        console.log("click !", props.index)
+      }}
+      interactive
+      buttonMode
+      image={props.img}
+      anchor={[0.5, 0.5]}
+      x={350}
+      y={350}
+      mask={mask}
+    />
   ) : (
     <Graphics
       x={350}
@@ -113,9 +157,15 @@ const Wiggly = props => {
   )
 }
 
+const Filters = withFilters(Container, {
+  adjust: AdjustmentFilter,
+  shockwave: ShockwaveFilter
+})
+
 const WigglyContainer = props => {
   return (
     <Stage
+      onClick={e => console.log(e.target)}
       width={700}
       height={700}
       options={{
@@ -124,7 +174,13 @@ const WigglyContainer = props => {
         resolution: 1
       }}
     >
-      <Wiggly {...props} />
+      <Filters
+        adjust={{
+          alpha: 0.8
+        }}
+      >
+        <Wiggly {...props} />
+      </Filters>
     </Stage>
   )
 }
