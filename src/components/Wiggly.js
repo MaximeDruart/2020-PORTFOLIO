@@ -120,6 +120,7 @@ const Wiggly = props => {
   }, [props])
 
   const openProject = () => {
+    props.updateCSize()
     let openProjectTl = gsap.timeline({
       ease: Power2.easeInOut,
       onStart: () => setInteractive(false)
@@ -170,15 +171,21 @@ const Filters = withFilters(Container, {
 const WigglyContainer = props => {
   let [cWidth, setCWidth] = useState(700)
   let [cHeight, setCHeight] = useState(700)
+
+  const updateCSize = () => {
+    // setCWidth(1400)
+    // setCHeight(1400)
+  }
   return (
     <Stage
       onClick={e => console.log(props.index)}
-      width={700}
-      height={700}
+      width={cWidth}
+      height={cHeight}
       options={{
         antialias: true,
         transparent: true,
         resolution: 1
+        // resizeTo: window
       }}
     >
       {/* <Filters
@@ -186,7 +193,7 @@ const WigglyContainer = props => {
           alpha: 0.8
         }}
       > */}
-      <Wiggly {...props} />
+      <Wiggly updateCSize={updateCSize} {...props} />
       {/* </Filters> */}
     </Stage>
   )
