@@ -10,7 +10,6 @@ let simplex = new SimplexNoise(Math.random())
 let spawnTl
 let mask
 let points
-let hoverTl
 const Wiggly = props => {
   let [yOffset, setYOffset] = useState(0)
 
@@ -71,12 +70,6 @@ const Wiggly = props => {
     circleData.fill && graphics.endFill()
   }
 
-  const getHoverTl = useCallback(() => {
-    let hoverTl = gsap.timeline({ paused: true })
-    hoverTl.to(circleData.size, 0.6, { baseValue: 350 })
-    return hoverTl
-  }, [])
-
   useTick(() => {
     setYOffset(yOffset => yOffset + circleData.yOffsetIncrement)
     circleData.size.value += map(simplex.noise3D(0, 0, yOffset), -1, 1, -0.25, 0.25)
@@ -92,7 +85,6 @@ const Wiggly = props => {
   })
 
   useEffect(() => {
-    hoverTl = getHoverTl()
     mask = new Graph()
     simplex = new SimplexNoise(Math.random())
     spawnTl = gsap.timeline({ paused: true })
@@ -165,7 +157,7 @@ const Filters = withFilters(Container, {
 const WigglyContainer = props => {
   return (
     <Stage
-      onClick={e => console.log(e.target)}
+      onClick={e => console.log(props.index)}
       width={700}
       height={700}
       options={{

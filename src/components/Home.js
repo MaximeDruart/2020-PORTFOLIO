@@ -16,7 +16,7 @@ const Home = props => {
   // translateX($project-width / 3 -$project-width);
 
   const scrollHandler = event => {
-    setTransform(transform + event.deltaY / 8)
+    setTransform(-(transform + event.deltaY / 8))
     setActiveProject((transform - projectWidth / 2) / projectWidth)
     gsap.to($projects.current, 0.6, { x: transform + "vw", ease: Power2 })
   }

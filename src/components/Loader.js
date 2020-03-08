@@ -20,10 +20,6 @@ const Loader = props => {
     spawnTl.play()
   }, [])
 
-  let parentCanvasSize
-  useEffect(() => {
-    parentCanvasSize = $preloadCanvas.current.getBoundingClientRect()
-  }, [$preloadCanvas])
   return (
     <div className='preloadContainer'>
       <div className='load-percentage'>{loadpct}%</div>
