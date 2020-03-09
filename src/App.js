@@ -11,40 +11,37 @@ import ProjectDetail from "./components/projects/ProjectDetail"
 // const Home = React.lazy(() => import("./components/Home"))
 
 const App = () => {
-	let [spawnMain, setSpawnMain] = useState(false)
-	let projectRoutes = projectData.map(project => (
-		<Route
-			loading={spawnMain}
-			path={`/projects/${project.path}`}
-			key={uuid()}
-			component={props => <ProjectDetail project={project} {...props} />}
-		/>
-	))
+  let [spawnMain, setSpawnMain] = useState(false)
+  let projectRoutes = projectData.map(project => (
+    <Route
+      loading={spawnMain}
+      path={`/projects/${project.path}`}
+      key={uuid()}
+      component={props => <ProjectDetail project={project} {...props} />}
+    />
+  ))
 
-	return (
-		<Router>
-			<div className="background"></div>
-			{!spawnMain ? (
-				// <Loader setSpawnMain={setSpawnMain} />
-				<Route path="/" render={props => <Loader {...props} setSpawnMain={setSpawnMain} />} />
-			) : (
-				<div>
-					<Header />
-					<Switch>
-						<Route path="/" exact render={props => <Home {...props} spawnMain={spawnMain} />} />
-						{projectRoutes}
-					</Switch>
-				</div>
-			)}
-			{/* <React.Suspense fallback={<Loader setSpawnMain={setSpawnMain} />}>
+  return (
+    <Router>
+      <MouseFollower />
+      <div className='background'></div>
+      {!spawnMain ? (
+        <Route path='/' render={props => <Loader {...props} setSpawnMain={setSpawnMain} />} />
+      ) : (
+        <div>
+          <Header />
+          <Switch>
+            <Route path='/' exact render={props => <Home {...props} spawnMain={spawnMain} />} />
+            {projectRoutes}
+            <Route path='/about' exact component={About} />
+          </Switch>
+        </div>
+      )}
+      {/* <React.Suspense fallback={<Loader setSpawnMain={setSpawnMain} />}>
 				<Home />
 			</React.Suspense> */}
-			<MouseFollower />
-			<Switch>
-				<Route path="/about" exact component={About} />
-			</Switch>
-		</Router>
-	)
+    </Router>
+  )
 }
 
 export default App

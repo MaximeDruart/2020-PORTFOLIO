@@ -6,12 +6,12 @@ const Header = () => {
     <header>
       <div className='left'>Maxime Druart</div>
       <div className='right'>
-        <Link to='/about' className='contact'>
+        <a className='contact' href='mailto:maxime.druart@hetic.net'>
           Contact
-        </Link>
-        <a className='about' href='mailto:maxime.druart@hetic.net'>
-          About
         </a>
+        <Link to='/about' className='about'>
+          About
+        </Link>
       </div>
     </header>
   )
