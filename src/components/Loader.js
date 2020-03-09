@@ -27,7 +27,7 @@ const Loader = props => {
 						// triggering the spawn animation for main
 						props.setSpawnMain(true)
 						// if it's not the main page it will be a page where scrolling is needed
-						if (props.location !== "/") document.body.style.overflowY = "visible"
+						// if (props.location.pathname !== "/") document.body.style.overflowY = "visible"
 					}
 				})
 			}
@@ -59,7 +59,7 @@ const Loader = props => {
 				<div className="title-container title-dev">
 					<div ref={role} className="content">
 						<p>front end</p>
-						<p>‏‏‎developper</p>
+						<p>‏‏‎developer</p>
 					</div>
 				</div>
 			</div>

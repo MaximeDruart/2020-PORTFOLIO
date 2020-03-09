@@ -71,7 +71,7 @@ $project-number: 4;
 			position: relative;
 			&:after {
 				position: absolute;
-				content: "Web developper";
+				content: "Web developer";
 				top: 100%;
 				left: 5%;
 				width: 120%;
@@ -243,7 +243,7 @@ $project-number: 4;
 	.projectDetail {
 		width: 100%;
 		.banner {
-			background-image: url("./assets/img/coiny.jpg");
+			background-size: cover;
 			width: 100vw;
 			height: 100vh;
 		}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-
 import projectData from "./assets/projectData"
 import Home from "./components/Home"
 import About from "./components/About"
@@ -8,23 +7,19 @@ import Loader from "./components/Loader"
 import uuid from "uuid"
 import Header from "./components/Header"
 import MouseFollower from "./components/MouseFollower"
+import ProjectDetail from "./components/projects/ProjectDetail"
+// const Home = React.lazy(() => import("./components/Home"))
 
 const App = () => {
 	let [spawnMain, setSpawnMain] = useState(false)
-	let projectRoutes = projectData.map(({ path, component }) => (
-		<Route loading={spawnMain} path={`/projects/${path}`} key={uuid()} component={component} />
+	let projectRoutes = projectData.map((project, index) => (
+		<Route
+			loading={spawnMain}
+			path={`/projects/${project.path}`}
+			key={uuid()}
+			component={props => <ProjectDetail index={index} project={project} {...props} />}
+		/>
 	))
-
-	useEffect(() => {
-		// document.body.style.overflow = "scroll !important"
-		// document.body.style.color = "red"
-		// console.log("with")
-	}, [])
-
-	const setScroll = () => {
-		console.log("setting scroll")
-		document.body.style.overflowY = "scroll !important"
-	}
 
 	return (
 		<Router>
@@ -32,15 +27,20 @@ const App = () => {
 			<Header />
 			{!spawnMain ? (
 				// <Loader setSpawnMain={setSpawnMain} />
-				<Route path="/" render={props => <Loader {...props} setSpawnMain={setSpawnMain} setScroll={setScroll} />} />
+				<Route path="/" render={props => <Loader {...props} setSpawnMain={setSpawnMain} />} />
 			) : (
-				<Route path="/" exact render={props => <Home {...props} spawnMain={spawnMain} />} />
+				<Switch>
+					<Route path="/" exact render={props => <Home {...props} spawnMain={spawnMain} />} />
+					{projectRoutes}
+				</Switch>
 			)}
+			{/* <React.Suspense fallback={<Loader setSpawnMain={setSpawnMain} />}>
+				<Home />
+			</React.Suspense> */}
 			<MouseFollower />
 			<Switch>
 				<Route path="/about" exact component={About} />
 			</Switch>
-			{projectRoutes}
 		</Router>
 	)
 }

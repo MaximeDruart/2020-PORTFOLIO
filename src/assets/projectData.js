@@ -6,32 +6,32 @@ import Labyrinth from "../components/projects/Labyrinth"
 
 import coinyCover from "../assets/img/coiny.jpg"
 import labCover from "../assets/img/lab.PNG"
-import njsCover from "../assets/img/njs.png"
+import njsCover from "../assets/img/njs.jpg"
 import pgCover from "../assets/img/css-piano.PNG"
 
 export default [
-  {
-    name: "njs",
-    path: "ninjavascript",
-    coverImg: njsCover,
-    component: Ninjavascript
-  },
-  {
-    name: "Coiny",
-    path: "coiny",
-    coverImg: coinyCover,
-    component: Coiny
-  },
-  {
-    name: "Playing Grounds",
-    path: "playinggrounds",
-    coverImg: pgCover,
-    component: PlayingGrounds
-  },
-  {
-    name: "Labyrinth",
-    path: "labyrinth",
-    coverImg: labCover,
-    component: Labyrinth
-  }
+	{
+		name: "njs",
+		path: "ninjavascript",
+		coverImg: njsCover,
+		component: Ninjavascript
+	},
+	{
+		name: "Coiny",
+		path: "coiny",
+		coverImg: coinyCover,
+		component: Coiny
+	},
+	{
+		name: "Playing Grounds",
+		path: "playinggrounds",
+		coverImg: pgCover,
+		component: PlayingGrounds
+	},
+	{
+		name: "Labyrinth",
+		path: "labyrinth",
+		coverImg: labCover,
+		component: Labyrinth
+	}
 ]
