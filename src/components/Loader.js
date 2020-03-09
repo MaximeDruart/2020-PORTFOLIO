@@ -44,10 +44,10 @@ const Loader = props => {
   }, 50)
 
   return (
-    <div ref={$preloadContainer} className='preloadContainer'>
+    <div ref={$preloadContainer} className='preload-container'>
       <div className='preload-wrapper'>
         <div className='load-percentage'>{loadpct}%</div>
-        <div ref={$preloadCanvas} className='preloadCanvas'>
+        <div ref={$preloadCanvas} className='preload-canvas'>
           <WigglyContainer parentCanvasRef={$preloadCanvas} index={0} despawn={despawn} spawn={true} fill={false} />
         </div>
         <div className='title-container'>

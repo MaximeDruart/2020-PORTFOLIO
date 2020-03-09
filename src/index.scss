@@ -1,6 +1,11 @@
 @font-face {
   font-family: "DrukWideBold";
-  src: local("DrukWideBold"), url("./assets/fonts/DrukWideBold.woff") format("truetype");
+  src: local("DrukWideBold"), url("./assets/fonts/DrukWideBold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: local("Helvetica"), url("./assets/fonts/helvetica.otf") format("opentype");
 }
 
 * {
@@ -115,7 +120,7 @@ $project-number: 4;
     }
   }
 
-  .preloadContainer {
+  .preload-container {
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -288,7 +293,7 @@ $project-number: 4;
         justify-content: space-around;
 
         .info-content {
-          font-family: "Arial";
+          font-family: "Helvetica";
         }
 
         .role,
@@ -302,6 +307,54 @@ $project-number: 4;
             padding: 0;
           }
         }
+      }
+    }
+  }
+
+  .about-container {
+    .about-wrapper {
+      display: flex;
+      flex-flow: column nowrap;
+      .about-canvas {
+        // position: fixed;
+        // top: 50%;
+        // left: 50%;
+        // transform: translate(-50%, -50%);
+        opacity: 0.4;
+      }
+      .about-title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 160px;
+      }
+      .about-intro {
+        align-self: center;
+        width: 800px;
+        margin-top: -12vh;
+        * {
+          font-family: "Helvetica";
+          text-transform: none;
+          font-size: 18px;
+        }
+        display: flex;
+        flex-flow: row nowrap;
+        aside.links {
+          margin-right: 20px;
+          width: 38%;
+          ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            text-align: end;
+          }
+        }
+        .description {
+          width: 60%;
+        }
+      }
+      .about-skills {
       }
     }
   }
