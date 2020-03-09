@@ -99,7 +99,6 @@ $project-number: 4;
 		width: 100vw;
 		height: 100vh;
 		z-index: 100;
-		background: black;
 		.preload-wrapper {
 			width: 700px;
 			height: 700px;
@@ -241,7 +240,11 @@ $project-number: 4;
 	}
 
 	.projectDetail {
+		background: white;
 		width: 100%;
+		* {
+			color: black;
+		}
 		.banner {
 			background-size: cover;
 			width: 100vw;
@@ -251,6 +254,30 @@ $project-number: 4;
 			width: 100vw;
 			height: 200vh;
 			background: white;
+
+			.general-infos {
+				margin-top: 5vh;
+				display: flex;
+				flex-flow: row nowrap;
+				align-items: center;
+				justify-content: space-around;
+
+				.info-content {
+					font-family: "Arial";
+				}
+
+				.role,
+				.date {
+				}
+
+				.info-techs {
+					.info-content {
+						list-style-type: none;
+						margin: 0;
+						padding: 0;
+					}
+				}
+			}
 		}
 	}
 }

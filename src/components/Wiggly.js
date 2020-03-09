@@ -195,7 +195,6 @@ const WigglyContainer = props => {
 	return (
 		<Stage
 			style={{ zIndex }}
-			onClick={e => console.log(props.index)}
 			width={cWidth}
 			height={cHeight}
 			options={{

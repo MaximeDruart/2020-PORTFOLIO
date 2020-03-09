@@ -14,24 +14,36 @@ export default [
 		name: "njs",
 		path: "ninjavascript",
 		coverImg: njsCover,
-		component: Ninjavascript
+		component: Ninjavascript,
+		date: "Apr. 2018",
+		role: "Front end dev",
+		techs: ["HTML/CSS/JS", "canvas"]
 	},
 	{
 		name: "Coiny",
 		path: "coiny",
 		coverImg: coinyCover,
-		component: Coiny
+		component: Coiny,
+		date: "Dec. 2019",
+		role: "Front end dev, back end dev",
+		techs: ["HTML/CSS/JS", "React", "Node & Express", "MongoDB"]
 	},
 	{
 		name: "Playing Grounds",
 		path: "playinggrounds",
 		coverImg: pgCover,
-		component: PlayingGrounds
+		component: PlayingGrounds,
+		date: "Since 2018",
+		role: "Development",
+		techs: ["HTML/CSS/JS", "canvas", "Pixi.js"]
 	},
 	{
 		name: "Labyrinth",
 		path: "labyrinth",
 		coverImg: labCover,
-		component: Labyrinth
+		component: Labyrinth,
+		date: "July 2017",
+		role: "Game dev",
+		techs: ["Python", "Pygame"]
 	}
 ]

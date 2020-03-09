@@ -12,27 +12,29 @@ import ProjectDetail from "./components/projects/ProjectDetail"
 
 const App = () => {
 	let [spawnMain, setSpawnMain] = useState(false)
-	let projectRoutes = projectData.map((project, index) => (
+	let projectRoutes = projectData.map(project => (
 		<Route
 			loading={spawnMain}
 			path={`/projects/${project.path}`}
 			key={uuid()}
-			component={props => <ProjectDetail index={index} project={project} {...props} />}
+			component={props => <ProjectDetail project={project} {...props} />}
 		/>
 	))
 
 	return (
 		<Router>
 			<div className="background"></div>
-			<Header />
 			{!spawnMain ? (
 				// <Loader setSpawnMain={setSpawnMain} />
 				<Route path="/" render={props => <Loader {...props} setSpawnMain={setSpawnMain} />} />
 			) : (
-				<Switch>
-					<Route path="/" exact render={props => <Home {...props} spawnMain={spawnMain} />} />
-					{projectRoutes}
-				</Switch>
+				<div>
+					<Header />
+					<Switch>
+						<Route path="/" exact render={props => <Home {...props} spawnMain={spawnMain} />} />
+						{projectRoutes}
+					</Switch>
+				</div>
 			)}
 			{/* <React.Suspense fallback={<Loader setSpawnMain={setSpawnMain} />}>
 				<Home />
