@@ -316,6 +316,8 @@ $project-number: 4;
 			display: flex;
 			flex-flow: column nowrap;
 			// position: static;
+			width: 850px;
+			align-items: center;
 			.about-canvas {
 				position: absolute;
 				// top: 50%;
@@ -378,9 +380,13 @@ $project-number: 4;
 						ul {
 							display: flex;
 							flex-flow: row wrap;
+							// margin: 0;
+							// padding: 0;
+							margin-left: 0;
+							padding-left: 0;
 						}
 						li {
-							margin-right: 5px;
+							margin-right: 20px;
 						}
 					}
 				}

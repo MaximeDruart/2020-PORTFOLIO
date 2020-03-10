@@ -30,16 +30,24 @@ const About = () => {
 						<aside className="links">
 							<ul>
 								<li className="link">
-									<a href="https://github.com/MaximeDruart">github</a>
+									<a target="_blank" rel="noopener noreferrer" href="https://github.com/MaximeDruart">
+										github
+									</a>
 								</li>
 								<li className="link">
-									<a href="https://www.linkedin.com/in/maxime-druart/">linkedin</a>
+									<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/maxime-druart/">
+										linkedin
+									</a>
 								</li>
 								<li className="link">
-									<a href="https://www.behance.net/maximedruart">behance</a>
+									<a target="_blank" rel="noopener noreferrer" href="https://www.behance.net/maximedruart">
+										behance
+									</a>
 								</li>
 								<li className="link">
-									<a href="mailto:maxime.druart@hetic.net">email</a>
+									<a target="_blank" rel="noopener noreferrer" href="mailto:maxime.druart@hetic.net">
+										email
+									</a>
 								</li>
 							</ul>
 						</aside>
