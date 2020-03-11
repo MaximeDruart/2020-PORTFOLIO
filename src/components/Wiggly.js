@@ -28,9 +28,9 @@ const Wiggly = props => {
 		vertexCount: 30,
 		yOffsetIncrement: 0.01,
 		size: {
-			value: props.spawn ? 0 : 290,
-			baseValue: props.spawn ? 0 : 290,
-			variation: props.spawn ? 0 : 15
+			value: 0,
+			baseValue: 0,
+			variation: 0
 		},
 		fill: props.fill
 	})
@@ -91,16 +91,46 @@ const Wiggly = props => {
 		}
 	})
 
+	const openProject = () => {
+		props.setTransform(-props.projectWidth * props.index + 100 / 2 - props.projectWidth / 2)
+		props.setZIndex(10)
+		props.updateCSize()
+		setDrawOffset({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
+		setInteractive(false)
+		setIsOpen(true)
+		let openProjectTl = gsap.timeline({
+			ease: Power2.easeInOut,
+			onComplete: () => {
+				props.setRedirectWithParam(projectData[props.index].path)
+			}
+		})
+		openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6 })
+		openProjectTl.to(circleData.size, 0.2, { baseValue: circleData.size.baseValue * 0.7, delay: -0.2 })
+		openProjectTl.to(circleData.size, 1, { ease: Power2.easeIn, baseValue: window.innerWidth })
+	}
+
 	useEffect(() => {
 		mask = new PIXI.Graphics()
 		simplex = new SimplexNoise(Math.random())
-		spawnTl = gsap.timeline({ paused: true })
+		spawnTl = gsap.timeline({ ease: Power3.easeOut, paused: true })
 
 		props.fill
-			? spawnTl.to(circleData.size, 2.3, { ease: Power3.easeOut, baseValue: 290 })
-			: spawnTl.to(circleData.size, 1.5, { ease: Power3.easeOut, baseValue: 290 })
-		props.spawn && spawnTl.play()
+			? spawnTl.to(circleData.size, 1.1, { baseValue: 290, variation: 15 })
+			: spawnTl.to(circleData.size, 1.5, { baseValue: 290, variation: 15 })
 	}, [])
+
+	useEffect(() => {
+		props.spawn && spawnTl.play()
+	}, [props.spawn])
+
+	useEffect(() => {
+		props.despawn &&
+			gsap.to(circleData.size, 1.3, {
+				ease: Power3.easeOut,
+				baseValue: 0,
+				variation: 0
+			})
+	}, [props.despawn])
 
 	useEffect(() => {
 		let { top, bottom, right, left } = props.parentCanvasRef.current.getBoundingClientRect()
@@ -117,42 +147,14 @@ const Wiggly = props => {
 		return () => window.removeEventListener("mousemove", mousePosHandler)
 	}, [props.parentCanvasRef])
 
-	useEffect(() => {
-		if (props.despawn) {
-			spawnTl.timeScale(1.6)
-			spawnTl.reverse()
-		}
-	}, [props])
-
-	const openProject = () => {
-		props.setTransform(-props.projectWidth * props.index + 100 / 2 - props.projectWidth / 2)
-		props.setZIndex(10)
-		props.updateCSize()
-		setDrawOffset({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
-		setInteractive(false)
-		setIsOpen(true)
-		let openProjectTl = gsap.timeline({
-			ease: Power2.easeInOut,
-			onComplete: () => {
-				// props.setRedirectWithParam()
-				props.setRedirectWithParam(projectData[props.index].path)
-			}
-		})
-		openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6 })
-		openProjectTl.to(circleData.size, 0.2, { baseValue: circleData.size.baseValue * 0.7, delay: -0.2 })
-		openProjectTl.to(circleData.size, 1, { ease: Power2.easeIn, baseValue: window.innerWidth })
-	}
-
 	return props.img ? (
 		<Sprite
 			pointerdown={() => openProject()}
 			pointerover={() => {
-				gsap.to(circleData.size, 0.5, { baseValue: 330 })
-				// gsap.to(circleData, 2, { vertexCount: 15 })
+				gsap.to(circleData.size, 0.5, { baseValue: 350 })
 				// setAlpha(0.85)
 			}}
 			pointerout={() => {
-				// gsap.to(circleData, 2, { vertexCount: 30 })
 				gsap.to(circleData.size, 0.5, { baseValue: 290 })
 				// setAlpha(0.8)
 			}}
@@ -161,17 +163,12 @@ const Wiggly = props => {
 			buttonMode={interactive}
 			image={props.img}
 			anchor={[0.5, 0.5]}
-			// x={350}
-			// y={350}
-			width={window.innerWidth}
-			// height={window.innerHeight}
 			position={isOpen ? [window.innerWidth / 2, window.innerHeight / 2] : [350, 350]}
 			mask={mask}
 		/>
 	) : (
 		<Graphics
-			x={350}
-			y={350}
+			position={[350, 350]}
 			draw={graphics => {
 				let points = getCircle()
 				draw(graphics, points)
@@ -180,10 +177,10 @@ const Wiggly = props => {
 	)
 }
 
-const Filters = withFilters(Container, {
-	adjust: AdjustmentFilter,
-	shockwave: ShockwaveFilter
-})
+// const Filters = withFilters(Container, {
+// 	adjust: AdjustmentFilter,
+// 	shockwave: ShockwaveFilter
+// })
 
 const WigglyContainer = props => {
 	let [cWidth, setCWidth] = useState(700)
@@ -203,16 +200,8 @@ const WigglyContainer = props => {
 				antialias: true,
 				transparent: true,
 				resolution: 1
-				// resizeTo: window
 			}}>
-			{/* <Filters
-        adjust={{
-          alpha: 0.8
-        }}
-      > */}
 			<Wiggly setZIndex={setZIndex} updateCSize={updateCSize} {...props} />
-			{/* </Filters> */}
-			{/* {redirect} */}
 		</Stage>
 	)
 }

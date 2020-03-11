@@ -14,8 +14,8 @@ const MouseFollower = () => {
 	let $outerCircle = useRef(null)
 	let $innerCircle = useRef(null)
 	const [x, y] = useMouseMove()
-	gsap.to($outerCircle.current, 0.26, { ease: Power1.easeOut, x, y })
-	gsap.set($innerCircle.current, { x, y })
+	$outerCircle.current && gsap.to($outerCircle.current, 0.26, { ease: Power1.easeOut, x, y })
+	$innerCircle.current && gsap.set($innerCircle.current, { x, y })
 
 	return (
 		<div className="mouseFollower">

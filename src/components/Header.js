@@ -1,7 +1,14 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-const Header = () => {
+const Header = props => {
+	const goToAbout = () => {
+		// if we're on the main page, animate it then change url
+		console.log("set despawn")
+		props.setDespawn(true)
+		// props.despawnComplete && props.history.push("/about")
+		props.history.push("/about")
+	}
 	return (
 		<header>
 			<Link to="/" className="left">
@@ -11,9 +18,9 @@ const Header = () => {
 				<a className="contact" href="mailto:maxime.druart@hetic.net">
 					Contact
 				</a>
-				<Link to="/about" className="about">
+				<div onClick={goToAbout} className="about">
 					About
-				</Link>
+				</div>
 			</div>
 		</header>
 	)

@@ -1,6 +1,5 @@
-import React, { useRef } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import WigglyContainer from "./Wiggly"
-import { useState } from "react"
 import useEventListener from "@use-it/event-listener"
 import { CSSTransition } from "react-transition-group"
 
@@ -15,6 +14,8 @@ const About = () => {
 	let $preloadCanvas = useRef(null)
 	let $preloadContainer = useRef(null)
 	const scroll = Math.max(textScrollHeight + useMouseWheel(), textScrollHeight)
+
+	useEffect(() => (document.body.style.overflowY = "hidden"), [])
 
 	return (
 		<div ref={$preloadContainer} className="preload-container about-container">
