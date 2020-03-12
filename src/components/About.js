@@ -53,12 +53,14 @@ const About = () => {
 							</ul>
 						</aside>
 						<div className="description">
-							Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-							et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-							Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-							amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-							aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-							gubergren, no sea.
+							Salut ! Je m'appelle Maxime Druart et je suis un développeur Web avec un intéret particulier pour la
+							création graphique via le code. Actuellement étudiant à{" "}
+							<a href="https://hetic.net" target="_blank" rel="noopener noreferrer">
+								HETIC
+							</a>
+							, j'apprends le design et le développement web. J'aime construire des expériences intéractives en
+							Javascript avec du canvas ou du CSS. Je suis toujours à la recherche de nouvelles choses à apprendre et je
+							me forme aujourd'hui personnellement à la création de système back-end et au WebGL.
 						</div>
 					</div>
 					<div className="about-skills">
