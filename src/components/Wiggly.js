@@ -107,7 +107,7 @@ const Wiggly = props => {
 				props.setRedirectWithParam(projectData[props.index].path)
 			}
 		})
-		openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6 })
+		openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6, yOffsetIncrement: 0.05 })
 		openProjectTl.to(circleData.size, 0.2, { baseValue: circleData.size.baseValue * 0.7, delay: -0.2 })
 		openProjectTl.to(circleData.size, 1, { ease: Power2.easeIn, baseValue: window.innerWidth })
 	}, [props])
@@ -222,7 +222,7 @@ const WigglyContainer = props => {
 			width={cWidth}
 			height={cHeight}
 			options={{
-				antialias: true,
+				// antialias: true,
 				transparent: true,
 				resolution: 1
 			}}>

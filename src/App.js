@@ -8,7 +8,7 @@ import uuid from "uuid"
 import Header from "./components/Header"
 import MouseFollower from "./components/MouseFollower"
 import ProjectDetail from "./components/projects/ProjectDetail"
-import AnimationContextProvider from "./animationContext"
+// import AnimationContextProvider from "./animationContext"
 // const Home = React.lazy(() => import("./components/Home"))
 
 const App = () => {
@@ -30,54 +30,54 @@ const App = () => {
 	}, [despawn])
 
 	return (
-		<AnimationContextProvider>
-			<div className="wrapper">
-				<div ref={$transitionHack} className="project-transition-hack"></div>
-				<Router>
-					<MouseFollower />
-					{!spawnMain ? (
-						<Loader setSpawnMain={setSpawnMain} />
-					) : (
-						<div className="background">
-							<div className="noise"></div>
-						</div>
-					)}
-					<div>
+		// <AnimationContextProvider>
+		<div className="wrapper">
+			<div ref={$transitionHack} className="project-transition-hack"></div>
+			<Router>
+				<MouseFollower />
+				{!spawnMain ? (
+					<Loader setSpawnMain={setSpawnMain} />
+				) : (
+					<div className="background">
+						<div className="noise"></div>
+					</div>
+				)}
+				<div>
+					<Route
+						path="/"
+						render={props => (
+							<Header
+								{...props}
+								despawnComplete={despawnComplete}
+								setSpawnMain={setSpawnMain}
+								setDespawn={setDespawn}
+							/>
+						)}
+					/>
+					<Switch>
 						<Route
 							path="/"
+							exact
 							render={props => (
-								<Header
+								<Home
 									{...props}
-									despawnComplete={despawnComplete}
-									setSpawnMain={setSpawnMain}
-									setDespawn={setDespawn}
+									$transitionHack={$transitionHack}
+									setDespawnComplete={setDespawnComplete}
+									despawn={despawn}
+									spawnMain={spawnMain}
 								/>
 							)}
 						/>
-						<Switch>
-							<Route
-								path="/"
-								exact
-								render={props => (
-									<Home
-										{...props}
-										$transitionHack={$transitionHack}
-										setDespawnComplete={setDespawnComplete}
-										despawn={despawn}
-										spawnMain={spawnMain}
-									/>
-								)}
-							/>
-							{projectRoutes}
-							<Route path="/about" exact component={About} />
-						</Switch>
-					</div>
-					{/* <React.Suspense fallback={<Loader setSpawnMain={setSpawnMain} />}>
+						{projectRoutes}
+						<Route path="/about" exact component={About} />
+					</Switch>
+				</div>
+				{/* <React.Suspense fallback={<Loader setSpawnMain={setSpawnMain} />}>
 				<Home />
 			</React.Suspense> */}
-				</Router>
-			</div>
-		</AnimationContextProvider>
+			</Router>
+		</div>
+		// </AnimationContextProvider>
 	)
 }
 
