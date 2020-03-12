@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useCallback } from "react"
+import React, { useEffect, useState, useCallback, useContext } from "react"
 import { Sprite, Stage, useTick, Graphics } from "@inlet/react-pixi"
 // import { AdjustmentFilter } from "@pixi/filter-adjustment"
 // import { ShockwaveFilter } from "@pixi/filter-shockwave"
@@ -8,6 +8,7 @@ import * as PIXI from "pixi.js"
 import SimplexNoise from "simplex-noise"
 import gsap, { Power2, Power3 } from "gsap"
 import projectData from "../assets/projectData"
+import { AnimationContext } from "../AnimationContext"
 
 let simplex = new SimplexNoise(Math.random())
 let spawnTl
@@ -30,12 +31,13 @@ const Wiggly = props => {
     vertexCount: 30,
     yOffsetIncrement: 0.01,
     size: {
-      value: 0,
-      baseValue: 0,
+      value: 290,
+      baseValue: 290,
       variation: 0
     },
     fill: props.fill
   })
+  // console.log(circleData.size)
 
   const getCircle = () => {
     let points = []
@@ -94,7 +96,7 @@ const Wiggly = props => {
   })
 
   const openProject = useCallback(() => {
-    props.$transitionHack.current.style.backgroundImage = `url(${projectData[props.index].coverImg})`
+    props.context.$transitionHack.current.style.backgroundImage = `url(${projectData[props.index].coverImg})`
     props.setTransform(-props.projectWidth * props.index + 100 / 2 - props.projectWidth / 2, true)
     props.setZIndex(10)
     props.updateCSize()
@@ -113,6 +115,7 @@ const Wiggly = props => {
   }, [props])
 
   useEffect(() => {
+    console.log("rendering")
     mask = new PIXI.Graphics()
     simplex = new SimplexNoise(Math.random())
     spawnTl = gsap.timeline({ ease: Power3.easeOut, paused: true })
@@ -120,11 +123,29 @@ const Wiggly = props => {
     props.fill
       ? spawnTl.to(circleData.size, 1.1, { baseValue: 290, variation: 15 })
       : spawnTl.to(circleData.size, 1.5, { baseValue: 290, variation: 15 })
-  }, [])
+  }, [props.context.despawnMain])
 
   useEffect(() => {
-    props.spawn && spawnTl.play()
-  }, [props.spawn])
+    if (props.spawn && !props.fill) {
+      console.log("no fill spawn")
+      spawnTl.play()
+    }
+    if (props.context.spawnMain && props.fill) {
+      console.log("fill spawn")
+      spawnTl.play()
+    }
+  }, [props.spawn, props.context.spawnMain])
+
+  useEffect(() => {
+    props.context.despawnMain && console.log("despawning")
+    // setTimeout(() => {
+    //   gsap.to(circleData.size, 1.3, {
+    //     ease: Power3.easeOut,
+    //     baseValue: 0,
+    //     variation: 0
+    //   })
+    // }, 1200)
+  }, [props.context.despawnMain])
 
   useEffect(() => {
     props.despawn &&
@@ -172,7 +193,13 @@ const Wiggly = props => {
 
   return props.img ? (
     <Sprite
-      pointerdown={() => openProject()}
+      pointerdown={() => {
+        // console.log("test context update")
+        props.updateContext("isFirstSpawnMain", false)
+        props.updateContext("test", false)
+        // props.updateContext("spawnMain", false)
+        props.updateContext("despawnMain", true)
+      }}
       pointerover={() => {
         gsap.to(circleData.size, 0.5, { baseValue: 350 })
         // setAlpha(0.85)
@@ -211,11 +238,13 @@ const WigglyContainer = props => {
   let [cWidth, setCWidth] = useState(700)
   let [cHeight, setCHeight] = useState(700)
   let [zIndex, setZIndex] = useState(0)
+  const { updateContext, ...context } = useContext(AnimationContext)
 
   const updateCSize = () => {
     setCWidth(window.innerWidth)
     setCHeight(window.innerHeight)
   }
+  console.log("rendering stage")
   return (
     <Stage
       style={{ zIndex }}
@@ -227,7 +256,13 @@ const WigglyContainer = props => {
         resolution: 1
       }}
     >
-      <Wiggly setZIndex={setZIndex} updateCSize={updateCSize} {...props} />
+      <Wiggly
+        updateContext={updateContext}
+        context={context}
+        setZIndex={setZIndex}
+        updateCSize={updateCSize}
+        {...props}
+      />
     </Stage>
   )
 }
