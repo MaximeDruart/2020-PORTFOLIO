@@ -1,8 +1,10 @@
-import React, { useState, useRef, useMemo, useCallback, useEffect } from "react"
+import React, { useState, useRef, useMemo, useCallback, useEffect, useContext } from "react"
 import projectData from "../assets/projectData"
 import uuid from "uuid"
 import { CSSTransition } from "react-transition-group"
 import Wiggly from "./Wiggly"
+
+import { AnimationContext } from "../AnimationContext"
 
 let projectWidth = 50
 
@@ -25,6 +27,8 @@ const Home = props => {
 	let $projects = useRef(null)
 	let $parentCanvas = useRef(null)
 
+	const { updateState, ...state } = useContext(AnimationContext)
+
 	const scrollHandler = useCallback(
 		({ deltaX, deltaY }) => {
 			let valueToUse = Math.max(Math.abs(deltaX), Math.abs(deltaY))
@@ -42,9 +46,9 @@ const Home = props => {
 	const setTransformWithAnim = (value, animate) => {
 		if (animate) {
 			$projects.current.style.transition = "all 0.6s ease-in-out"
+			setTimeout(() => ($projects.current.style.transition = "none"), 600)
 		}
 		setTransform(value)
-		setTimeout(() => ($projects.current.style.transition = "none"), 600)
 	}
 
 	// let scroll = -projectWidth + 100 / 2 - projectWidth / 2 + (useMouseWheel() / window.innerWidth) * 100
@@ -57,13 +61,12 @@ const Home = props => {
 			return data.map((project, index) => (
 				<div ref={$parentCanvas} index={index} className="project" key={uuid()} to={`/projects/${project.path}`}>
 					<Wiggly
-						// {...props}
-						$transitionHack={props.$transitionHack}
-						setDespawnComplete={props.setDespawnComplete}
-						despawn={props.despawn}
+						// $transitionHack={props.$transitionHack}
+						// setDespawnComplete={props.setDespawnComplete}
+						// despawn={props.despawn}
 						parentCanvasRef={$parentCanvas}
 						index={index}
-						spawn={props.spawnMain}
+						// spawn={props.spawnMain}
 						fill={true}
 						img={project.coverImg}
 						projectWidth={projectWidth}
@@ -83,8 +86,8 @@ const Home = props => {
 
 	useEffect(() => {
 		document.body.style.overflow = "hidden"
-		// console.log(object);
-	}, [])
+		updateState("$transitionHack", props.$transitionHack)
+	}, [updateState, props.$transitionHack])
 
 	return (
 		<div onWheel={e => scrollHandler(e)} className="home">

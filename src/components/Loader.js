@@ -1,12 +1,15 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import WigglyContainer from "./Wiggly"
 import { useRef } from "react"
 import { useEffect } from "react"
 import gsap, { Power3 } from "gsap"
 import useInterval from "./utils/UseInterval"
 
+import { AnimationContext } from "../AnimationContext"
+
 let preloadSpawnTl
 const Loader = props => {
+	const { updateState, state } = useContext(AnimationContext)
 	let [loadpct, setLoadpct] = useState(0)
 
 	let [preloadDespawn, setPreloadDespawn] = useState(false)
@@ -26,7 +29,8 @@ const Loader = props => {
 					opacity: 0,
 					onComplete: () => {
 						// triggering the spawn animation for main
-						props.setSpawnMain(true)
+						// props.setSpawnMain(true)
+						updateState("spawnMain", true)
 					}
 				})
 			}

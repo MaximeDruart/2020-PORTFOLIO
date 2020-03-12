@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useContext } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import projectData from "./assets/projectData"
 import Home from "./components/Home"
@@ -8,7 +8,7 @@ import uuid from "uuid"
 import Header from "./components/Header"
 import MouseFollower from "./components/MouseFollower"
 import ProjectDetail from "./components/projects/ProjectDetail"
-import AnimationContextProvider from "./animationContext"
+import AnimationContextProvider from "./AnimationContext"
 // const Home = React.lazy(() => import("./components/Home"))
 
 const App = () => {
@@ -16,6 +16,7 @@ const App = () => {
 	let [despawn, setDespawn] = useState(false)
 	let [despawnComplete, setDespawnComplete] = useState(false)
 	let $transitionHack = useRef(null)
+
 	let projectRoutes = projectData.map(project => (
 		<Route
 			loading={spawnMain}
@@ -36,7 +37,7 @@ const App = () => {
 				<Router>
 					<MouseFollower />
 					{!spawnMain ? (
-						<Loader setSpawnMain={setSpawnMain} />
+						<Loader />
 					) : (
 						<div className="background">
 							<div className="noise"></div>

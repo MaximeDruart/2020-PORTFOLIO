@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useCallback } from "react"
+import React, { useEffect, useState, useCallback, useContext } from "react"
 import { Sprite, Stage, useTick, Graphics } from "@inlet/react-pixi"
 // import { AdjustmentFilter } from "@pixi/filter-adjustment"
 // import { ShockwaveFilter } from "@pixi/filter-shockwave"
@@ -9,6 +9,8 @@ import SimplexNoise from "simplex-noise"
 import gsap, { Power2, Power3 } from "gsap"
 import projectData from "../assets/projectData"
 
+import { AnimationContext } from "../AnimationContext"
+
 let simplex = new SimplexNoise(Math.random())
 let spawnTl
 let mask
@@ -17,6 +19,8 @@ const map = (n, start1, stop1, start2, stop2) => ((n - start1) / (stop1 - start1
 const constrain = (n, low, high) => Math.max(Math.min(n, high), low)
 
 const Wiggly = props => {
+	// const { updateState, ...state } = useContext(AnimationContext)
+	let state = {}
 	let [yOffset, setYOffset] = useState(0)
 	// eslint-disable-next-line no-unused-vars
 	let [alpha, setAlpha] = useState(0.74)
@@ -123,17 +127,17 @@ const Wiggly = props => {
 	}, [])
 
 	useEffect(() => {
-		props.spawn && spawnTl.play()
-	}, [props.spawn])
+		state.spawn && spawnTl.play()
+	}, [state.spawn])
 
 	useEffect(() => {
-		props.despawn &&
+		state.despawn &&
 			gsap.to(circleData.size, 1.3, {
 				ease: Power3.easeOut,
 				baseValue: 0,
 				variation: 0
 			})
-	}, [props.despawn])
+	}, [props.despawn, state.despawn])
 
 	useEffect(() => {
 		if (props.parentCanvasRef.current) {

@@ -9,11 +9,12 @@ class AnimationContextProvider extends Component {
 			spawn: false,
 			spawnMain: false,
 			despawn: false,
-			despawnMain: false
+			despawnMain: false,
+			$transitionHack: null
 		}
 	}
 
-	updateState = (property, value, cb) => this.setState({ [property]: value }, cb())
+	updateState = (property, value, cb = () => {}) => this.setState({ [property]: value }, cb())
 
 	render() {
 		return (
