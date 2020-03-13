@@ -6,12 +6,12 @@ import { AnimationContext } from "../AnimationContext"
 const Header = props => {
   const { updateContext, despawnMain, despawnMainComplete } = useContext(AnimationContext)
   const goToAbout = () => {
-    // if we're on the main page, animate it then change url
-    console.log("set despawn")
-    // props.setDespawn(true)
-    updateContext("despawnMain", true)
-    // props.despawnComplete && props.history.push("/about")
-    // props.history.push("/about")
+    if (props.location.pathname === "/") {
+      updateContext("despawnMain", true)
+    } else {
+      // probably need to set up an animation from project pages to about
+      props.history.push("/about")
+    }
   }
   useEffect(() => {
     if (despawnMain && despawnMainComplete) {
