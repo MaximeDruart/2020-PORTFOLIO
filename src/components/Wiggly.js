@@ -36,7 +36,6 @@ const Wiggly = props => {
     },
     fill: props.fill
   })
-  // console.log(circleData.size)
 
   const getCircle = () => {
     let points = []
@@ -114,18 +113,15 @@ const Wiggly = props => {
   }, [props])
 
   useEffect(() => {
-    console.log("rendering")
     mask = new PIXI.Graphics()
     simplex = new SimplexNoise(Math.random())
   }, [])
 
   useEffect(() => {
     if (props.spawn && !props.fill) {
-      console.log("no fill spawn")
       gsap.to(circleData.size, 1.1, { ease: Power3.easeOut, baseValue: 290, variation: 15 })
     }
     if (props.context.spawnMain && props.fill) {
-      console.log("fill spawn")
       gsap.to(circleData.size, 1.5, { ease: Power3.easeOut, baseValue: 290, variation: 15 })
     }
   }, [props.spawn, props.context.spawnMain])
@@ -147,7 +143,6 @@ const Wiggly = props => {
   }, [])
 
   useEffect(() => {
-    // console.log(props.nameRef)
     props.context.despawnMain && getDespawnMainTl(props.nameRef.current).play()
   }, [props.context.despawnMain])
 
@@ -198,17 +193,14 @@ const Wiggly = props => {
   return props.img ? (
     <Sprite
       pointerdown={() => {
-        // props.updateContext("isFirstSpawnMain", false)
-        // props.updateContext("spawnMain", false)
-        // props.updateContext("despawnMain", true)
         openProject()
       }}
       pointerover={() => {
-        gsap.to(circleData.size, 0.42, { ease: Power3.easeInOut, baseValue: 350 })
+        gsap.to(circleData.size, 0.75, { ease: Power3.easeInOut, baseValue: 350 })
         // setAlpha(0.85)
       }}
       pointerout={() => {
-        gsap.to(circleData.size, 0.42, { ease: Power3.easeInOut, baseValue: 290 })
+        gsap.to(circleData.size, 0.75, { ease: Power3.easeInOut, baseValue: 290 })
         // setAlpha(0.8)
       }}
       alpha={isOpen ? 1 : alpha}
@@ -247,7 +239,6 @@ const WigglyContainer = props => {
     setCWidth(window.innerWidth)
     setCHeight(window.innerHeight)
   }
-  console.log("rendering stage")
   return (
     <Stage
       style={{ zIndex }}
@@ -257,8 +248,7 @@ const WigglyContainer = props => {
         // antialias: true,
         transparent: true,
         resolution: 1
-      }}
-    >
+      }}>
       <Wiggly
         updateContext={updateContext}
         context={context}

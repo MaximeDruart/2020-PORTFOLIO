@@ -29,10 +29,11 @@ const Home = props => {
   const { updateContext, ...context } = useContext(AnimationContext)
 
   const scrollHandler = useCallback(
-    ({ deltaX, deltaY }) => {
-      let valueToUse = Math.max(Math.abs(deltaX), Math.abs(deltaY))
-      valueToUse = valueToUse === Math.abs(deltaY) ? deltaY : valueToUse
-      valueToUse = valueToUse === Math.abs(deltaX) ? deltaX : valueToUse
+    e => {
+      // e.preventDefault()
+      let valueToUse = Math.max(Math.abs(e.deltaX), Math.abs(e.deltaY))
+      valueToUse = valueToUse === Math.abs(e.deltaY) ? e.deltaY : valueToUse
+      valueToUse = valueToUse === Math.abs(e.deltaX) ? e.deltaX : valueToUse
       setTransform(transform => {
         let t = transform - (valueToUse / window.innerWidth) * 100
         setActiveProject(Math.ceil(-t / projectWidth))
@@ -55,7 +56,7 @@ const Home = props => {
     data => {
       //   console.log(context.spawnMain)
       return data.map((project, index) => (
-        <div ref={$parentCanvas} index={index} className='project' key={uuid()} to={`/projects/${project.path}`}>
+        <div ref={$parentCanvas} index={index} className="project" key={uuid()} to={`/projects/${project.path}`}>
           <Wiggly
             parentCanvasRef={$parentCanvas}
             nameRef={$projectName}
@@ -67,7 +68,7 @@ const Home = props => {
             setRedirectWithParam={setRedirectWithParam}
           />
 
-          <h2 ref={$projectName} className='project-name'>
+          <h2 ref={$projectName} className="project-name">
             {project.name}
           </h2>
         </div>
@@ -83,15 +84,15 @@ const Home = props => {
   }, [])
 
   return (
-    <div onWheel={e => scrollHandler(e)} className='home'>
-      <ul style={{ transform: `translateX(${transform}vw)` }} ref={$projects} className='projects'>
+    <div onWheel={e => scrollHandler(e)} className="home">
+      <ul style={{ transform: `translateX(${transform}vw)` }} ref={$projects} className="projects">
         {mappedData}
       </ul>
-      <div className='projects-progression'>
-        <CSSTransition appear={true} in={props.spawnMain} timeout={0} classNames='circle-container'>
-          <div className='circle-container'>
-            <div className='circle'></div>
-            <div className='circle-txt'>0{activeProject + 1}</div>
+      <div className="projects-progression">
+        <CSSTransition appear={true} in={props.spawnMain} timeout={0} classNames="circle-container">
+          <div className="circle-container">
+            <div className="circle"></div>
+            <div className="circle-txt">0{activeProject + 1}</div>
           </div>
         </CSSTransition>
       </div>
