@@ -8,6 +8,7 @@ class AnimationContextProvider extends Component {
     this.state = {
       spawnMain: false,
       despawnMain: false,
+      despawnMainComplete: false,
       $transitionHack: null,
       test: null,
       isFirstSpawnMain: true,

@@ -25,6 +25,7 @@ const Home = props => {
   let [spawnComplete, setSpawnComplete] = useState(false)
   let $projects = useRef(null)
   let $parentCanvas = useRef(null)
+  let $projectName = useRef(null)
   const { updateContext, ...context } = useContext(AnimationContext)
 
   const scrollHandler = useCallback(
@@ -57,6 +58,7 @@ const Home = props => {
         <div ref={$parentCanvas} index={index} className='project' key={uuid()} to={`/projects/${project.path}`}>
           <Wiggly
             parentCanvasRef={$parentCanvas}
+            nameRef={$projectName}
             index={index}
             fill={true}
             img={project.coverImg}
@@ -65,12 +67,14 @@ const Home = props => {
             setRedirectWithParam={setRedirectWithParam}
           />
 
-          <h2 className='project-name'>{context.spawnMain && project.name}</h2>
+          <h2 ref={$projectName} className='project-name'>
+            {project.name}
+          </h2>
         </div>
       ))
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context.spawnMain, context.despawnMain]
+    []
   )
   let mappedData = useMemo(() => getMappedData(projectData), [getMappedData])
 

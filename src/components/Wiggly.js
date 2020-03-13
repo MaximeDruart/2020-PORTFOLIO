@@ -11,7 +11,6 @@ import projectData from "../assets/projectData"
 import { AnimationContext } from "../AnimationContext"
 
 let simplex = new SimplexNoise(Math.random())
-let spawnTl
 let mask
 let points
 const map = (n, start1, stop1, start2, stop2) => ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2
@@ -31,8 +30,8 @@ const Wiggly = props => {
     vertexCount: 30,
     yOffsetIncrement: 0.01,
     size: {
-      value: 290,
-      baseValue: 290,
+      value: 0,
+      baseValue: 0,
       variation: 0
     },
     fill: props.fill
@@ -118,33 +117,38 @@ const Wiggly = props => {
     console.log("rendering")
     mask = new PIXI.Graphics()
     simplex = new SimplexNoise(Math.random())
-    spawnTl = gsap.timeline({ ease: Power3.easeOut, paused: true })
-
-    props.fill
-      ? spawnTl.to(circleData.size, 1.1, { baseValue: 290, variation: 15 })
-      : spawnTl.to(circleData.size, 1.5, { baseValue: 290, variation: 15 })
-  }, [props.context.despawnMain])
+  }, [])
 
   useEffect(() => {
     if (props.spawn && !props.fill) {
       console.log("no fill spawn")
-      spawnTl.play()
+      gsap.to(circleData.size, 1.1, { ease: Power3.easeOut, baseValue: 290, variation: 15 })
     }
     if (props.context.spawnMain && props.fill) {
       console.log("fill spawn")
-      spawnTl.play()
+      gsap.to(circleData.size, 1.5, { ease: Power3.easeOut, baseValue: 290, variation: 15 })
     }
   }, [props.spawn, props.context.spawnMain])
 
+  const getDespawnMainTl = useCallback(name => {
+    let despawnTl = new gsap.timeline({
+      paused: true,
+      ease: Power3.easeOut,
+      onComplete: () => props.updateContext("despawnMainComplete", true)
+    }).addLabel("sync")
+    despawnTl.to(
+      circleData.size,
+      0.6,
+      { baseValue: 0, variation: 0, onComplete: () => props.fill && console.log(name) },
+      "sync"
+    )
+    despawnTl.to(name, 0.6, { opacity: 0 }, "sync")
+    return despawnTl
+  }, [])
+
   useEffect(() => {
-    props.context.despawnMain && console.log("despawning")
-    // setTimeout(() => {
-    //   gsap.to(circleData.size, 1.3, {
-    //     ease: Power3.easeOut,
-    //     baseValue: 0,
-    //     variation: 0
-    //   })
-    // }, 1200)
+    // console.log(props.nameRef)
+    props.context.despawnMain && getDespawnMainTl(props.nameRef.current).play()
   }, [props.context.despawnMain])
 
   useEffect(() => {
@@ -194,18 +198,17 @@ const Wiggly = props => {
   return props.img ? (
     <Sprite
       pointerdown={() => {
-        // console.log("test context update")
-        props.updateContext("isFirstSpawnMain", false)
-        props.updateContext("test", false)
+        // props.updateContext("isFirstSpawnMain", false)
         // props.updateContext("spawnMain", false)
-        props.updateContext("despawnMain", true)
+        // props.updateContext("despawnMain", true)
+        openProject()
       }}
       pointerover={() => {
-        gsap.to(circleData.size, 0.5, { baseValue: 350 })
+        gsap.to(circleData.size, 0.42, { ease: Power3.easeInOut, baseValue: 350 })
         // setAlpha(0.85)
       }}
       pointerout={() => {
-        gsap.to(circleData.size, 0.5, { baseValue: 290 })
+        gsap.to(circleData.size, 0.42, { ease: Power3.easeInOut, baseValue: 290 })
         // setAlpha(0.8)
       }}
       alpha={isOpen ? 1 : alpha}

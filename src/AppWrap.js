@@ -13,6 +13,7 @@ import { AnimationContext } from "./AnimationContext"
 const AppWrap = () => {
   const { updateContext, ...context } = useContext(AnimationContext)
   let $transitionHack = useRef(null)
+
   let projectRoutes = projectData.map(project => (
     <Route
       path={`/projects/${project.path}`}
@@ -27,10 +28,11 @@ const AppWrap = () => {
 
   return (
     <div className='wrapper'>
-      <div ref={$transitionHack} className='project-transition-hack'></div>
+      <div ref={$transitionHack} className=''></div>
       <Router>
         <MouseFollower />
-        {!context.removeLoader && <Loader />}
+        {!context.removeLoader ? <Loader /> : <div className='noise-filter'></div>}
+
         <Route path='/' render={props => <Header {...props} />} />
         <Switch>
           <Route path='/' exact render={props => <Home {...props} />} />
