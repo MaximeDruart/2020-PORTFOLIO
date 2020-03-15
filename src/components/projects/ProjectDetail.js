@@ -17,8 +17,10 @@ const ProjectDetail = ({ project, index, history }) => {
     // animate
     let goToNextProjectTl = gsap
       .timeline({
-        ease: Power2.easeInOut,
-        duration: 0.5,
+        defaults: {
+          ease: Power2.easeInOut,
+          duration: 0.5
+        },
         onStart: () => ($transitionHack.current.style.backgroundImage = `url(${projectData[index + 1].coverImg})`),
         onComplete: () => history.push(`/projects/${projectData[index + 1].path}`)
       })

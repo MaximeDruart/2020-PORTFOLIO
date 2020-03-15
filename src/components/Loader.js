@@ -11,7 +11,7 @@ const Loader = props => {
   let [loadpct, setLoadpct] = useState(0)
   let [preloadDespawn, setPreloadDespawn] = useState(false)
 
-  const { updateContext, ...context } = useContext(AnimationContext)
+  const { updateContext } = useContext(AnimationContext)
 
   let name = useRef(null)
   let role = useRef(null)
@@ -37,7 +37,7 @@ const Loader = props => {
         })
       }
     })
-    preloadSpawnTl.from([name.current, role.current], 1.5, { ease: Power3.easeInOut, x: "-105%" })
+    preloadSpawnTl.from([name.current, role.current], 1, { ease: Power3.easeInOut, x: "-105%" })
     preloadSpawnTl.play()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

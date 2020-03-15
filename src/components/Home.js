@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useCallback, useEffect, useContext } from "react"
+import React, { useState, useRef, useMemo, useCallback, useEffect, useContext, createRef } from "react"
 import projectData from "../assets/projectData"
 import uuid from "uuid"
 import { CSSTransition } from "react-transition-group"
@@ -26,7 +26,8 @@ const Home = props => {
   let [spawnComplete, setSpawnComplete] = useState(false)
   let $projects = useRef(null)
   let $parentCanvas = useRef(null)
-  let $projectName = useRef(null)
+
+  const $projectNames = useMemo(() => Array.from({ length: projectData.length }).map(() => createRef()), [])
   const { updateContext, ...context } = useContext(AnimationContext)
 
   const scrollHandler = useCallback(
@@ -55,13 +56,17 @@ const Home = props => {
   // let scroll = -projectWidth + 100 / 2 - projectWidth / 2 + (useMouseWheel() / window.innerWidth) * 100
   const setRedirectWithParam = useCallback(path => props.history.push(`/projects/${path}`), [props.history])
 
+  // ref={$projectNames.current[index]}
   const getMappedData = useCallback(
     data => {
       return data.map((project, index) => (
-        <div ref={$parentCanvas} index={index} className="project" key={uuid()} to={`/projects/${project.path}`}>
+        <div ref={$parentCanvas} index={index} className="project" key={uuid()}>
+          <h2 ref={$projectNames[index]} className="project-name">
+            {project.name}
+          </h2>
           <Wiggly
             parentCanvasRef={$parentCanvas}
-            nameRef={$projectName}
+            $projectNames={$projectNames}
             index={index}
             fill={true}
             img={project.coverImg}
@@ -69,10 +74,6 @@ const Home = props => {
             setTransform={setTransformWithAnim}
             setRedirectWithParam={setRedirectWithParam}
           />
-
-          <h2 ref={$projectName} className="project-name">
-            {project.name}
-          </h2>
         </div>
       ))
     },
@@ -83,7 +84,12 @@ const Home = props => {
 
   useEffect(() => {
     document.body.style.overflow = "hidden"
+    updateContext("despawnMainComplete", false)
   }, [])
+
+  useEffect(() => {
+    if (context.$transitionHack) context.$transitionHack.current.style.backgroundImage = ""
+  }, [context.$transitionHack])
 
   useEffect(() => {
     context.removeLoader && updateContext("spawnMain", true)

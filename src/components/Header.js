@@ -11,21 +11,23 @@ const Header = props => {
       updateContext("despawnMain", true)
     } else {
       // probably need to set up an animation from project pages to about
+      console.log(props.history)
       props.history.push("/about")
     }
   }
   useEffect(() => {
     if (context.despawnMain && context.despawnMainComplete) {
       props.history.push("/about")
-      updateContext("despawnMain", false)
       updateContext("spawnMain", false)
+      updateContext("despawnMain", false)
+      updateContext("despawnMainComplete", false)
     }
   }, [context.despawnMain, context.despawnMainComplete, props.history, updateContext])
 
   const goToMain = () => {
     // animate then go back
-    updateContext("despawnAbout", true)
     console.log("going to main")
+    updateContext("despawnAbout", true)
   }
 
   return (
@@ -38,11 +40,11 @@ const Header = props => {
           Contact
         </a>
         {props.location.pathname === "/about" ? (
-          <div onClick={goToMain} className="about">
+          <div href="#" onClick={goToMain} className="about">
             Go back
           </div>
         ) : (
-          <div onClick={goToAbout} className="about">
+          <div href="#" onClick={goToAbout} className="about">
             About
           </div>
         )}

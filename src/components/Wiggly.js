@@ -6,7 +6,7 @@ import { Sprite, Stage, useTick, Graphics } from "@inlet/react-pixi"
 // import { Graphics as Graph } from "pixi.js"
 import * as PIXI from "pixi.js"
 import SimplexNoise from "simplex-noise"
-import gsap, { Power2, Power3 } from "gsap"
+import gsap, { Power2, Power3, Power1 } from "gsap"
 import projectData from "../assets/projectData"
 import { AnimationContext } from "../AnimationContext"
 
@@ -98,21 +98,32 @@ const Wiggly = props => {
     props.setTransform(-props.projectWidth * props.index + 100 / 2 - props.projectWidth / 2, true)
     props.setZIndex(10)
     props.updateCSize()
+    setAllowHover(false)
     setDrawOffset({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
     setIsInteractive(false)
     setIsOpen(true)
     props.updateContext("isOpen", true)
-    let openProjectTl = gsap.timeline({
-      ease: Power2.easeInOut,
-      onComplete: () => {
-        props.updateContext("isOpen", false)
-        props.setRedirectWithParam(projectData[props.index].path)
-      }
-    })
-    openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6, yOffsetIncrement: 0.05 })
+    let openProjectTl = gsap
+      .timeline({
+        defaults: { ease: Power2.easeInOut },
+        onComplete: () => {
+          props.updateContext("isOpen", false)
+          props.setRedirectWithParam(projectData[props.index].path)
+        }
+      })
+      .addLabel("sync")
+
+    openProjectTl.to(getCurrents(props.$projectNames), 0.8, { opacity: 0 }, "sync")
+    openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6, yOffsetIncrement: 0.05 }, "sync")
     openProjectTl.to(circleData.size, 0.2, { baseValue: circleData.size.baseValue * 0.7, delay: -0.2 })
     openProjectTl.to(circleData.size, 1, { ease: Power2.easeIn, baseValue: window.innerWidth })
   }, [props])
+
+  const getCurrents = refs => {
+    let currs = []
+    refs.forEach((name, index) => (currs[index] = name.current))
+    return currs
+  }
 
   useEffect(() => {
     mask = new PIXI.Graphics()
@@ -121,9 +132,11 @@ const Wiggly = props => {
 
   useEffect(() => {
     if (props.spawn && !props.fill) {
-      gsap.to(circleData.size, 1.1, { ease: Power3.easeOut, baseValue: 290, variation: 15 })
+      gsap.to(circleData.size, 1, { ease: Power3.easeInOut, baseValue: 290, variation: 15 })
     }
     if (props.context.spawnMain && props.fill) {
+      console.log("spawn")
+      gsap.to(getCurrents(props.$projectNames), 1.5, { ease: Power3.easeOut, opacity: 1 })
       gsap.to(circleData.size, 1.5, {
         ease: Power3.easeOut,
         baseValue: 290,
@@ -133,31 +146,25 @@ const Wiggly = props => {
     }
   }, [props.spawn, props.context.spawnMain])
 
-  const getDespawnMainTl = useCallback(name => {
+  const getDespawnMainTl = useCallback(() => {
     let despawnTl = new gsap.timeline({
       paused: true,
-      ease: Power3.easeOut,
+      defaults: { ease: Power1.easeIn, duration: 0.7 },
       onComplete: () => props.updateContext("despawnMainComplete", true)
     }).addLabel("sync")
-    despawnTl.to(
-      circleData.size,
-      0.6,
-      { baseValue: 0, variation: 0, onComplete: () => props.fill && console.log(name) },
-      "sync"
-    )
-    // console.log(name)
-    despawnTl.to(name, 0.6, { opacity: 0 }, "sync")
+    despawnTl.to(circleData.size, { baseValue: 0, variation: 0 }, "sync")
+    despawnTl.to(getCurrents(props.$projectNames), { opacity: 0 }, "sync")
     return despawnTl
   }, [])
 
   useEffect(() => {
-    props.context.despawnMain && getDespawnMainTl(props.nameRef.current).play()
+    props.context.despawnMain && getDespawnMainTl().play()
   }, [props.context.despawnMain])
 
   useEffect(() => {
     props.despawn &&
-      gsap.to(circleData.size, 1.3, {
-        ease: Power3.easeOut,
+      gsap.to(circleData.size, props.duration || 1.3, {
+        ease: props.despawnEase || Power2.easeInOut,
         baseValue: 0,
         variation: 0
       })
@@ -175,12 +182,12 @@ const Wiggly = props => {
           Math.sqrt(
             Math.pow((x - e.clientX) / window.innerWidth, 2) + Math.pow((y - e.clientY) / window.innerHeight, 2)
           )
-        circleData.yOffsetIncrement = map(distanceToWiggly, 0.3, 1, 0.01, 0.05)
+        if (allowHover) circleData.yOffsetIncrement = map(distanceToWiggly, 0.3, 1, 0.01, 0.05)
       }
       window.addEventListener("mousemove", mousePosHandler)
       return () => window.removeEventListener("mousemove", mousePosHandler)
     }
-  }, [props.parentCanvasRef])
+  }, [props.parentCanvasRef, allowHover])
 
   const getImgSize = useCallback(() => {
     let imgGen = new Image()

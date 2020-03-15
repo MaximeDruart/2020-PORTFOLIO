@@ -41,13 +41,14 @@ const About = props => {
     }
   }, [context.removeLoader])
 
-  //
   useEffect(() => {
     let despawnTl = gsap
       .timeline({
         paused: true,
-        duration: 0.3,
-        ease: Power3.easeInOut,
+        defaults: {
+          ease: Power3.easeIn,
+          duration: 1
+        },
         onStart: () => setDespawnAboutWiggly(true),
         onComplete: () => {
           updateContext("despawnAbout", false)
@@ -66,6 +67,8 @@ const About = props => {
         <div ref={$preloadCanvas} className="about-canvas">
           <WigglyContainer
             parentCanvasRef={$preloadCanvas}
+            duration={1}
+            despawnEase={"Power3.easeIn"}
             despawn={despawnAboutWiggly}
             index={0}
             spawn={context.removeLoader && true}
