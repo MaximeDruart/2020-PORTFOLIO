@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useCallback } from "react"
+import React, { useEffect, useState, useCallback, useContext } from "react"
 import { Sprite, Stage, useTick, Graphics } from "@inlet/react-pixi"
 // import { AdjustmentFilter } from "@pixi/filter-adjustment"
 // import { ShockwaveFilter } from "@pixi/filter-shockwave"
@@ -8,9 +8,9 @@ import * as PIXI from "pixi.js"
 import SimplexNoise from "simplex-noise"
 import gsap, { Power2, Power3 } from "gsap"
 import projectData from "../assets/projectData"
+import { AnimationContext } from "../AnimationContext"
 
 let simplex = new SimplexNoise(Math.random())
-let spawnTl
 let mask
 let points
 const map = (n, start1, stop1, start2, stop2) => ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2
@@ -20,9 +20,10 @@ const Wiggly = props => {
   let [yOffset, setYOffset] = useState(0)
   // eslint-disable-next-line no-unused-vars
   let [alpha, setAlpha] = useState(0.65)
-  let [interactive, setInteractive] = useState(true)
+  let [isInteractive, setIsInteractive] = useState(true)
   let [drawOffset, setDrawOffset] = useState({ x: 350, y: 350 })
   let [isOpen, setIsOpen] = useState(false)
+  let [allowHover, setAllowHover] = useState(false)
 
   // eslint-disable-next-line no-unused-vars
   let [circleData, setCircleData] = useState({
@@ -94,16 +95,17 @@ const Wiggly = props => {
   })
 
   const openProject = useCallback(() => {
-    props.$transitionHack.current.style.backgroundImage = `url(${projectData[props.index].coverImg})`
     props.setTransform(-props.projectWidth * props.index + 100 / 2 - props.projectWidth / 2, true)
     props.setZIndex(10)
     props.updateCSize()
     setDrawOffset({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
-    setInteractive(false)
+    setIsInteractive(false)
     setIsOpen(true)
+    props.updateContext("isOpen", true)
     let openProjectTl = gsap.timeline({
       ease: Power2.easeInOut,
       onComplete: () => {
+        props.updateContext("isOpen", false)
         props.setRedirectWithParam(projectData[props.index].path)
       }
     })
@@ -115,16 +117,42 @@ const Wiggly = props => {
   useEffect(() => {
     mask = new PIXI.Graphics()
     simplex = new SimplexNoise(Math.random())
-    spawnTl = gsap.timeline({ ease: Power3.easeOut, paused: true })
-
-    props.fill
-      ? spawnTl.to(circleData.size, 1.1, { baseValue: 290, variation: 15 })
-      : spawnTl.to(circleData.size, 1.5, { baseValue: 290, variation: 15 })
   }, [])
 
   useEffect(() => {
-    props.spawn && spawnTl.play()
-  }, [props.spawn])
+    if (props.spawn && !props.fill) {
+      gsap.to(circleData.size, 1.1, { ease: Power3.easeOut, baseValue: 290, variation: 15 })
+    }
+    if (props.context.spawnMain && props.fill) {
+      gsap.to(circleData.size, 1.5, {
+        ease: Power3.easeOut,
+        baseValue: 290,
+        variation: 15,
+        onComplete: () => setAllowHover(true)
+      })
+    }
+  }, [props.spawn, props.context.spawnMain])
+
+  const getDespawnMainTl = useCallback(name => {
+    let despawnTl = new gsap.timeline({
+      paused: true,
+      ease: Power3.easeOut,
+      onComplete: () => props.updateContext("despawnMainComplete", true)
+    }).addLabel("sync")
+    despawnTl.to(
+      circleData.size,
+      0.6,
+      { baseValue: 0, variation: 0, onComplete: () => props.fill && console.log(name) },
+      "sync"
+    )
+    // console.log(name)
+    despawnTl.to(name, 0.6, { opacity: 0 }, "sync")
+    return despawnTl
+  }, [])
+
+  useEffect(() => {
+    props.context.despawnMain && getDespawnMainTl(props.nameRef.current).play()
+  }, [props.context.despawnMain])
 
   useEffect(() => {
     props.despawn &&
@@ -173,17 +201,10 @@ const Wiggly = props => {
   return props.img ? (
     <Sprite
       pointerdown={() => openProject()}
-      pointerover={() => {
-        gsap.to(circleData.size, 0.5, { baseValue: 350 })
-        // setAlpha(0.85)
-      }}
-      pointerout={() => {
-        gsap.to(circleData.size, 0.5, { baseValue: 290 })
-        // setAlpha(0.8)
-      }}
+      pointerover={() => allowHover && gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: 350 })}
+      pointerout={() => allowHover && gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: 290 })}
       alpha={isOpen ? 1 : alpha}
-      interactive={interactive}
-      buttonMode={interactive}
+      interactive={isInteractive}
       image={props.img}
       anchor={[0.5, 0.5]}
       width={getImgSize().width}
@@ -211,6 +232,7 @@ const WigglyContainer = props => {
   let [cWidth, setCWidth] = useState(700)
   let [cHeight, setCHeight] = useState(700)
   let [zIndex, setZIndex] = useState(0)
+  const { updateContext, ...context } = useContext(AnimationContext)
 
   const updateCSize = () => {
     setCWidth(window.innerWidth)
@@ -225,9 +247,14 @@ const WigglyContainer = props => {
         // antialias: true,
         transparent: true,
         resolution: 1
-      }}
-    >
-      <Wiggly setZIndex={setZIndex} updateCSize={updateCSize} {...props} />
+      }}>
+      <Wiggly
+        updateContext={updateContext}
+        context={context}
+        setZIndex={setZIndex}
+        updateCSize={updateCSize}
+        {...props}
+      />
     </Stage>
   )
 }

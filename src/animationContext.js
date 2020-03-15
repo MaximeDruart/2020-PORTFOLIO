@@ -6,10 +6,13 @@ class AnimationContextProvider extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      spawn: false,
       spawnMain: false,
-      despawn: false,
-      despawnMain: false
+      despawnMain: false,
+      spawnAbout: false,
+      despawnAbout: false,
+      despawnMainComplete: false,
+      isFirstSpawnMain: true,
+      removeLoader: false
     }
   }
 
@@ -21,8 +24,7 @@ class AnimationContextProvider extends Component {
         value={{
           ...this.state,
           updateContext: this.updateContext
-        }}
-      >
+        }}>
         {this.props.children}
       </AnimationContext.Provider>
     )
