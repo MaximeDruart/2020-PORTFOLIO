@@ -6,6 +6,7 @@ import { AnimationContext } from "../AnimationContext"
 const Header = props => {
   const { updateContext, ...context } = useContext(AnimationContext)
   const goToAbout = () => {
+    window.scrollTo(0, 0)
     if (props.location.pathname === "/") {
       updateContext("despawnMain", true)
     } else {
@@ -23,15 +24,9 @@ const Header = props => {
 
   const goToMain = () => {
     // animate then go back
-    updateContext("despawn", true)
+    updateContext("despawnAbout", true)
+    console.log("going to main")
   }
-
-  useEffect(() => {
-    if (context.despawn) {
-      props.history.goBack()
-      updateContext("despawn", false)
-    }
-  }, [context.despawn])
 
   return (
     <header>

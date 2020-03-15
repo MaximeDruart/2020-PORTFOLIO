@@ -43,6 +43,7 @@ $project-number: 4;
   height: 100%;
 
   .mouseFollower {
+    z-index: 100000;
     position: fixed;
     width: 30px;
     height: 30px;
@@ -72,7 +73,7 @@ $project-number: 4;
     }
   }
 
-  .project-transition-hack {
+  .transition-hack {
     width: 100vw;
     height: 100vh;
     z-index: -10;
@@ -309,14 +310,19 @@ $project-number: 4;
       color: black;
     }
     .banner {
-      background-size: cover;
-      background-position: center center;
       width: 100vw;
       height: 100vh;
+      overflow: hidden;
+
+      .banner-img {
+        width: inherit;
+        height: inherit;
+        background-size: cover;
+        background-position: center center;
+      }
     }
     .content {
       width: 100vw;
-      height: 200vh;
       background: white;
 
       .general-infos {
@@ -341,6 +347,57 @@ $project-number: 4;
             padding: 0;
           }
         }
+      }
+    }
+
+    .next-project-detail {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+
+      .filter {
+        position: absolute;
+        width: inherit;
+        height: inherit;
+        background-color: black;
+        z-index: 100;
+        opacity: 0.6;
+      }
+
+      .banner-img {
+        width: inherit;
+        height: inherit;
+        background-size: cover;
+        background-position: center center;
+      }
+
+      .next-text {
+        z-index: 101;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        overflow-x: hidden;
+        overflow-y: visible;
+
+        &.next-name {
+        }
+        &.next-project {
+          top: 40%;
+        }
+        .text-content {
+          font-size: 60px;
+          color: white;
+        }
+
+        // &.next-project {
+        //   top: 40%;
+        // }
+
+        // &.next-name {
+        //   top: 50%;
+        //   white-space: nowrap;
+        // }
       }
     }
   }
@@ -384,6 +441,7 @@ $project-number: 4;
           aside.links {
             margin-right: 20px;
             width: 30%;
+            font-weight: 600;
             ul {
               margin: 0;
               padding: 0;

@@ -20,9 +20,10 @@ const Wiggly = props => {
   let [yOffset, setYOffset] = useState(0)
   // eslint-disable-next-line no-unused-vars
   let [alpha, setAlpha] = useState(0.65)
-  let [interactive, setInteractive] = useState(true)
+  let [isInteractive, setIsInteractive] = useState(true)
   let [drawOffset, setDrawOffset] = useState({ x: 350, y: 350 })
   let [isOpen, setIsOpen] = useState(false)
+  let [allowHover, setAllowHover] = useState(false)
 
   // eslint-disable-next-line no-unused-vars
   let [circleData, setCircleData] = useState({
@@ -94,16 +95,17 @@ const Wiggly = props => {
   })
 
   const openProject = useCallback(() => {
-    props.context.$transitionHack.current.style.backgroundImage = `url(${projectData[props.index].coverImg})`
     props.setTransform(-props.projectWidth * props.index + 100 / 2 - props.projectWidth / 2, true)
     props.setZIndex(10)
     props.updateCSize()
     setDrawOffset({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
-    setInteractive(false)
+    setIsInteractive(false)
     setIsOpen(true)
+    props.updateContext("isOpen", true)
     let openProjectTl = gsap.timeline({
       ease: Power2.easeInOut,
       onComplete: () => {
+        props.updateContext("isOpen", false)
         props.setRedirectWithParam(projectData[props.index].path)
       }
     })
@@ -122,7 +124,12 @@ const Wiggly = props => {
       gsap.to(circleData.size, 1.1, { ease: Power3.easeOut, baseValue: 290, variation: 15 })
     }
     if (props.context.spawnMain && props.fill) {
-      gsap.to(circleData.size, 1.5, { ease: Power3.easeOut, baseValue: 290, variation: 15 })
+      gsap.to(circleData.size, 1.5, {
+        ease: Power3.easeOut,
+        baseValue: 290,
+        variation: 15,
+        onComplete: () => setAllowHover(true)
+      })
     }
   }, [props.spawn, props.context.spawnMain])
 
@@ -138,6 +145,7 @@ const Wiggly = props => {
       { baseValue: 0, variation: 0, onComplete: () => props.fill && console.log(name) },
       "sync"
     )
+    // console.log(name)
     despawnTl.to(name, 0.6, { opacity: 0 }, "sync")
     return despawnTl
   }, [])
@@ -192,20 +200,11 @@ const Wiggly = props => {
 
   return props.img ? (
     <Sprite
-      pointerdown={() => {
-        openProject()
-      }}
-      pointerover={() => {
-        gsap.to(circleData.size, 0.75, { ease: Power3.easeInOut, baseValue: 350 })
-        // setAlpha(0.85)
-      }}
-      pointerout={() => {
-        gsap.to(circleData.size, 0.75, { ease: Power3.easeInOut, baseValue: 290 })
-        // setAlpha(0.8)
-      }}
+      pointerdown={() => openProject()}
+      pointerover={() => allowHover && gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: 350 })}
+      pointerout={() => allowHover && gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: 290 })}
       alpha={isOpen ? 1 : alpha}
-      interactive={interactive}
-      buttonMode={interactive}
+      interactive={isInteractive}
       image={props.img}
       anchor={[0.5, 0.5]}
       width={getImgSize().width}

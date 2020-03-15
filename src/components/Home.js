@@ -4,6 +4,7 @@ import uuid from "uuid"
 import { CSSTransition } from "react-transition-group"
 import Wiggly from "./Wiggly"
 import { AnimationContext } from "../AnimationContext"
+import gsap from "gsap/gsap-core"
 
 let projectWidth = 50
 
@@ -20,7 +21,7 @@ let projectWidth = 50
 
 const Home = props => {
   let [activeProject, setActiveProject] = useState(0)
-  let [transform, setTransform] = useState(-projectWidth + 100 / 2 - projectWidth / 2)
+  let [transform, setTransform] = useState(projectWidth / 2)
   // eslint-disable-next-line no-unused-vars
   let [spawnComplete, setSpawnComplete] = useState(false)
   let $projects = useRef(null)
@@ -36,7 +37,9 @@ const Home = props => {
       valueToUse = valueToUse === Math.abs(e.deltaX) ? e.deltaX : valueToUse
       setTransform(transform => {
         let t = transform - (valueToUse / window.innerWidth) * 100
-        setActiveProject(Math.ceil(-t / projectWidth))
+        let activeProject = Math.ceil(-t / projectWidth)
+        t = gsap.utils.clamp(projectWidth / 2 - projectWidth * 3, projectWidth / 2, t)
+        setActiveProject(activeProject)
         return t
       })
     },
@@ -54,7 +57,6 @@ const Home = props => {
 
   const getMappedData = useCallback(
     data => {
-      //   console.log(context.spawnMain)
       return data.map((project, index) => (
         <div ref={$parentCanvas} index={index} className="project" key={uuid()} to={`/projects/${project.path}`}>
           <Wiggly
@@ -83,13 +85,17 @@ const Home = props => {
     document.body.style.overflow = "hidden"
   }, [])
 
+  useEffect(() => {
+    context.removeLoader && updateContext("spawnMain", true)
+  }, [context.removeLoader, updateContext])
+
   return (
-    <div onWheel={e => scrollHandler(e)} className="home">
+    <div onWheel={e => !context.isOpen && scrollHandler(e)} className="home">
       <ul style={{ transform: `translateX(${transform}vw)` }} ref={$projects} className="projects">
         {mappedData}
       </ul>
       <div className="projects-progression">
-        <CSSTransition appear={true} in={props.spawnMain} timeout={0} classNames="circle-container">
+        <CSSTransition appear={true} in={context.spawnMain} timeout={0} classNames="circle-container">
           <div className="circle-container">
             <div className="circle"></div>
             <div className="circle-txt">0{activeProject + 1}</div>

@@ -54,13 +54,13 @@ const Loader = props => {
   }, 50)
 
   return (
-    <div ref={$preloadContainer} className='preload-container'>
-      <div className='background'>
-        <div className='noise'></div>
+    <div ref={$preloadContainer} className="preload-container">
+      <div className="background">
+        <div className="noise"></div>
       </div>
-      <div className='preload-wrapper'>
-        <div className='load-percentage'>{loadpct}%</div>
-        <div ref={$preloadCanvas} className='preload-canvas'>
+      <div className="preload-wrapper">
+        <div className="load-percentage">{loadpct}%</div>
+        <div ref={$preloadCanvas} className="preload-canvas">
           <WigglyContainer
             parentCanvasRef={$preloadCanvas}
             index={0}
@@ -69,14 +69,14 @@ const Loader = props => {
             fill={false}
           />
         </div>
-        <div className='title-container'>
-          <div ref={name} className='content'>
-            <p className='name'>maxime</p>
-            <p className='name'>druart</p>
+        <div className="title-container">
+          <div ref={name} className="content">
+            <p className="name">maxime</p>
+            <p className="name">druart</p>
           </div>
         </div>
-        <div className='title-container title-dev'>
-          <div ref={role} className='content'>
+        <div className="title-container title-dev">
+          <div ref={role} className="content">
             <p>front end</p>
             <p>‏‏‎developer</p>
           </div>

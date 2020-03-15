@@ -8,9 +8,9 @@ class AnimationContextProvider extends Component {
     this.state = {
       spawnMain: false,
       despawnMain: false,
+      spawnAbout: false,
+      despawnAbout: false,
       despawnMainComplete: false,
-      $transitionHack: null,
-      test: null,
       isFirstSpawnMain: true,
       removeLoader: false
     }
@@ -25,8 +25,7 @@ class AnimationContextProvider extends Component {
         value={{
           ...this.state,
           updateContext: this.updateContext
-        }}
-      >
+        }}>
         {this.props.children}
       </AnimationContext.Provider>
     )

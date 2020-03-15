@@ -11,37 +11,35 @@ import ProjectDetail from "./components/projects/ProjectDetail"
 import { AnimationContext } from "./AnimationContext"
 
 const AppWrap = () => {
-	const { updateContext, ...context } = useContext(AnimationContext)
-	let $transitionHack = useRef(null)
+  const { updateContext, ...context } = useContext(AnimationContext)
+  const $transitionHack = useRef(null)
 
-	let projectRoutes = projectData.map(project => (
-		<Route
-			path={`/projects/${project.path}`}
-			key={uuid()}
-			component={props => <ProjectDetail project={project} {...props} />}
-		/>
-	))
+  let projectRoutes = projectData.map((project, index) => (
+    <Route
+      path={`/projects/${project.path}`}
+      key={uuid()}
+      component={props => <ProjectDetail index={index} project={project} {...props} />}
+    />
+  ))
+  useEffect(() => {
+    updateContext("$transitionHack", $transitionHack)
+  }, [$transitionHack, updateContext])
 
-	useEffect(() => {
-		updateContext("$transitionHack", $transitionHack)
-	}, [$transitionHack, updateContext])
-
-	return (
-		<div className="wrapper">
-			<div ref={$transitionHack} className=""></div>
-			<Router>
-				<MouseFollower />
-				{!context.removeLoader ? <Loader /> : <div className="noise-filter"></div>}
-
-				<Route path="/" render={props => <Header {...props} />} />
-				<Switch>
-					<Route path="/" exact render={props => <Home {...props} />} />
-					<Route path="/about" exact component={About} />
-					{projectRoutes}
-				</Switch>
-			</Router>
-		</div>
-	)
+  return (
+    <div className="wrapper">
+      <div ref={$transitionHack} className="transition-hack"></div>
+      <Router>
+        <MouseFollower />
+        {!context.removeLoader ? <Loader /> : <div className="noise-filter"></div>}
+        <Route path="/" render={props => <Header {...props} />} />
+        <Switch>
+          <Route path="/" exact render={props => <Home {...props} />} />
+          <Route path="/about" exact component={About} />
+          {projectRoutes}
+        </Switch>
+      </Router>
+    </div>
+  )
 }
 
 export default AppWrap
