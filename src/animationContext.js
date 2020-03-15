@@ -16,7 +16,6 @@ class AnimationContextProvider extends Component {
     }
   }
 
-  // updating context from child components, if no callback is provided, run an empty function
   updateContext = (property, value, cb = () => {}) => this.setState({ [property]: value }, cb())
 
   render() {
