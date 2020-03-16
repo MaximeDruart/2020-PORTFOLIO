@@ -4,16 +4,20 @@ import uuid from "uuid"
 import projectData from "../../assets/projectData"
 import { Power2 } from "gsap/gsap-core"
 import { AnimationContext } from "../../AnimationContext"
+import ScrollToPlugin from "gsap/ScrollToPlugin"
+
+gsap.registerPlugin(ScrollToPlugin)
 
 const ProjectDetail = ({ project, index, history }) => {
   const $filter = useRef(null)
   const $text1 = useRef(null)
   const $text2 = useRef(null)
+  const $projectDetail = useRef(null)
   const { $transitionHack } = useContext(AnimationContext)
 
   const goToNextProject = () => {
     // scroll to bottom
-    window.scrollTo(0, document.body.scrollHeight)
+    // window.scrollTo(0, document.body.scrollHeight)
     // animate
     let goToNextProjectTl = gsap
       .timeline({
@@ -21,10 +25,14 @@ const ProjectDetail = ({ project, index, history }) => {
           ease: Power2.easeInOut,
           duration: 0.5
         },
-        onStart: () => ($transitionHack.current.style.backgroundImage = `url(${projectData[index + 1].coverImg})`),
+        onStart: () => {
+          console.log($projectDetail)
+          $transitionHack.current.style.backgroundImage = `url(${projectData[index + 1].coverImg})`
+        },
         onComplete: () => history.push(`/projects/${projectData[index + 1].path}`)
       })
-      .addLabel("sync")
+      .addLabel("sync", "+=0.3")
+    goToNextProjectTl.to($projectDetail.current, { scrollTo: "max" })
     goToNextProjectTl.to($filter.current, { opacity: 0 }, "sync")
     goToNextProjectTl.to([$text1.current, $text2.current], { x: "-100%" }, "sync")
   }
@@ -39,16 +47,11 @@ const ProjectDetail = ({ project, index, history }) => {
         duration: 0.6
       }
     })
-    let projectSpawnTlTest = gsap.timeline({
-      paused: true,
-      ease: Power3.easeInOut,
-      duration: 0.6
-    })
 
     projectSpawnTl.play()
   }, [])
   return (
-    <div className="projectDetail">
+    <div ref={$projectDetail} className="project-detail">
       <div className="banner">
         <div style={{ backgroundImage: `url(${project?.coverImg})` }} className="banner-img"></div>
       </div>
@@ -76,7 +79,7 @@ const ProjectDetail = ({ project, index, history }) => {
         </div>
         <div className="project-specific-content">{project?.component()}</div>
         {projectData[index + 1] && (
-          <div onClick={goToNextProject} className="next-project-detail">
+          <div id="next-project" onClick={goToNextProject} className="next-project-detail">
             <div ref={$filter} className="filter"></div>
             <div style={{ backgroundImage: `url(${projectData[index + 1].coverImg})` }} className="banner-img"></div>
             <div className="banner-text">

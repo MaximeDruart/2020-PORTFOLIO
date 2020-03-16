@@ -10,6 +10,9 @@ import gsap, { Power2, Power3, Power1 } from "gsap"
 import projectData from "../assets/projectData"
 import { AnimationContext } from "../AnimationContext"
 
+// import PixiPlugin from 'gsap/PixiPlugin'
+// gsap.registerPlugin(PixiPlugin)
+
 let simplex = new SimplexNoise(Math.random())
 let mask
 let points
