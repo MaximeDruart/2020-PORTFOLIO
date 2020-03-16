@@ -177,6 +177,16 @@ object-assign
 */
 
 /*!
+ * ScrollToPlugin 3.2.4
+ * https://greensock.com
+ *
+ * @license Copyright 2008-2020, GreenSock. All rights reserved.
+ * Subject to the terms at https://greensock.com/standard-license or for
+ * Club GreenSock members, the agreement issued with that membership.
+ * @author: Jack Doyle, jack@greensock.com
+*/
+
+/*!
  * resource-loader - v3.0.1
  * https://github.com/pixijs/pixi-sound
  * Compiled Tue, 02 Jul 2019 14:06:18 UTC
