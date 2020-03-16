@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useContext } from "react"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { BrowserRouter as Router, HashRouter, Route, Switch } from "react-router-dom"
 import projectData from "./assets/projectData"
 import Home from "./components/Home"
 import About from "./components/About"
@@ -28,7 +28,7 @@ const AppWrap = () => {
   return (
     <div className="wrapper">
       <div ref={$transitionHack} className="transition-hack"></div>
-      <Router>
+      <HashRouter basename="/">
         <MouseFollower />
         {!context.removeLoader ? <Loader /> : <div className="noise-filter"></div>}
         <Route path="/" render={props => <Header {...props} />} />
@@ -37,7 +37,7 @@ const AppWrap = () => {
           <Route path="/about" exact component={About} />
           {projectRoutes}
         </Switch>
-      </Router>
+      </HashRouter>
     </div>
   )
 }
