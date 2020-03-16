@@ -24,7 +24,7 @@ const Wiggly = props => {
   // eslint-disable-next-line no-unused-vars
   let [alpha, setAlpha] = useState(0.65)
   let [isInteractive, setIsInteractive] = useState(true)
-  let [drawOffset, setDrawOffset] = useState({ x: 350, y: 350 })
+  let [drawOffset, setDrawOffset] = useState({ x: props.cWidth / 2, y: props.cWidth / 2 })
   let [isOpen, setIsOpen] = useState(false)
   let [allowHover, setAllowHover] = useState(false)
 
@@ -117,7 +117,7 @@ const Wiggly = props => {
       .addLabel("sync")
 
     openProjectTl.to(getCurrents(props.$projectNames), 0.8, { opacity: 0 }, "sync")
-    openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6, yOffsetIncrement: 0.05 }, "sync")
+    openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6, yOffsetIncrement: 0.04 }, "sync")
     openProjectTl.to(circleData.size, 0.2, { baseValue: circleData.size.baseValue * 0.7, delay: -0.2 })
     openProjectTl.to(circleData.size, 1, { ease: Power2.easeIn, baseValue: window.innerWidth })
   }, [props])
@@ -135,14 +135,14 @@ const Wiggly = props => {
 
   useEffect(() => {
     if (props.spawn && !props.fill) {
-      gsap.to(circleData.size, 1, { ease: Power3.easeInOut, baseValue: 290, variation: 15 })
+      gsap.to(circleData.size, 1, { ease: Power3.easeInOut, baseValue: props.cWidth * 0.4, variation: 15 })
     }
     if (props.context.spawnMain && props.fill) {
       gsap.to(getCurrents(props.$projectNames), 1.5, { delay: props.index * 0.2, ease: Power3.easeOut, opacity: 1 })
       gsap.to(circleData.size, 1.5, {
         delay: props.index * 0.2,
         ease: Power3.easeOut,
-        baseValue: 290,
+        baseValue: props.cWidth * 0.4,
         variation: 15,
         onComplete: () => setAllowHover(true)
       })
@@ -211,20 +211,24 @@ const Wiggly = props => {
   return props.img ? (
     <Sprite
       pointerdown={() => openProject()}
-      pointerover={() => allowHover && gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: 350 })}
-      pointerout={() => allowHover && gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: 290 })}
+      pointerover={() =>
+        allowHover && gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: props.cWidth / 2 })
+      }
+      pointerout={() =>
+        allowHover && gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: props.cWidth * 0.4 })
+      }
       alpha={isOpen ? 1 : alpha}
       interactive={isInteractive}
       image={props.img}
       anchor={[0.5, 0.5]}
       width={getImgSize().width}
       height={getImgSize().height}
-      position={isOpen ? [window.innerWidth / 2, window.innerHeight / 2] : [350, 350]}
+      position={isOpen ? [window.innerWidth / 2, window.innerHeight / 2] : [props.cWidth / 2, props.cWidth / 2]}
       mask={mask}
     />
   ) : (
     <Graphics
-      position={[350, 350]}
+      position={[props.cWidth / 2, props.cWidth / 2]}
       draw={graphics => {
         let points = getCircle()
         draw(graphics, points)
@@ -238,9 +242,10 @@ const Wiggly = props => {
 // 	shockwave: ShockwaveFilter
 // })
 
+// let wWidth = window.innerWidth
 const WigglyContainer = props => {
-  let [cWidth, setCWidth] = useState(700)
-  let [cHeight, setCHeight] = useState(700)
+  let [cWidth, setCWidth] = useState(0.8 * Math.min(window.innerHeight, window.innerWidth))
+  let [cHeight, setCHeight] = useState(0.8 * Math.min(window.innerHeight, window.innerWidth))
   let [zIndex, setZIndex] = useState(0)
   const { updateContext, ...context } = useContext(AnimationContext)
 
@@ -254,11 +259,12 @@ const WigglyContainer = props => {
       width={cWidth}
       height={cHeight}
       options={{
-        // antialias: true,
+        antialias: props.antialias || false,
         transparent: true,
         resolution: 1
       }}>
       <Wiggly
+        cWidth={cWidth}
         updateContext={updateContext}
         context={context}
         setZIndex={setZIndex}

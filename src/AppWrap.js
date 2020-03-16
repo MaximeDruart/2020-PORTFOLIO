@@ -30,7 +30,8 @@ const AppWrap = () => {
       <div ref={$transitionHack} className="transition-hack"></div>
       <HashRouter basename="/">
         <MouseFollower />
-        {!context.removeLoader ? <Loader /> : <div className="noise-filter"></div>}
+        <div className="noise-filter"></div>
+        {!context.removeLoader && <Loader />}
         <Route path="/" render={props => <Header {...props} />} />
         <Switch>
           <Route path="/" exact render={props => <Home {...props} />} />

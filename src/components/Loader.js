@@ -37,7 +37,7 @@ const Loader = props => {
         })
       }
     })
-    preloadSpawnTl.from([name.current, role.current], 1, { ease: Power3.easeInOut, x: "-105%" })
+    preloadSpawnTl.to([name.current, role.current], 1, { ease: Power3.easeInOut, x: "105%" })
     preloadSpawnTl.play()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -55,18 +55,17 @@ const Loader = props => {
 
   return (
     <div ref={$preloadContainer} className="preload-container">
-      <div className="background">
-        <div className="noise"></div>
-      </div>
+      <div className="background">{/* <div className="noise"></div> */}</div>
       <div className="preload-wrapper">
         <div className="load-percentage">{loadpct}%</div>
-        <div ref={$preloadCanvas} className="preload-canvas">
+        <div style={{ opacity: 0.9 }} ref={$preloadCanvas} className="preload-canvas">
           <WigglyContainer
             parentCanvasRef={$preloadCanvas}
             index={0}
             despawn={preloadDespawn}
             spawn={true}
             fill={false}
+            antialias={true}
           />
         </div>
         <div className="title-container">

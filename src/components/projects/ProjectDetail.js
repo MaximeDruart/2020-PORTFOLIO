@@ -16,19 +16,13 @@ const ProjectDetail = ({ project, index, history }) => {
   const { $transitionHack } = useContext(AnimationContext)
 
   const goToNextProject = () => {
-    // scroll to bottom
-    // window.scrollTo(0, document.body.scrollHeight)
-    // animate
     let goToNextProjectTl = gsap
       .timeline({
         defaults: {
           ease: Power2.easeInOut,
           duration: 0.5
         },
-        onStart: () => {
-          console.log($projectDetail)
-          $transitionHack.current.style.backgroundImage = `url(${projectData[index + 1].coverImg})`
-        },
+        onStart: () => ($transitionHack.current.style.backgroundImage = `url(${projectData[index + 1].coverImg})`),
         onComplete: () => history.push(`/projects/${projectData[index + 1].path}`)
       })
       .addLabel("sync", "+=0.3")
