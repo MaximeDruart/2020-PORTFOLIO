@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
-import { Link } from "react-router-dom"
 import { useContext } from "react"
 import { AnimationContext } from "../AnimationContext"
+import { gsap, Power3 } from "gsap"
 
 const Header = props => {
   const { updateContext, ...context } = useContext(AnimationContext)
@@ -24,23 +24,41 @@ const Header = props => {
     }
   }, [context.despawnMain, context.despawnMainComplete, props.history, updateContext])
 
-  const goToMain = () => {
-    // animate then go back
-    console.log("going to main")
+  const goToMainFromAbout = () => {
     updateContext("despawnAbout", true)
+  }
+
+  const goToMainFromProject = () => {
+    let mainFromProjectTl = gsap.timeline({
+      defaults: {
+        ease: Power3.easeInOut,
+        duration: 0.6
+      },
+      onComplete: () => {
+        props.history.push("/")
+        gsap.set(context.$transitionHack.current, { zIndex: -10, backgroundColor: "transparent" })
+      }
+    })
+    mainFromProjectTl.set(context.$transitionHack.current, { zIndex: 500, backgroundColor: "black", opacity: 0 })
+    mainFromProjectTl.to(context.$transitionHack.current, { opacity: 1 })
   }
 
   return (
     <header>
-      <Link to="/" className="left">
-        Maxime Druart
-      </Link>
+      <div className="left">
+        <p href="#" className="p1">
+          maxime druart
+        </p>
+        <p onClick={goToMainFromProject} href="#" className="p2">
+          {props.location.pathname.indexOf("project") >= 0 ? "go back" : "web developper"}
+        </p>
+      </div>
       <div className="right">
         <a className="contact" href="mailto:maxime.druart@hetic.net">
           Contact
         </a>
         {props.location.pathname === "/about" ? (
-          <div href="#" onClick={goToMain} className="about">
+          <div href="#" onClick={goToMainFromAbout} className="about">
             Go back
           </div>
         ) : (
