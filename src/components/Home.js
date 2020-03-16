@@ -85,6 +85,7 @@ const Home = props => {
   useEffect(() => {
     document.body.style.overflow = "hidden"
     updateContext("despawnMainComplete", false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -95,18 +96,18 @@ const Home = props => {
     context.removeLoader && updateContext("spawnMain", true)
   }, [context.removeLoader, updateContext])
 
+  // let rotate = transform / 100 * 360
+
   return (
     <div onWheel={e => !context.isOpen && scrollHandler(e)} className="home">
       <ul style={{ transform: `translateX(${transform}vw)` }} ref={$projects} className="projects">
         {mappedData}
       </ul>
       <div className="projects-progression">
-        <CSSTransition appear={true} in={context.spawnMain} timeout={0} classNames="circle-container">
-          <div className="circle-container">
-            <div className="circle"></div>
-            <div className="circle-txt">0{activeProject + 1}</div>
-          </div>
-        </CSSTransition>
+        <div style={{ transform: `rotate(${-(transform / 100) * 360 * 2 + 90 * 2}deg)` }} className="circle-container">
+          <div className="circle"></div>
+          <div className="circle-txt">0{activeProject + 1}</div>
+        </div>
       </div>
     </div>
   )

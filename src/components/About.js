@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState, useContext } from "react"
 import WigglyContainer from "./Wiggly"
 import useEventListener from "@use-it/event-listener"
-import { CSSTransition } from "react-transition-group"
 import { AnimationContext } from "../AnimationContext"
 import gsap, { Power3 } from "gsap"
 
@@ -59,7 +58,7 @@ const About = props => {
     despawnTl.to($content.current, { y: window.innerHeight }, "sync")
     despawnTl.to($title.current, { opacity: 0 }, "sync")
     context.despawnAbout && despawnTl.play()
-  }, [context.despawnAbout, props.history])
+  }, [context.despawnAbout, props.history, updateContext])
 
   return (
     <div ref={$preloadContainer} className="preload-container about-container">

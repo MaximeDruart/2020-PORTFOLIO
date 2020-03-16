@@ -32,7 +32,20 @@ const ProjectDetail = ({ project, index, history }) => {
   useEffect(() => {
     window.scrollTo(0, 0)
     document.body.style.overflowY = "visible"
-    let projectSpawnTl = gsap.timeline({ paused: true, ease: Power3.easeInOut })
+    let projectSpawnTl = gsap.timeline({
+      paused: true,
+      defaults: {
+        ease: Power3.easeInOut,
+        duration: 0.6
+      }
+    })
+    let projectSpawnTlTest = gsap.timeline({
+      paused: true,
+      ease: Power3.easeInOut,
+      duration: 0.6
+    })
+
+    projectSpawnTl.play()
   }, [])
   return (
     <div className="projectDetail">
@@ -63,10 +76,10 @@ const ProjectDetail = ({ project, index, history }) => {
         </div>
         <div className="project-specific-content">{project?.component()}</div>
         {projectData[index + 1] && (
-          <div className="next-project-detail">
+          <div onClick={goToNextProject} className="next-project-detail">
             <div ref={$filter} className="filter"></div>
             <div style={{ backgroundImage: `url(${projectData[index + 1].coverImg})` }} className="banner-img"></div>
-            <div onClick={goToNextProject} className="banner-text">
+            <div className="banner-text">
               <div className="next-text next-project">
                 <div ref={$text1} className="text-content">
                   Next project

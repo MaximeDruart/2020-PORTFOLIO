@@ -135,9 +135,9 @@ const Wiggly = props => {
       gsap.to(circleData.size, 1, { ease: Power3.easeInOut, baseValue: 290, variation: 15 })
     }
     if (props.context.spawnMain && props.fill) {
-      console.log("spawn")
-      gsap.to(getCurrents(props.$projectNames), 1.5, { ease: Power3.easeOut, opacity: 1 })
+      gsap.to(getCurrents(props.$projectNames), 1.5, { delay: props.index * 0.2, ease: Power3.easeOut, opacity: 1 })
       gsap.to(circleData.size, 1.5, {
+        delay: props.index * 0.2,
         ease: Power3.easeOut,
         baseValue: 290,
         variation: 15,
@@ -184,8 +184,8 @@ const Wiggly = props => {
           )
         if (allowHover) circleData.yOffsetIncrement = map(distanceToWiggly, 0.3, 1, 0.01, 0.05)
       }
-      window.addEventListener("mousemove", mousePosHandler)
-      return () => window.removeEventListener("mousemove", mousePosHandler)
+      // window.addEventListener("mousemove", mousePosHandler)
+      // return () => window.removeEventListener("mousemove", mousePosHandler)
     }
   }, [props.parentCanvasRef, allowHover])
 

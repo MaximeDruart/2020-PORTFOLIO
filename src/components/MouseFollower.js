@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext, useCallback, useMemo } from "react"
-import gsap, { Power1, Power3 } from "gsap"
+import gsap, { Power1 } from "gsap"
 import useEventListener from "@use-it/event-listener"
 import { AnimationContext } from "../AnimationContext"
 
@@ -44,11 +44,6 @@ const MouseFollower = () => {
   useEffect(() => {
     target && target.getAttribute("href") ? hoverTl.play() : isHovered && hoverTl.reverse()
   })
-
-  useEffect(() => {
-    updateContext("$mfOuter", $outerCircle)
-    updateContext("$mfInner", $innerCircle)
-  }, [$outerCircle, $innerCircle, updateContext])
 
   return (
     <div className="mouseFollower">

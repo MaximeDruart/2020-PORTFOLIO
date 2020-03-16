@@ -47,6 +47,7 @@ $project-number: 4;
     height: inherit;
 
     .mouseFollower {
+      mix-blend-mode: exclusion;
       z-index: 100000;
       position: fixed;
       width: 30px;
@@ -260,26 +261,16 @@ $project-number: 4;
       .projects-progression {
         height: 10vh;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
         position: relative;
 
         .circle-container {
-          position: absolute;
-          top: 100%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          transition: all 0.6s ease-in-out;
-          transform-origin: center;
-
-          &-appear {
-            transform: translate(-50%, -50%) rotate(720deg);
-            opacity: 0;
-          }
-          &-appear-active {
-            transform: translate(-50%, -50%) rotate(0deg);
-            opacity: 1;
-          }
+          // position: absolute;
+          // top: 100%;
+          // left: 50%;
+          // transform: translate(-50%, -50%);
+          // transform-origin: center;
 
           .circle {
             width: 160px;
@@ -378,8 +369,8 @@ $project-number: 4;
           overflow-x: hidden;
           overflow-y: visible;
 
-          &.next-name {
-          }
+          // &.next-name {
+          // }
           &.next-project {
             top: 40%;
           }
