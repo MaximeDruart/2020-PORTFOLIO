@@ -1,19 +1,28 @@
-import React, { useEffect, useRef, useContext } from "react"
+import React, { useEffect, useRef, useContext, useState } from "react"
 import gsap, { Power3 } from "gsap"
 import uuid from "uuid"
 import projectData from "../../assets/projectData"
 import { Power2 } from "gsap/gsap-core"
 import { AnimationContext } from "../../AnimationContext"
+import useEventListener from "@use-it/event-listener"
 import ScrollToPlugin from "gsap/ScrollToPlugin"
-
 gsap.registerPlugin(ScrollToPlugin)
 
+const useScroll = () => {
+  const [scroll, setScroll] = useState(0)
+  // setScroll(scroll => scroll + deltaY))
+  useEventListener("scroll", () => setScroll(document.documentElement.scrollTop))
+  return scroll
+}
+
 const ProjectDetail = ({ project, index, history }) => {
+  const $projectDetail = useRef(null)
+  const $banner = useRef(null)
+  const $projectTitle = useRef(null)
   const $filter = useRef(null)
   const $text1 = useRef(null)
   const $text2 = useRef(null)
-  const $projectDetail = useRef(null)
-  const { $transitionHack } = useContext(AnimationContext)
+  const { $transitionHack, removeLoader } = useContext(AnimationContext)
 
   const goToNextProject = () => {
     let goToNextProjectTl = gsap
@@ -32,6 +41,17 @@ const ProjectDetail = ({ project, index, history }) => {
   }
 
   useEffect(() => {
+    const scrollCb = () => {
+      if ($projectDetail.current && $projectTitle.current) {
+        $projectTitle.current.style.transform = `translateX(-${$projectDetail.current.scrollTop}px)`
+      }
+    }
+
+    window.addEventListener("wheel", scrollCb)
+    return () => window.removeEventListener("scroll", scrollCb)
+  }, [$projectDetail.current])
+
+  useEffect(() => {
     window.scrollTo(0, 0)
     document.body.style.overflowY = "visible"
     let projectSpawnTl = gsap.timeline({
@@ -41,15 +61,22 @@ const ProjectDetail = ({ project, index, history }) => {
         duration: 0.6
       }
     })
+    projectSpawnTl.to($banner.current, { height: "89vh" })
+    projectSpawnTl.from($projectTitle.current, { x: "100vw" })
 
-    projectSpawnTl.play()
-  }, [])
+    removeLoader && projectSpawnTl.play()
+  }, [removeLoader])
+
   return (
     <div ref={$projectDetail} className="project-detail">
-      <div className="banner">
+      <div ref={$banner} className="banner">
         <div style={{ backgroundImage: `url(${project?.coverImg})` }} className="banner-img"></div>
       </div>
-      <h1>{project?.name}</h1>
+      <div className="project-title-wrapper">
+        <h1 className="project-title" ref={$projectTitle}>
+          {project?.name}
+        </h1>
+      </div>
       <div className="content">
         <div className="general-infos">
           <div className="info-date">

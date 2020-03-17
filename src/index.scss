@@ -328,6 +328,18 @@ $project-number: 4;
           background-position: center center;
         }
       }
+      .project-title-wrapper {
+        width: 100vw;
+        overflow: hidden;
+        .project-title {
+          width: 115vw;
+          font-size: 40vh;
+          text-align: right;
+          margin: 0;
+          padding: 0;
+          line-height: 0.9;
+        }
+      }
       .content {
         width: 100vw;
         background: white;
