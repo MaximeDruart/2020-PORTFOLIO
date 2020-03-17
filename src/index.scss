@@ -145,7 +145,6 @@ $project-number: 4;
         .p2 {
           position: absolute;
           left: 5%;
-          width: 120%;
           color: rgba(255, 255, 255, 0.6);
         }
       }
@@ -345,24 +344,41 @@ $project-number: 4;
         background: white;
 
         .general-infos {
-          margin-top: 5vh;
+          margin: 5vh auto;
           display: flex;
           flex-flow: row nowrap;
           justify-content: space-around;
+          width: 70vw;
 
-          .info-content {
-            font-family: "Helvetica";
+          .left {
+            width: 38%;
+            text-align: right;
+
+            .info-block {
+              margin-bottom: 15px;
+              .info-content {
+                font-family: "Helvetica";
+                text-transform: initial;
+              }
+            }
+
+            .info-techs {
+              .info-content {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+              }
+            }
           }
 
-          // .role,
-          // .date {
-          // }
+          .right {
+            width: 55%;
+            font-family: "Helvetica";
+            text-transform: initial;
 
-          .info-techs {
-            .info-content {
-              list-style-type: none;
-              margin: 0;
-              padding: 0;
+            .info-link {
+              font-weight: 600;
+              font-size: 18px;
             }
           }
         }

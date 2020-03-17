@@ -4,21 +4,15 @@ import uuid from "uuid"
 import projectData from "../../assets/projectData"
 import { Power2 } from "gsap/gsap-core"
 import { AnimationContext } from "../../AnimationContext"
-import useEventListener from "@use-it/event-listener"
 import ScrollToPlugin from "gsap/ScrollToPlugin"
 gsap.registerPlugin(ScrollToPlugin)
-
-const useScroll = () => {
-  const [scroll, setScroll] = useState(0)
-  // setScroll(scroll => scroll + deltaY))
-  useEventListener("scroll", () => setScroll(document.documentElement.scrollTop))
-  return scroll
-}
 
 const ProjectDetail = ({ project, index, history }) => {
   const $projectDetail = useRef(null)
   const $banner = useRef(null)
+  const $bannerImg = useRef(null)
   const $projectTitle = useRef(null)
+  const $content = useRef(null)
   const $filter = useRef(null)
   const $text1 = useRef(null)
   const $text2 = useRef(null)
@@ -41,10 +35,22 @@ const ProjectDetail = ({ project, index, history }) => {
   }
 
   useEffect(() => {
+    let projectPageHeight =
+      $projectTitle?.current.getBoundingClientRect().height + $content?.current.getBoundingClientRect().height
+    let once = true
     const scrollCb = () => {
       if ($projectDetail.current) {
-        if ($projectDetail.current.style.overflowY === "scroll")
+        if ($projectDetail.current.style.overflowY === "scroll") {
           $projectTitle.current.style.transform = `translateX(-${$projectDetail.current.scrollTop}px)`
+          $bannerImg.current.style.transform = `scale(${1 +
+            $projectDetail.current.scrollTop / (window.innerHeight * 4)})`
+        }
+        if ($projectDetail.current.scrollTop + 100 > projectPageHeight && projectData.length < index) {
+          if (once) {
+            once = !once
+            goToNextProject()
+          }
+        }
       }
     }
 
@@ -74,32 +80,51 @@ const ProjectDetail = ({ project, index, history }) => {
   return (
     <div ref={$projectDetail} className="project-detail">
       <div ref={$banner} className="banner">
-        <div style={{ backgroundImage: `url(${project?.coverImg})` }} className="banner-img"></div>
+        <div ref={$bannerImg} style={{ backgroundImage: `url(${project?.coverImg})` }} className="banner-img"></div>
       </div>
       <div className="project-title-wrapper">
         <h1 className="project-title" ref={$projectTitle}>
           {project?.name}
         </h1>
       </div>
-      <div className="content">
+      <div ref={$content} className="content">
         <div className="general-infos">
-          <div className="info-date">
-            <div className="info-label">Date</div>
-            <div className="info-content">{project?.date}</div>
+          <div className="left">
+            <div className="info-date info-block">
+              <div className="info-label">Date</div>
+              <div className="info-content">{project?.date}</div>
+            </div>
+            <div className="info-role info-block">
+              <div className="info-label">Role</div>
+              <div className="info-content">{project?.role}</div>
+            </div>
+            <div className="info-techs info-block">
+              <div className="info-label">Techs</div>
+              <ul className="info-content">
+                {project?.techs.map(tech => (
+                  <li key={uuid()} className="tech">
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div className="info-role">
-            <div className="info-label">Role</div>
-            <div className="info-content">{project?.role}</div>
-          </div>
-          <div className="info-techs">
-            <div className="info-label">Techs</div>
-            <ul className="info-content">
-              {project?.techs.map(tech => (
-                <li key={uuid()} className="tech">
-                  {tech}
-                </li>
-              ))}
-            </ul>
+          <div className="right">
+            <div className="info-decription">{project?.description}</div>
+            <div>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={project?.websiteLink}
+                className="info-link info-website">
+                {project.websiteLink && "Visit site"}
+              </a>
+            </div>
+            <div>
+              <a target="_blank" rel="noopener noreferrer" href={project?.githubLink} className="info-link info-github">
+                {project.githubLink && "See on github"}
+              </a>
+            </div>
           </div>
         </div>
         <div className="project-specific-content">{project?.component()}</div>
