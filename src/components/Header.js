@@ -5,14 +5,16 @@ import { gsap, Power3 } from "gsap"
 
 const Header = props => {
   const { updateContext, ...context } = useContext(AnimationContext)
+
   const goToAbout = () => {
     window.scrollTo(0, 0)
+    context.$transitionHack.current.style.backgroundImage = ""
     if (props.location.pathname === "/") {
       updateContext("despawnMain", true)
     } else {
       // probably need to set up an animation from project pages to about
-      console.log(props.history)
-      props.history.push("/about")
+      // props.history.push("/about")
+      goToPageFromProject("/about")
     }
   }
   useEffect(() => {
@@ -28,18 +30,23 @@ const Header = props => {
     updateContext("despawnAbout", true)
   }
 
-  const goToMainFromProject = () => {
+  const goToPageFromProject = path => {
     let mainFromProjectTl = gsap.timeline({
       defaults: {
         ease: Power3.easeInOut,
         duration: 0.6
       },
       onComplete: () => {
-        props.history.push("/")
+        props.history.push(path)
         gsap.set(context.$transitionHack.current, { zIndex: -10, backgroundColor: "transparent" })
       }
     })
-    mainFromProjectTl.set(context.$transitionHack.current, { zIndex: 500, backgroundColor: "black", opacity: 0 })
+    mainFromProjectTl.set(context.$transitionHack.current, {
+      zIndex: 500,
+      backgroundImage: "",
+      backgroundColor: "black",
+      opacity: 0
+    })
     mainFromProjectTl.to(context.$transitionHack.current, { opacity: 1 })
   }
 
@@ -49,7 +56,7 @@ const Header = props => {
         <p href="#" className="p1">
           maxime druart
         </p>
-        <p onClick={goToMainFromProject} href="#" className="p2">
+        <p onClick={() => goToPageFromProject("/")} href="#" className="p2">
           {props.location.pathname.indexOf("project") >= 0 ? "go back" : "web developper"}
         </p>
       </div>
