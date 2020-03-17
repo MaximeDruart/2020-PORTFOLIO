@@ -45,7 +45,7 @@ const ProjectDetail = ({ project, index, history }) => {
           $bannerImg.current.style.transform = `scale(${1 +
             $projectDetail.current.scrollTop / (window.innerHeight * 4)})`
         }
-        if ($projectDetail.current.scrollTop + 100 > projectPageHeight && projectData.length < index) {
+        if ($projectDetail.current.scrollTop + 100 > projectPageHeight && projectData.length - 1 !== index) {
           if (once) {
             once = !once
             goToNextProject()
