@@ -43,9 +43,8 @@ export default [
     date: "Since 2018",
     role: "Development",
     techs: ["HTML/CSS/JS", "canvas", "Pixi.js"],
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas lacinia rutrum. Phasellus velit libero, malesuada in velit in, tristique tempus augue. Pellentesque facilisis dui risus, at vulputate libero dignissim non. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse vulputate eget nisi maximus feugiat. Mauris ut nulla sit amet mauris scelerisque placerat. Nam in ex dictum mi vulputate rhoncus.",
-    websiteLink: "/",
+    description: "Here are multiple experiments that I've done over the last few years with Javascript.",
+    websiteLink: "",
     githubLink: "https://github.com/MaximeDruart"
   },
   {
@@ -58,7 +57,7 @@ export default [
     techs: ["Python", "Pygame"],
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas lacinia rutrum. Phasellus velit libero, malesuada in velit in, tristique tempus augue. Pellentesque facilisis dui risus, at vulputate libero dignissim non. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse vulputate eget nisi maximus feugiat. Mauris ut nulla sit amet mauris scelerisque placerat. Nam in ex dictum mi vulputate rhoncus.",
-    websiteLink: "/",
+    websiteLink: "",
     githubLink: "https://github.com/MaximeDruart/Labyrinth"
   }
 ]

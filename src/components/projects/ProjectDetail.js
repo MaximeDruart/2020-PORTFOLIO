@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useContext, useState } from "react"
-import gsap, { Power3 } from "gsap"
+import React, { useEffect, useRef, useContext } from "react"
+import "./projects.scss"
 import uuid from "uuid"
 import projectData from "../../assets/projectData"
-import { Power2 } from "gsap/gsap-core"
 import { AnimationContext } from "../../AnimationContext"
+import gsap, { Power2, Power3 } from "gsap"
 import ScrollToPlugin from "gsap/ScrollToPlugin"
 gsap.registerPlugin(ScrollToPlugin)
 
@@ -127,7 +127,7 @@ const ProjectDetail = ({ project, index, history }) => {
             </div>
           </div>
         </div>
-        <div className="project-specific-content">{project?.component()}</div>
+        {project?.component()}
         {projectData[index + 1] && (
           <div id="next-project" onClick={goToNextProject} className="next-project-detail">
             <div ref={$filter} className="filter"></div>
@@ -135,7 +135,7 @@ const ProjectDetail = ({ project, index, history }) => {
             <div className="banner-text">
               <div className="next-text next-project">
                 <div ref={$text1} className="text-content">
-                  Next project
+                  Next project :
                 </div>
               </div>
               <div className="next-text next-name">
