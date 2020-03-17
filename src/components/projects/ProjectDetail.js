@@ -42,8 +42,9 @@ const ProjectDetail = ({ project, index, history }) => {
 
   useEffect(() => {
     const scrollCb = () => {
-      if ($projectDetail.current && $projectTitle.current) {
-        $projectTitle.current.style.transform = `translateX(-${$projectDetail.current.scrollTop}px)`
+      if ($projectDetail.current) {
+        if ($projectDetail.current.style.overflowY === "scroll")
+          $projectTitle.current.style.transform = `translateX(-${$projectDetail.current.scrollTop}px)`
       }
     }
 
@@ -59,6 +60,9 @@ const ProjectDetail = ({ project, index, history }) => {
       defaults: {
         ease: Power3.easeInOut,
         duration: 0.6
+      },
+      onComplete: () => {
+        if ($projectDetail.current) $projectDetail.current.style.overflowY = "scroll"
       }
     })
     projectSpawnTl.to($banner.current, { height: "89vh" })
