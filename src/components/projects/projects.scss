@@ -1,17 +1,45 @@
-.playingGrounds {
+.playing-grounds {
   .playground-item {
+    width: 85vw;
+    height: 80vh;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    margin: 5vh auto;
+    justify-content: space-around;
     .left {
+      height: 100%;
+      width: 43%;
       .img-container {
+        border: 1px solid #000;
         img {
+          width: 100%;
+          height: 100%;
         }
       }
     }
 
     .right {
+      height: 100%;
+      width: 43%;
       .description {
+        font-family: "Helvetica";
+        text-transform: initial;
       }
       .link {
       }
     }
+  }
+}
+
+.exit-the-matrix {
+  display: flex;
+  flex-flow: column;
+  // justify-content: s;
+  align-items: center;
+  .full-screen-image {
+    width: 90vw;
+    // height: 90vh;
+    margin-bottom: 8vh;
   }
 }

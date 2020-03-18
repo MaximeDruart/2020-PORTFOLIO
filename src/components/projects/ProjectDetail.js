@@ -128,8 +128,23 @@ const ProjectDetail = ({ project, index, history }) => {
           </div>
         </div>
         {project?.component()}
+        {project.credits && (
+          <div className="credits">
+            <h3 className="credits-title">Credits</h3>
+            <ul className="credit-list">
+              {Object.keys(project.credits).map(cred => (
+                <li className="credit" key={uuid()}>
+                  <span className="key">{cred}</span> :
+                  <a target="_blank" rel="noopener noreferrer" href={project.credits[cred].link} className="value">
+                    {project.credits[cred].name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         {projectData[index + 1] && (
-          <div id="next-project" onClick={goToNextProject} className="next-project-detail">
+          <div href="#" id="next-project" onClick={goToNextProject} className="next-project-detail">
             <div ref={$filter} className="filter"></div>
             <div style={{ backgroundImage: `url(${projectData[index + 1].coverImg})` }} className="banner-img"></div>
             <div className="banner-text">

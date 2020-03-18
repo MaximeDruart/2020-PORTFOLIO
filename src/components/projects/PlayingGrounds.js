@@ -7,7 +7,7 @@ import piano from "../../assets/img/css-piano.PNG"
 
 const PlayingGrounds = () => {
   return (
-    <div className="project-specific-content playingGrounds">
+    <div className="project-specific-content playing-grounds">
       <div className="playground-item">
         <div className="left">
           <div className="img-container">

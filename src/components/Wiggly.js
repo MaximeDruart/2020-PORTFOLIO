@@ -117,6 +117,7 @@ const Wiggly = props => {
       .addLabel("sync")
 
     openProjectTl.to(getCurrents(props.$projectNames), 0.8, { opacity: 0 }, "sync")
+    openProjectTl.to(props.$progressionCircle.current, 0.8, { opacity: 0 }, "sync")
     openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6, yOffsetIncrement: 0.04 }, "sync")
     openProjectTl.to(circleData.size, 0.2, { baseValue: circleData.size.baseValue * 0.7, delay: -0.2 })
     openProjectTl.to(circleData.size, 1, { ease: Power2.easeIn, baseValue: window.innerWidth })

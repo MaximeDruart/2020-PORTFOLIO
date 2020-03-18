@@ -1,7 +1,6 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect, useContext, createRef } from "react"
 import projectData from "../assets/projectData"
 import uuid from "uuid"
-import { CSSTransition } from "react-transition-group"
 import Wiggly from "./Wiggly"
 import { AnimationContext } from "../AnimationContext"
 import gsap from "gsap/gsap-core"
@@ -26,6 +25,7 @@ const Home = props => {
   let [spawnComplete, setSpawnComplete] = useState(false)
   let $projects = useRef(null)
   let $parentCanvas = useRef(null)
+  let $progressionCircle = useRef(null)
 
   const $projectNames = useMemo(() => Array.from({ length: projectData.length }).map(() => createRef()), [])
   const { updateContext, ...context } = useContext(AnimationContext)
@@ -39,7 +39,7 @@ const Home = props => {
       setTransform(transform => {
         let t = transform - (valueToUse / window.innerWidth) * 100
         let activeProject = Math.ceil(-t / projectWidth)
-        t = gsap.utils.clamp(projectWidth / 2 - projectWidth * 3, projectWidth / 2, t)
+        t = gsap.utils.clamp(projectWidth / 2 - projectWidth * (projectData.length - 1), projectWidth / 2, t)
         setActiveProject(activeProject)
         return t
       })
@@ -65,6 +65,7 @@ const Home = props => {
             {project.name}
           </h2>
           <Wiggly
+            $progressionCircle={$progressionCircle}
             parentCanvasRef={$parentCanvas}
             $projectNames={$projectNames}
             index={index}
@@ -104,7 +105,10 @@ const Home = props => {
         {mappedData}
       </ul>
       <div className="projects-progression">
-        <div style={{ transform: `rotate(${-(transform / 100) * 360 * 2 + 90 * 2}deg)` }} className="circle-container">
+        <div
+          ref={$progressionCircle}
+          style={{ transform: `rotate(${-(transform / 100) * 360 * 2 + 90 * 2}deg)` }}
+          className="circle-container">
           <div className="circle"></div>
           <div className="circle-txt">0{activeProject + 1}</div>
         </div>

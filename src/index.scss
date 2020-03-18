@@ -37,7 +37,7 @@ a {
 
 $project-width: 50vw;
 $project-height: 80vh;
-$project-number: 4;
+$project-number: 5;
 
 #root {
   width: 100%;
@@ -122,6 +122,9 @@ $project-number: 4;
     }
 
     header {
+      * {
+        mix-blend-mode: exclusion;
+      }
       z-index: 101;
       position: fixed;
       top: 0;
@@ -313,6 +316,7 @@ $project-number: 4;
       * {
         color: black;
       }
+
       .banner {
         width: 100vw;
         height: 100vh;
@@ -325,6 +329,7 @@ $project-number: 4;
           background-position: center center;
         }
       }
+
       .project-title-wrapper {
         width: 100vw;
         overflow: hidden;
@@ -337,6 +342,7 @@ $project-number: 4;
           line-height: 0.9;
         }
       }
+
       .content {
         width: 100vw;
         background: white;
@@ -377,6 +383,28 @@ $project-number: 4;
             .info-link {
               font-weight: 600;
               font-size: 18px;
+            }
+          }
+        }
+      }
+
+      .credits {
+        width: 70vw;
+        margin: 5vh auto;
+
+        .credits-title {
+        }
+
+        .credit-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          .credit {
+            .value {
+              margin-left: 8px;
+              text-transform: initial;
+              font-family: "Helvetica";
+              font-weight: 600;
             }
           }
         }
