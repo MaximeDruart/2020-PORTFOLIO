@@ -76,8 +76,14 @@ const Loader = props => {
         </div>
         <div className="title-container title-dev">
           <div ref={role} className="content">
-            <p>front end</p>
-            <p>‏‏‎developer</p>
+            {window.innerWidth < 600 ? (
+              <p>web dev</p>
+            ) : (
+              <div>
+                <p>front end</p>
+                <p>‏‏‎developer</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

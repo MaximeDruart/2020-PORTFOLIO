@@ -157,7 +157,7 @@ const ProjectDetail = ({ project, index, history }) => {
             <div className="banner-text">
               <div className="next-text next-project">
                 <div ref={$text1} className="text-content">
-                  Next project :
+                  Next project
                 </div>
               </div>
               <div className="next-text next-name">
