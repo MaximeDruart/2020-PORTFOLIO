@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from "react"
+import React, { useEffect, useRef, useContext, useCallback } from "react"
 import "./projects.scss"
 import uuid from "uuid"
 import projectData from "../../assets/projectData"
@@ -16,9 +16,9 @@ const ProjectDetail = ({ project, index, history }) => {
   const $filter = useRef(null)
   const $text1 = useRef(null)
   const $text2 = useRef(null)
-  const { $transitionHack, removeLoader } = useContext(AnimationContext)
+  const { $transitionHack, removeLoader, updateContext } = useContext(AnimationContext)
 
-  const goToNextProject = () => {
+  const goToNextProject = useCallback(() => {
     let goToNextProjectTl = gsap
       .timeline({
         defaults: {
@@ -32,19 +32,22 @@ const ProjectDetail = ({ project, index, history }) => {
     goToNextProjectTl.to($projectDetail.current, { scrollTo: "max" })
     goToNextProjectTl.to($filter.current, { opacity: 0 }, "sync")
     goToNextProjectTl.to([$text1.current, $text2.current], { x: "-100%" }, "sync")
-  }
+  }, [])
 
   useEffect(() => {
     let projectPageHeight =
       $projectTitle?.current.getBoundingClientRect().height + $content?.current.getBoundingClientRect().height
     let once = true
+    // updateContext("test", "trian")
     const scrollCb = () => {
+      // animating the title
       if ($projectDetail.current) {
         if ($projectDetail.current.style.overflowY === "scroll") {
           $projectTitle.current.style.transform = `translateX(-${$projectDetail.current.scrollTop}px)`
           $bannerImg.current.style.transform = `scale(${1 +
             $projectDetail.current.scrollTop / (window.innerHeight * 4)})`
         }
+        // if we're on the bottom of the page automatically go to next project
         if ($projectDetail.current.scrollTop + 100 > projectPageHeight && projectData.length - 1 !== index) {
           if (once) {
             once = !once
@@ -55,8 +58,12 @@ const ProjectDetail = ({ project, index, history }) => {
     }
 
     window.addEventListener("wheel", scrollCb)
-    return () => window.removeEventListener("scroll", scrollCb)
-  }, [$projectDetail.current])
+    return () => window.removeEventListener("wheel", scrollCb)
+  }, [])
+
+  // useEffect(() => {
+  //   updateContext("$projectDetail", $projectDetail)
+  // }, [])
 
   useEffect(() => {
     window.scrollTo(0, 0)

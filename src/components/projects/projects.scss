@@ -1,3 +1,14 @@
+.full-screen-image-wrapper {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8vh;
+  .full-screen-image {
+    width: 90%;
+  }
+}
+
 .playing-grounds {
   .playground-item {
     width: 85vw;
@@ -33,13 +44,7 @@
 }
 
 .exit-the-matrix {
-  display: flex;
-  flex-flow: column;
-  // justify-content: s;
-  align-items: center;
-  .full-screen-image {
-    width: 90vw;
-    // height: 90vh;
-    margin-bottom: 8vh;
-  }
+}
+
+.ninjavascript {
 }

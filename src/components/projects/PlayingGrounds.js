@@ -1,8 +1,9 @@
 import React from "react"
 
-import piano from "../../assets/img/css-piano.PNG"
+import piano from "../../assets/img/pg/css-piano.jpg"
 // import wiggly from '../../assets/img/css-piano.PNG'
 // import exitTheMatrix from '../../assets/img/css-piano.PNG'
+// import perlinField from '../../assets/img/css-piano.PNG'
 // import perlinField from '../../assets/img/css-piano.PNG'
 
 const PlayingGrounds = () => {

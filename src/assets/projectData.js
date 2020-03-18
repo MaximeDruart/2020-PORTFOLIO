@@ -5,11 +5,11 @@ import PlayingGrounds from "../components/projects/PlayingGrounds"
 import ExitTheMatrix from "../components/projects/ExitTheMatrix"
 import Labyrinth from "../components/projects/Labyrinth"
 
-import coinyCover from "../assets/img/coiny.jpg"
-import labCover from "../assets/img/lab.PNG"
-import njsCover from "../assets/img/njs.svg"
-import pgCover from "../assets/img/css-piano.PNG"
-import etmCover from "../assets/img/etm-logo.PNG"
+import coinyCover from "../assets/img/coiny/coiny.jpg"
+import labCover from "../assets/img/lab/lab-home.jpg"
+import njsCover from "../assets/img/njs/njs.svg"
+import pgCover from "../assets/img/pg/css-piano.jpg"
+import etmCover from "../assets/img/etm/logo.jpg"
 
 export default [
   {
