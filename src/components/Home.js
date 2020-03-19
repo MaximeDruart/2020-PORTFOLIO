@@ -24,10 +24,10 @@ const Home = props => {
   // eslint-disable-next-line no-unused-vars
   let [spawnComplete, setSpawnComplete] = useState(false)
   let $projects = useRef(null)
-  let $parentCanvas = useRef(null)
   let $progressionCircle = useRef(null)
-
   const $projectNames = useMemo(() => Array.from({ length: projectData.length }).map(() => createRef()), [])
+  const $parentCanvases = useMemo(() => Array.from({ length: projectData.length }).map(() => createRef()), [])
+
   const { updateContext, ...context } = useContext(AnimationContext)
 
   const scrollHandler = useCallback(
@@ -56,17 +56,16 @@ const Home = props => {
   // let scroll = -projectSize + 100 / 2 - projectSize / 2 + (useMouseWheel() / window.innerWidth) * 100
   const setRedirectWithParam = useCallback(path => props.history.push(`/projects/${path}`), [props.history])
 
-  // ref={$projectNames.current[index]}
   const getMappedData = useCallback(
     data => {
       return data.map((project, index) => (
-        <div ref={$parentCanvas} index={index} className="project" key={uuid()}>
+        <div ref={$parentCanvases[index]} index={index} className="project" key={uuid()}>
           <h2 ref={$projectNames[index]} className="project-name">
             {project.name}
           </h2>
           <Wiggly
             $progressionCircle={$progressionCircle}
-            parentCanvasRef={$parentCanvas}
+            $parentCanvases={$parentCanvases}
             $projectNames={$projectNames}
             index={index}
             fill={true}

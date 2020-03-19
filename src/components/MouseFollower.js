@@ -14,7 +14,6 @@ const useMouseMove = () => {
 }
 
 const MouseFollower = () => {
-  const { updateContext } = useContext(AnimationContext)
   let [isHovered, setIsHovered] = useState(false)
   let $outerCircle = useRef(null)
   let $innerCircle = useRef(null)

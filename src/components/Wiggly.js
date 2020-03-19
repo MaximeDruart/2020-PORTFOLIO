@@ -174,24 +174,32 @@ const Wiggly = props => {
       })
   }, [props.despawn])
 
+  // hover animation
   useEffect(() => {
-    if (props.parentCanvasRef.current) {
-      let { top, bottom, right, left } = props.parentCanvasRef.current.getBoundingClientRect()
-      let x = (right + left) / 2
-      let y = (bottom + top) / 2
+    // console.log(props.$parentCanvases, props.parentCanvasRef)
+    if (props.parentCanvasRef || props.$parentCanvases) {
+      const parentCanvasRef = props.fill ? props.$parentCanvases[props.index].current : props.parentCanvasRef.current
 
       let mousePosHandler = e => {
+        let { top, bottom, right, left } = parentCanvasRef.getBoundingClientRect()
+        let x = (right + left) / 2
+        let y = (bottom + top) / 2
         let distanceToWiggly =
           1 -
           Math.sqrt(
             Math.pow((x - e.clientX) / window.innerWidth, 2) + Math.pow((y - e.clientY) / window.innerHeight, 2)
           )
-        if (allowHover) circleData.yOffsetIncrement = map(distanceToWiggly, 0.3, 1, 0.01, 0.05)
+        props.fill && console.log(distanceToWiggly, props.index)
+        circleData.yOffsetIncrement = map(distanceToWiggly, 0.3, 1, 0.01, 0.05)
       }
-      // window.addEventListener("mousemove", mousePosHandler)
-      // return () => window.removeEventListener("mousemove", mousePosHandler)
+      window.addEventListener("mousemove", mousePosHandler)
+      return () => window.removeEventListener("mousemove", mousePosHandler)
     }
-  }, [props.parentCanvasRef, allowHover])
+
+    // if (props.$parentCanvases[0].current || props.parentCanvasRef) {
+    //   const parentCanvasRef = props.$parentCanvases[props.index].current
+    // }
+  }, [props.$parentCanvases, props.parentCanvasRef, allowHover])
 
   const getImgSize = useCallback(() => {
     let imgGen = new Image()
@@ -213,11 +221,10 @@ const Wiggly = props => {
     <Sprite
       pointerdown={() => openProject()}
       pointerover={() =>
-        allowHover && gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: props.cWidth / 2 })
+        circleData.size.baseValue !== props.cWidth / 2 &&
+        gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: props.cWidth / 2 })
       }
-      pointerout={() =>
-        allowHover && gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: props.cWidth * 0.4 })
-      }
+      pointerout={() => gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: props.cWidth * 0.4 })}
       alpha={isOpen ? 1 : alpha}
       interactive={isInteractive}
       image={props.img}
