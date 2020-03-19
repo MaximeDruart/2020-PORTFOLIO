@@ -25,7 +25,6 @@ const About = props => {
     document.body.style.overflowY = "hidden"
 
     if (context.removeLoader) {
-      console.log("K??")
       gsap.to($content.current, {
         duration: 0.5,
         ease: Power3.easeOut,

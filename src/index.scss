@@ -650,6 +650,13 @@ $project-number: 5;
             * {
               font-size: 18px;
             }
+
+            .about-intro {
+              aside.links {
+                width: 23%;
+                margin-right: 10px;
+              }
+            }
           }
         }
       }

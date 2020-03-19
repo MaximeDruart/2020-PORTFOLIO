@@ -176,7 +176,6 @@ const Wiggly = props => {
 
   // hover animation
   useEffect(() => {
-    // console.log(props.$parentCanvases, props.parentCanvasRef)
     if (props.parentCanvasRef || props.$parentCanvases) {
       const parentCanvasRef = props.fill ? props.$parentCanvases[props.index].current : props.parentCanvasRef.current
 
@@ -189,7 +188,6 @@ const Wiggly = props => {
           Math.sqrt(
             Math.pow((x - e.clientX) / window.innerWidth, 2) + Math.pow((y - e.clientY) / window.innerHeight, 2)
           )
-        props.fill && console.log(distanceToWiggly, props.index)
         circleData.yOffsetIncrement = map(distanceToWiggly, 0.3, 1, 0.01, 0.05)
       }
       window.addEventListener("mousemove", mousePosHandler)

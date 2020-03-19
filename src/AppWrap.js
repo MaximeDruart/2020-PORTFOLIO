@@ -7,7 +7,7 @@ import Loader from "./components/Loader"
 import uuid from "uuid"
 import Header from "./components/Header"
 import MouseFollower from "./components/MouseFollower"
-import ProjectDetail from "./components/projects/ProjectDetail"
+import ProjectDetail from "./components/ProjectDetail"
 import { AnimationContext } from "./AnimationContext"
 
 const AppWrap = () => {

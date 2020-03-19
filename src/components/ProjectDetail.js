@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useContext, useCallback } from "react"
-import "./projects.scss"
+import "./projects/projects.scss"
 import uuid from "uuid"
-import projectData from "../../assets/projectData"
-import { AnimationContext } from "../../AnimationContext"
+import projectData from "../assets/projectData"
+import { AnimationContext } from "../AnimationContext"
 import gsap, { Power2, Power3 } from "gsap"
 import ScrollToPlugin from "gsap/ScrollToPlugin"
 gsap.registerPlugin(ScrollToPlugin)
@@ -16,7 +16,7 @@ const ProjectDetail = ({ project, index, history }) => {
   const $filter = useRef(null)
   const $text1 = useRef(null)
   const $text2 = useRef(null)
-  const { $transitionHack, removeLoader, updateContext } = useContext(AnimationContext)
+  const { $transitionHack, removeLoader } = useContext(AnimationContext)
 
   const goToNextProject = useCallback(() => {
     let goToNextProjectTl = gsap
@@ -32,14 +32,16 @@ const ProjectDetail = ({ project, index, history }) => {
     goToNextProjectTl.to($projectDetail.current, { scrollTo: "max" })
     goToNextProjectTl.to($filter.current, { opacity: 0 }, "sync")
     goToNextProjectTl.to([$text1.current, $text2.current], { x: "-100%" }, "sync")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    let projectPageHeight =
-      $projectTitle?.current.getBoundingClientRect().height + $content?.current.getBoundingClientRect().height
+    // console.log($projectTitle.current.getBoundingClientRect().height, $content.current.getBoundingClientRect().height)
     let once = true
-    // updateContext("test", "trian")
     const scrollCb = () => {
+      // i kinda don't want to calculate on each wheel event but apparently it changes throughout the page :/
+      let projectPageHeight =
+        $projectTitle.current.getBoundingClientRect().height + $content.current.getBoundingClientRect().height
       // animating the title
       if ($projectDetail.current) {
         if ($projectDetail.current.style.overflowY === "scroll") {
@@ -57,8 +59,27 @@ const ProjectDetail = ({ project, index, history }) => {
       }
     }
 
+    // the problem here is that the text needs to be updated when the touchmove inertia is kicking in but during that time no actual event is triggered so on touch end we're dispatching wheel events for 2secs
     window.addEventListener("wheel", scrollCb)
-    return () => window.removeEventListener("wheel", scrollCb)
+    window.addEventListener("touchmove", scrollCb)
+
+    const inertiaHandler = () => {
+      let time = 0,
+        delay = 10
+      let interval = setInterval(() => {
+        if (time < delay * 200) {
+          time += delay
+          window.dispatchEvent(new Event("wheel"))
+        } else clearInterval(interval)
+      }, delay)
+    }
+    window.addEventListener("touchend", () => inertiaHandler)
+    return () => {
+      window.removeEventListener("wheel", scrollCb)
+      window.removeEventListener("touchmove", scrollCb)
+      window.removeEventListener("touchend", inertiaHandler)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // useEffect(() => {
