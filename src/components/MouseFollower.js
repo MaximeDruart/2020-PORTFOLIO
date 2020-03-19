@@ -19,8 +19,10 @@ const MouseFollower = () => {
   let $innerCircle = useRef(null)
 
   const { coords, target } = useMouseMove()
-  $outerCircle.current && gsap.to($outerCircle.current, 0.4, { ease: Power1.easeOut, x: coords[0], y: coords[1] })
-  $innerCircle.current && gsap.set($innerCircle.current, { x: coords[0], y: coords[1] })
+  $outerCircle.current &&
+    coords[0] !== 0 &&
+    gsap.to($outerCircle.current, 0.4, { ease: Power1.easeOut, x: coords[0], y: coords[1] })
+  $innerCircle.current && coords[0] !== 0 && gsap.set($innerCircle.current, { x: coords[0], y: coords[1] })
 
   const getTimeline = useCallback(() => {
     let hoverTl = gsap

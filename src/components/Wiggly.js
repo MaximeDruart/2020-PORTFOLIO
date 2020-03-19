@@ -116,11 +116,13 @@ const Wiggly = props => {
       })
       .addLabel("sync")
 
+    let circleEndSize = window.innerWidth < 576 ? window.innerWidth * 1.4 : window.innerWidth
+
     openProjectTl.to(getCurrents(props.$projectNames), 0.8, { opacity: 0 }, "sync")
     openProjectTl.to(props.$progressionCircle.current, 0.8, { opacity: 0 }, "sync")
     openProjectTl.to(circleData, 0.8, { noiseStrength: 0.6, yOffsetIncrement: 0.04 }, "sync")
     openProjectTl.to(circleData.size, 0.2, { baseValue: circleData.size.baseValue * 0.7, delay: -0.2 })
-    openProjectTl.to(circleData.size, 1, { ease: Power2.easeIn, baseValue: window.innerWidth })
+    openProjectTl.to(circleData.size, 1, { ease: Power2.easeIn, baseValue: circleEndSize })
   }, [props])
 
   const getCurrents = refs => {
@@ -217,7 +219,7 @@ const Wiggly = props => {
 
   return props.img ? (
     <Sprite
-      pointerdown={() => openProject()}
+      pointerup={openProject}
       pointerover={() =>
         circleData.size.baseValue !== props.cWidth / 2 &&
         gsap.to(circleData.size, 0.55, { ease: Power2.easeOut, baseValue: props.cWidth / 2 })

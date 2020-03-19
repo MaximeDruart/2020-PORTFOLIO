@@ -4,10 +4,13 @@ import useEventListener from "@use-it/event-listener"
 import { AnimationContext } from "../AnimationContext"
 import gsap, { Power3 } from "gsap"
 
-let textScrollHeight = -window.innerHeight * 0.52
+// handling that wierd width between desktop and mobile
+let textScrollHeight =
+  window.innerWidth > 576 && window.innerWidth < 1100 ? -window.innerHeight * 0.55 : -window.innerHeight * 0.5
 const useMouseWheel = () => {
   const [scroll, setScroll] = useState(0)
   useEventListener("wheel", ({ deltaY }) => setScroll(scroll => scroll + deltaY))
+  // useEventListener("touchmove", ({ deltaY }) => setScroll(scroll => scroll + deltaY))
   return scroll
 }
 
@@ -18,12 +21,19 @@ const About = props => {
   let $title = useRef(null)
   let $preloadContainer = useRef(null)
   let [animatingStart, setAnimatingStart] = useState(true)
-  const scroll = { value: Math.max(textScrollHeight + useMouseWheel(), textScrollHeight) }
+  // const scroll = { value: Math.max(textScrollHeight + useMouseWheel(), textScrollHeight) }
+  const scroll = {
+    value: gsap.utils.clamp(
+      textScrollHeight,
+      textScrollHeight + ($content?.current?.getBoundingClientRect()?.height || 100000),
+      textScrollHeight + useMouseWheel()
+    )
+  }
   let [despawnAboutWiggly, setDespawnAboutWiggly] = useState(false)
 
+  // about spawn animation
   useEffect(() => {
     document.body.style.overflowY = "hidden"
-
     if (context.removeLoader) {
       gsap.to($content.current, {
         duration: 0.5,
@@ -39,6 +49,7 @@ const About = props => {
     }
   }, [context.removeLoader])
 
+  // despawn animation
   useEffect(() => {
     let despawnTl = gsap
       .timeline({
@@ -76,7 +87,11 @@ const About = props => {
         {/** the opacity maths are purely random don't search any actual reasoning it just looks cool with those values */}
         <div
           ref={$title}
-          style={{ opacity: animatingStart ? 0 : `${Math.max(0, (-scroll.value - 300) / 180)}` }}
+          style={{
+            opacity: animatingStart
+              ? 0
+              : `${Math.max(0, 1 - 2.4 * ((scroll.value - textScrollHeight) / window.innerHeight))}`
+          }}
           className="about-title">
           Hello
         </div>

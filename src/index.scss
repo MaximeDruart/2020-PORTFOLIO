@@ -16,6 +16,11 @@
   @return $number;
 }
 
+::-webkit-scrollbar {
+  width: 0px; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+
 $sm-breakpoint: 576px;
 $med-breakpoint: 768px;
 $lg-breakpoint: 992px;
@@ -25,7 +30,7 @@ $xlg-breakpoint: 1200px;
   box-sizing: border-box;
   cursor: none !important;
   scrollbar-width: none;
-  position: relative;
+  // position: relative;
 }
 
 html {
@@ -70,6 +75,7 @@ $project-number: 5;
     overflow: hidden;
 
     .mouseFollower {
+      overflow: visible;
       mix-blend-mode: exclusion;
       z-index: 100000;
       position: fixed;
@@ -95,6 +101,7 @@ $project-number: 5;
         border-radius: 15px;
         background-color: white;
         opacity: 0.4;
+        transform: translate(-50px, -50px);
       }
 
       .inner-circle {
@@ -285,39 +292,43 @@ $project-number: 5;
       padding-top: 10vh;
       height: 100vh;
 
-      .projects {
-        display: flex;
-        align-items: center;
+      .projects-wrapper {
+        width: 100%;
         height: 80vh;
-        padding: 0;
-        margin: 0;
-        width: $project-width * $project-number;
-
-        .project {
+        .projects {
           display: flex;
           align-items: center;
-          justify-content: center;
-          height: $project-height;
-          width: $project-width;
-          position: relative;
+          height: 100%;
+          padding: 0;
+          margin: 0;
+          width: $project-width * $project-number;
 
-          .canvasContainer {
-            z-index: -1;
-          }
+          .project {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: $project-height;
+            width: $project-width;
+            position: relative;
 
-          .project-name {
-            z-index: 10;
-            text-align: center;
-            pointer-events: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            color: white;
-            transform: translate(-50%, -50%);
-            font-size: 11vmin;
-            padding: 0;
-            margin: 0;
-            opacity: 0;
+            .canvasContainer {
+              z-index: -1;
+            }
+
+            .project-name {
+              z-index: 10;
+              text-align: center;
+              pointer-events: none;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              color: white;
+              transform: translate(-50%, -50%);
+              font-size: 11vmin;
+              padding: 0;
+              margin: 0;
+              opacity: 0;
+            }
           }
         }
       }
@@ -331,12 +342,6 @@ $project-number: 5;
         z-index: -1000;
 
         .circle-container {
-          // position: absolute;
-          // top: 100%;
-          // left: 50%;
-          // transform: translate(-50%, -50%);
-          // transform-origin: center;
-
           .circle {
             width: 160px;
             height: 160px;
@@ -359,14 +364,65 @@ $project-number: 5;
 
       @media screen and (max-width: $sm-breakpoint) {
         padding: 0;
-        .projects {
-          flex-flow: column nowrap;
-          width: 100vw;
-          height: strip-unit($project-width * $project-number) + vh;
+        position: relative;
 
-          .project {
+        .projects-wrapper {
+          height: 100vh;
+          overflow: scroll;
+          .projects {
+            flex-flow: column nowrap;
             width: 100vw;
-            height: 50vh;
+            // adding 25 vh so at the bottom the last project can be in the middle of the screen
+            height: strip-unit($project-width * $project-number) + 25 + vh;
+
+            .project {
+              width: 100vw;
+              height: 50vh;
+
+              &:last-child {
+              }
+            }
+          }
+        }
+        .projects-progression {
+          position: absolute;
+          top: 52%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+
+          .hide-bottom {
+            width: 100vw;
+            height: 300px;
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.78));
+            z-index: 10;
+          }
+
+          .circle-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            opacity: 0.3;
+
+            .circle {
+              width: 160 * 3 + px;
+              height: 160 * 3 + px;
+              border-radius: 160 * 3 / 2 + px;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            }
+
+            .circle-txt {
+              top: -240px;
+              font-size: 6vh;
+              width: 150px;
+              height: 64px;
+            }
           }
         }
       }

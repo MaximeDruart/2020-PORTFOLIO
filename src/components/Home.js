@@ -4,6 +4,8 @@ import uuid from "uuid"
 import Wiggly from "./Wiggly"
 import { AnimationContext } from "../AnimationContext"
 import gsap from "gsap/gsap-core"
+import ScrollToPlugin from "gsap/ScrollToPlugin"
+gsap.registerPlugin(ScrollToPlugin)
 
 let projectSize = window.innerWidth < 576 ? 50 : 50
 
@@ -21,9 +23,11 @@ let projectSize = window.innerWidth < 576 ? 50 : 50
 const Home = props => {
   let [activeProject, setActiveProject] = useState(0)
   let [transform, setTransform] = useState(projectSize / 2)
+  let [rotate, setRotate] = useState(null)
   // eslint-disable-next-line no-unused-vars
   let [spawnComplete, setSpawnComplete] = useState(false)
   let $projects = useRef(null)
+  let $projectsWrapper = useRef(null)
   let $progressionCircle = useRef(null)
   const $projectNames = useMemo(() => Array.from({ length: projectData.length }).map(() => createRef()), [])
   const $parentCanvases = useMemo(() => Array.from({ length: projectData.length }).map(() => createRef()), [])
@@ -48,9 +52,15 @@ const Home = props => {
   )
 
   const setTransformWithAnim = (value, animate) => {
-    if (animate) $projects.current.style.transition = "all 0.6s ease-in-out"
-    setTransform(value)
-    setTimeout(() => ($projects.current.style.transition = "none"), 600)
+    if (window.innerWidth < 576) {
+      // adding 25vh to the value to compensate for the transformation then converting to pixels
+      let scrollToValue = -((value - 25) / 100) * window.innerHeight
+      gsap.to($projectsWrapper.current, 0.6, { scrollTo: scrollToValue })
+    } else {
+      if (animate) $projects.current.style.transition = "all 0.6s ease-in-out"
+      setTransform(value)
+      setTimeout(() => ($projects.current.style.transition = "none"), 600)
+    }
   }
 
   // let scroll = -projectSize + 100 / 2 - projectSize / 2 + (useMouseWheel() / window.innerWidth) * 100
@@ -85,7 +95,38 @@ const Home = props => {
   useEffect(() => {
     document.body.style.overflow = "hidden"
     updateContext("despawnMainComplete", false)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // handling touch scroll
+  useEffect(() => {
+    const touchCb = event => {
+      let val = $projectsWrapper.current && $projectsWrapper.current.scrollTop
+      setRotate((val / window.innerHeight) * 100)
+      setActiveProject(Math.round((val / window.innerHeight) * 2))
+    }
+
+    const inertiaHandler = () => {
+      let time = 0,
+        delay = 10
+      let interval = setInterval(() => {
+        if (time < delay * 200) {
+          time += delay
+          window.dispatchEvent(new Event("touchmove"))
+        } else clearInterval(interval)
+      }, delay)
+    }
+    window.addEventListener("touchstart", touchCb)
+    window.innerWidth <= 576 && window.addEventListener("wheel", touchCb)
+    window.addEventListener("touchmove", touchCb)
+    window.addEventListener("touchend", inertiaHandler)
+    return () => {
+      window.removeEventListener("wheel", touchCb)
+      window.removeEventListener("touchstart", touchCb)
+      window.removeEventListener("touchmove", touchCb)
+      window.removeEventListener("touchend", inertiaHandler)
+    }
   }, [])
 
   useEffect(() => {
@@ -99,17 +140,25 @@ const Home = props => {
   // let rotate = transform / 100 * 360
 
   return (
-    <div onWheel={e => !context.isOpen && scrollHandler(e)} className="home">
-      <ul
-        style={{ transform: window.innerWidth <= 576 ? `translateY(${transform}vh)` : `translateX(${transform}vw)` }}
-        ref={$projects}
-        className="projects">
-        {mappedData}
-      </ul>
+    <div onWheel={e => !context.isOpen && window.innerWidth > 576 && scrollHandler(e)} className="home">
+      <div ref={$projectsWrapper} className="projects-wrapper">
+        <ul
+          style={{ transform: window.innerWidth <= 576 ? `translateY(${transform}vh)` : `translateX(${transform}vw)` }}
+          ref={$projects}
+          className="projects">
+          {mappedData}
+        </ul>
+      </div>
       <div className="projects-progression">
+        <div className="hide-bottom"></div>
         <div
           ref={$progressionCircle}
-          style={{ transform: `rotate(${-(transform / 100) * 360 * 2 + 90 * 2}deg)` }}
+          style={{
+            transform:
+              window.innerWidth < 576
+                ? `translate(-50%, -50%) rotate(${(rotate / 100) * 360 * 2}deg)`
+                : `rotate(${-(transform / 100) * 360 * 2 + 90 * 2}deg)`
+          }}
           className="circle-container">
           <div className="circle"></div>
           <div className="circle-txt">0{activeProject + 1}</div>
