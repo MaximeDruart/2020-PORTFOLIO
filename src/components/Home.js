@@ -5,7 +5,7 @@ import Wiggly from "./Wiggly"
 import { AnimationContext } from "../AnimationContext"
 import gsap from "gsap/gsap-core"
 
-let projectWidth = 50
+let projectSize = window.innerWidth < 576 ? 50 : 50
 
 // const useMouseWheel = () => {
 // 	const [scroll, setScroll] = useState(0)
@@ -20,7 +20,7 @@ let projectWidth = 50
 
 const Home = props => {
   let [activeProject, setActiveProject] = useState(0)
-  let [transform, setTransform] = useState(projectWidth / 2)
+  let [transform, setTransform] = useState(projectSize / 2)
   // eslint-disable-next-line no-unused-vars
   let [spawnComplete, setSpawnComplete] = useState(false)
   let $projects = useRef(null)
@@ -38,8 +38,8 @@ const Home = props => {
       valueToUse = valueToUse === Math.abs(e.deltaX) ? e.deltaX : valueToUse
       setTransform(transform => {
         let t = transform - (valueToUse / window.innerWidth) * 100
-        let activeProject = Math.ceil(-t / projectWidth)
-        t = gsap.utils.clamp(projectWidth / 2 - projectWidth * (projectData.length - 1), projectWidth / 2, t)
+        let activeProject = Math.ceil(-t / projectSize)
+        t = gsap.utils.clamp(projectSize / 2 - projectSize * (projectData.length - 1), projectSize / 2, t)
         setActiveProject(activeProject)
         return t
       })
@@ -53,7 +53,7 @@ const Home = props => {
     setTimeout(() => ($projects.current.style.transition = "none"), 600)
   }
 
-  // let scroll = -projectWidth + 100 / 2 - projectWidth / 2 + (useMouseWheel() / window.innerWidth) * 100
+  // let scroll = -projectSize + 100 / 2 - projectSize / 2 + (useMouseWheel() / window.innerWidth) * 100
   const setRedirectWithParam = useCallback(path => props.history.push(`/projects/${path}`), [props.history])
 
   // ref={$projectNames.current[index]}
@@ -71,7 +71,7 @@ const Home = props => {
             index={index}
             fill={true}
             img={project.coverImg}
-            projectWidth={projectWidth}
+            projectSize={projectSize}
             setTransform={setTransformWithAnim}
             setRedirectWithParam={setRedirectWithParam}
           />
@@ -101,7 +101,10 @@ const Home = props => {
 
   return (
     <div onWheel={e => !context.isOpen && scrollHandler(e)} className="home">
-      <ul style={{ transform: `translateX(${transform}vw)` }} ref={$projects} className="projects">
+      <ul
+        style={{ transform: window.innerWidth <= 576 ? `translateY(${transform}vh)` : `translateX(${transform}vw)` }}
+        ref={$projects}
+        className="projects">
         {mappedData}
       </ul>
       <div className="projects-progression">

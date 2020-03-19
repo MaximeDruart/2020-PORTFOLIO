@@ -8,6 +8,14 @@
   src: local("Helvetica"), url("./assets/fonts/helvetica.otf") format("opentype");
 }
 
+@function strip-unit($number) {
+  @if type-of($number) == "number" and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
 $sm-breakpoint: 576px;
 $med-breakpoint: 768px;
 $lg-breakpoint: 992px;
@@ -284,8 +292,6 @@ $project-number: 5;
         padding: 0;
         margin: 0;
         width: $project-width * $project-number;
-        // transform: translateX((100vw / 2) - $project-width / 2);
-        // transition: all 0.3s ease-in-out;
 
         .project {
           display: flex;
@@ -347,6 +353,20 @@ $project-number: 5;
             left: 50%;
             top: 0;
             transform: translate(-50%, -50%);
+          }
+        }
+      }
+
+      @media screen and (max-width: $sm-breakpoint) {
+        padding: 0;
+        .projects {
+          flex-flow: column nowrap;
+          width: 100vw;
+          height: strip-unit($project-width * $project-number) + vh;
+
+          .project {
+            width: 100vw;
+            height: 50vh;
           }
         }
       }

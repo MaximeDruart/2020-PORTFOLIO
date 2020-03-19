@@ -98,7 +98,7 @@ const Wiggly = props => {
   })
 
   const openProject = useCallback(() => {
-    props.setTransform(-props.projectWidth * props.index + 100 / 2 - props.projectWidth / 2, true)
+    props.setTransform(-props.projectSize * props.index + 100 / 2 - props.projectSize / 2, true)
     props.setZIndex(10)
     props.updateCSize()
     setAllowHover(false)
