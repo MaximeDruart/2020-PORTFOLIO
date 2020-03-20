@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/2020-PORTFOLIO/static/css/main.98b13211.chunk.css",
-    "main.js": "/2020-PORTFOLIO/static/js/main.677a97b0.chunk.js",
-    "main.js.map": "/2020-PORTFOLIO/static/js/main.677a97b0.chunk.js.map",
+    "main.css": "/2020-PORTFOLIO/static/css/main.901ab7f1.chunk.css",
+    "main.js": "/2020-PORTFOLIO/static/js/main.8325c554.chunk.js",
+    "main.js.map": "/2020-PORTFOLIO/static/js/main.8325c554.chunk.js.map",
     "runtime-main.js": "/2020-PORTFOLIO/static/js/runtime-main.c8b6bdff.js",
     "runtime-main.js.map": "/2020-PORTFOLIO/static/js/runtime-main.c8b6bdff.js.map",
-    "static/js/2.a86327b4.chunk.js": "/2020-PORTFOLIO/static/js/2.a86327b4.chunk.js",
-    "static/js/2.a86327b4.chunk.js.map": "/2020-PORTFOLIO/static/js/2.a86327b4.chunk.js.map",
+    "static/js/2.63599f5b.chunk.js": "/2020-PORTFOLIO/static/js/2.63599f5b.chunk.js",
+    "static/js/2.63599f5b.chunk.js.map": "/2020-PORTFOLIO/static/js/2.63599f5b.chunk.js.map",
     "index.html": "/2020-PORTFOLIO/index.html",
-    "precache-manifest.1b2f3602f3a20f8c415b4fec76a2da56.js": "/2020-PORTFOLIO/precache-manifest.1b2f3602f3a20f8c415b4fec76a2da56.js",
+    "precache-manifest.c40863e98c9f823ff45658f624248d9c.js": "/2020-PORTFOLIO/precache-manifest.c40863e98c9f823ff45658f624248d9c.js",
     "service-worker.js": "/2020-PORTFOLIO/service-worker.js",
-    "static/css/main.98b13211.chunk.css.map": "/2020-PORTFOLIO/static/css/main.98b13211.chunk.css.map",
-    "static/js/2.a86327b4.chunk.js.LICENSE.txt": "/2020-PORTFOLIO/static/js/2.a86327b4.chunk.js.LICENSE.txt",
+    "static/css/main.901ab7f1.chunk.css.map": "/2020-PORTFOLIO/static/css/main.901ab7f1.chunk.css.map",
+    "static/js/2.63599f5b.chunk.js.LICENSE.txt": "/2020-PORTFOLIO/static/js/2.63599f5b.chunk.js.LICENSE.txt",
     "static/media/DrukWideBold.woff": "/2020-PORTFOLIO/static/media/DrukWideBold.4b3c7e51.woff",
     "static/media/coiny.jpg": "/2020-PORTFOLIO/static/media/coiny.361ef11f.jpg",
     "static/media/css-piano.jpg": "/2020-PORTFOLIO/static/media/css-piano.4c5ef68f.jpg",
@@ -32,8 +32,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.c8b6bdff.js",
-    "static/js/2.a86327b4.chunk.js",
-    "static/css/main.98b13211.chunk.css",
-    "static/js/main.677a97b0.chunk.js"
+    "static/js/2.63599f5b.chunk.js",
+    "static/css/main.901ab7f1.chunk.css",
+    "static/js/main.8325c554.chunk.js"
   ]
 }
