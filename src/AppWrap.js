@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useContext } from "react"
-import { BrowserRouter as Router, HashRouter, Route, Switch } from "react-router-dom"
+import { HashRouter, Route, Switch } from "react-router-dom"
+// import { BrowserRouter as Router, HashRouter, Route, Switch } from "react-router-dom"
 import projectData from "./assets/projectData"
 import Home from "./components/Home"
 import About from "./components/About"

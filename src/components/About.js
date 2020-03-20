@@ -142,15 +142,15 @@ const About = props => {
               <ul>
                 <li>html</li>
                 <li>css</li>
-                <li>sass</li>
                 <li>javascript</li>
                 <li>react</li>
+                <li>gsap</li>
+                <li>canvas</li>
+                <li>pixi.js</li>
+                <li>sass</li>
                 <li>nodejs</li>
                 <li>mongodb</li>
                 <li>python</li>
-                <li>canvas</li>
-                <li>pixi.js</li>
-                <li>gsap</li>
               </ul>
             </div>
             <div className="skills-design">

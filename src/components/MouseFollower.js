@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect, useContext, useCallback, useMemo } from "react"
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react"
 import gsap, { Power1 } from "gsap"
 import useEventListener from "@use-it/event-listener"
-import { AnimationContext } from "../AnimationContext"
 
 const useMouseMove = () => {
   const [coords, setCoords] = useState([0, 0])
@@ -43,7 +42,9 @@ const MouseFollower = () => {
   let hoverTl = useMemo(() => getTimeline(), [getTimeline])
 
   useEffect(() => {
-    target && target.getAttribute("href") ? hoverTl.play() : isHovered && hoverTl.reverse()
+    $outerCircle.current && target && target.getAttribute("href")
+      ? hoverTl.play()
+      : $outerCircle.current && isHovered && hoverTl.reverse()
   })
 
   return (

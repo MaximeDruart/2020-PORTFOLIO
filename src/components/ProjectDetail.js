@@ -105,7 +105,11 @@ const ProjectDetail = ({ project, index, history }) => {
         <div ref={$bannerImg} style={{ backgroundImage: `url(${project?.coverImg})` }} className="banner-img"></div>
       </div>
       <div className="project-title-wrapper">
-        <h1 className="project-title" ref={$projectTitle}>
+        <h1
+          // kinda sketchy solution but haven't found better
+          style={{ width: project.name === "Exit The Matrix" ? "285vw" : "initial" }}
+          className="project-title"
+          ref={$projectTitle}>
           {project?.name}
         </h1>
       </div>
