@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9ecd012fad63a56ce9af4125dec656c9",
+    "revision": "1db6f45182c6d77ee15ed67d32364fc0",
     "url": "/2020-PORTFOLIO/index.html"
   },
   {
-    "revision": "ef446abd4a8958f85d8d",
-    "url": "/2020-PORTFOLIO/static/css/main.901ab7f1.chunk.css"
+    "revision": "6582eba9e8fc1b49f605",
+    "url": "/2020-PORTFOLIO/static/css/main.2701839a.chunk.css"
   },
   {
-    "revision": "a35bd1829037e5c36d1f",
-    "url": "/2020-PORTFOLIO/static/js/2.68dee00d.chunk.js"
+    "revision": "e0c7c06e7a5c63c02cbe",
+    "url": "/2020-PORTFOLIO/static/js/2.220a9635.chunk.js"
   },
   {
     "revision": "d85bf2a906266485d98838f921f88637",
-    "url": "/2020-PORTFOLIO/static/js/2.68dee00d.chunk.js.LICENSE.txt"
+    "url": "/2020-PORTFOLIO/static/js/2.220a9635.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "ef446abd4a8958f85d8d",
-    "url": "/2020-PORTFOLIO/static/js/main.c2e1889b.chunk.js"
+    "revision": "6582eba9e8fc1b49f605",
+    "url": "/2020-PORTFOLIO/static/js/main.235dc538.chunk.js"
   },
   {
     "revision": "970ce974237728b2783c",
@@ -26,6 +26,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "4b3c7e5143ad1995a76dc2fc881df6a5",
     "url": "/2020-PORTFOLIO/static/media/DrukWideBold.4b3c7e51.woff"
+  },
+  {
+    "revision": "e0b6c8ee547bf1363f1d86238def5f80",
+    "url": "/2020-PORTFOLIO/static/media/audio-player.e0b6c8ee.jpg"
   },
   {
     "revision": "361ef11f48880f1dd53c6e61169b9ac9",
@@ -42,6 +46,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "e494ce44a4d8a09edead77fb7f0272c8",
     "url": "/2020-PORTFOLIO/static/media/etm-menu.e494ce44.jpg"
+  },
+  {
+    "revision": "4a029241cb40add5d1ad3a17c5f273b9",
+    "url": "/2020-PORTFOLIO/static/media/flowfield.4a029241.JPG"
   },
   {
     "revision": "abaac753f68bee4eb719bbf49cde0136",
@@ -94,5 +102,13 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "e7f2a27370e3f4f8730afea21432f4ea",
     "url": "/2020-PORTFOLIO/static/media/noise.e7f2a273.gif"
+  },
+  {
+    "revision": "8c3a935c981d6d0dcd40693b95a7b36f",
+    "url": "/2020-PORTFOLIO/static/media/pianoGif.8c3a935c.gif"
+  },
+  {
+    "revision": "34adad810f28ee9e6cbece1c68557aad",
+    "url": "/2020-PORTFOLIO/static/media/wiggly.34adad81.JPG"
   }
 ]);
