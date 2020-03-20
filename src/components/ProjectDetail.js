@@ -41,10 +41,10 @@ const ProjectDetail = ({ project, index, history }) => {
   }, [])
 
   useEffect(() => {
-    // console.log($projectTitle.current.getBoundingClientRect().height, $content.current.getBoundingClientRect().height)
+    let projectDetailDOM = $projectDetail
     let once = true,
       manualScroll = true
-    const scrollCb = event => {
+    const scrollCb = () => {
       // i kinda don't want to calculate on each wheel event but apparently it changes throughout the page :/
       let projectPageHeight =
         $projectTitle.current.getBoundingClientRect().height + $content.current.getBoundingClientRect().height
@@ -71,27 +71,8 @@ const ProjectDetail = ({ project, index, history }) => {
       }
     }
 
-    // the problem here is that the text needs to be updated when the touchmove inertia is kicking in but during that time no actual event is triggered so on touch end we're dispatching wheel events for 2secs
-    window.addEventListener("wheel", scrollCb)
-    window.addEventListener("touchmove", scrollCb)
-    // window.addEventListener("touchmove", event => (isScrollEnabled ? scrollCb() : event.preventDefault()))
-
-    const inertiaHandler = () => {
-      let time = 0,
-        delay = 10
-      let interval = setInterval(() => {
-        if (time < delay * 200) {
-          time += delay
-          window.dispatchEvent(new Event("wheel"))
-        } else clearInterval(interval)
-      }, delay)
-    }
-    window.addEventListener("touchend", inertiaHandler)
-    return () => {
-      window.removeEventListener("wheel", scrollCb)
-      window.removeEventListener("touchmove", scrollCb)
-      window.removeEventListener("touchend", inertiaHandler)
-    }
+    projectDetailDOM.current.addEventListener("scroll", scrollCb)
+    return () => projectDetailDOM.current.removeEventListener("scroll", scrollCb)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isScrollEnabled])
 

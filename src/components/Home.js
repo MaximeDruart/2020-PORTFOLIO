@@ -101,32 +101,14 @@ const Home = props => {
 
   // handling touch scroll
   useEffect(() => {
-    const touchCb = event => {
+    let wrapperDOM = $projectsWrapper.current
+    const touchCb = () => {
       let val = $projectsWrapper.current && $projectsWrapper.current.scrollTop
       setRotate((val / window.innerHeight) * 100)
       setActiveProject(Math.round((val / window.innerHeight) * 2))
     }
-
-    const inertiaHandler = () => {
-      let time = 0,
-        delay = 10
-      let interval = setInterval(() => {
-        if (time < delay * 200) {
-          time += delay
-          window.dispatchEvent(new Event("touchmove"))
-        } else clearInterval(interval)
-      }, delay)
-    }
-    window.addEventListener("touchstart", touchCb)
-    window.innerWidth <= 576 && window.addEventListener("wheel", touchCb)
-    window.addEventListener("touchmove", touchCb)
-    window.addEventListener("touchend", inertiaHandler)
-    return () => {
-      window.removeEventListener("wheel", touchCb)
-      window.removeEventListener("touchstart", touchCb)
-      window.removeEventListener("touchmove", touchCb)
-      window.removeEventListener("touchend", inertiaHandler)
-    }
+    window.innerWidth <= 576 && $projectsWrapper.current.addEventListener("scroll", touchCb)
+    return () => wrapperDOM.removeEventListener("scroll", touchCb)
   }, [])
 
   useEffect(() => {

@@ -21,7 +21,7 @@ export default [
     role: "Front end dev, back end dev",
     techs: ["HTML/CSS/JS", "React", "Node & Express", "MongoDB"],
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas lacinia rutrum. Phasellus velit libero, malesuada in velit in, tristique tempus augue. Pellentesque facilisis dui risus, at vulputate libero dignissim non. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse vulputate eget nisi maximus feugiat. Mauris ut nulla sit amet mauris scelerisque placerat. Nam in ex dictum mi vulputate rhoncus.",
+      "For a school project, we had 2 weeks to design a product on the theme of 'Tech and humans'. As a result, we developed Coiny :  a web app looking to build communities around small local shops and helping the needy. On the app, you can create a fund for your shop and needy people can pull from it to help with casual spendings. This was my first experience building a back-end system with Node and MongoDB and was very instructive. Everything is functional on the app but the actual banking part. ",
     websiteLink: "https://coiny-app.herokuapp.com/",
     githubLink: "https://github.com/MaximeDruart/Coiny",
     credits: {
@@ -45,7 +45,7 @@ export default [
     role: "Front end dev",
     techs: ["HTML/CSS/JS", "canvas"],
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas lacinia rutrum. Phasellus velit libero, malesuada in velit in, tristique tempus augue. Pellentesque facilisis dui risus, at vulputate libero dignissim non. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse vulputate eget nisi maximus feugiat. Mauris ut nulla sit amet mauris scelerisque placerat. Nam in ex dictum mi vulputate rhoncus.",
+      "As a school project, we had a week to design a game using mostly Javascript. My team and I came up with Ninjavascript.Guide a ninja through different levels to help him reach the temple using Javascript principles. This game was designed as a fist experience for people looking to get in coding. Code-wise this was my first real experience using the Canvas API and was a real challenge creating an isometric 2D experience.",
     websiteLink: "https://maximedruart.github.io/Ninjavascript",
     githubLink: "https://github.com/MaximeDruart/Ninjavascript",
     credits: {
@@ -68,7 +68,8 @@ export default [
     date: "Since 2018",
     role: "Development",
     techs: ["HTML/CSS/JS", "canvas", "Pixi.js"],
-    description: "Here are multiple experiments that I've done over the last few years with Javascript.",
+    description:
+      "Here are multiple experiments that I've done over the last few years with Javascript, with DOM, Canvas, p5.js or Pixi.js (and soon WebGL :)).",
     websiteLink: "",
     githubLink: "https://github.com/MaximeDruart"
   },
@@ -80,7 +81,8 @@ export default [
     date: "October 2019",
     role: "Development",
     techs: ["HTML/CSS/JS"],
-    description: "lorem",
+    description:
+      "Exit The Matrix was a school developped over a week with the goal of creating and immersive experience. In Exit The Matrix, you find yourself in the role of Tank, the matrix operator sending back and forth Neo. Your task is to guide him out of the Matrix as agents are on his tail. This experience was developped entirely in DOM and as a 2 developper team.",
     websiteLink: "https://maximedruart.github.io/Exit-The-Matrix/",
     githubLink: "https://github.com/MaximeDruart/Exit-The-Matrix",
     credits: {
@@ -104,7 +106,7 @@ export default [
     role: "Game dev",
     techs: ["Python", "PyGame"],
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas lacinia rutrum. Phasellus velit libero, malesuada in velit in, tristique tempus augue. Pellentesque facilisis dui risus, at vulputate libero dignissim non. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse vulputate eget nisi maximus feugiat. Mauris ut nulla sit amet mauris scelerisque placerat. Nam in ex dictum mi vulputate rhoncus.",
+      "My first real experience with code was this project ! This high school project which spanned over 6 months was about recreating the tabletop game Labyrinth, which proved to be quite a challenge. This experience left me wanting for more and to pursue a programming education",
     websiteLink: "",
     githubLink: "https://github.com/MaximeDruart/Labyrinth"
   }
