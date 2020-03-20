@@ -125,14 +125,17 @@ const About = props => {
               </ul>
             </aside>
             <div className="description">
-              Salut ! Je m'appelle Maxime Druart et je suis un développeur Web avec un intéret particulier pour la
-              création graphique via le code. Actuellement étudiant à{" "}
+              Hello ! My name is Maxime Druart and i'm a Paris based web developer with a keen interest in visual
+              creation through programming. Currently studying at
               <a href="https://hetic.net" target="_blank" rel="noopener noreferrer">
                 HETIC
               </a>
-              , j'apprends le design et le développement web. J'aime construire des expériences intéractives en
-              Javascript avec du canvas ou du CSS. Je suis toujours à la recherche de nouvelles choses à apprendre et je
-              me forme aujourd'hui personnellement à la création de système back-end et au WebGL.
+              , learning design and web development. I like building interactive experiences on the web with Javascript
+              and/or canvas. I'm always looking forward to learning new things and as of now I'm interested in learning
+              about creating back-end systems and WebGL.
+              <div style={{ fontWeight: 600 }}>
+                Hey ! I'm also looking for an internship in Paris from July 2020 to September 2020, hit me up !
+              </div>
             </div>
           </div>
           <div className="about-skills">

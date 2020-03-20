@@ -302,6 +302,7 @@ $project-number: 5;
           padding: 0;
           margin: 0;
           width: $project-width * $project-number;
+          // transition: all 0.1s ease-in-out;
 
           .project {
             display: flex;

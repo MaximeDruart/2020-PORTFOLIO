@@ -14,6 +14,9 @@ const PGItem = props => {
         <a target="_blank" rel="noopener noreferrer" href={props.link} className="link">
           Visit site
         </a>
+        <a target="_blank" rel="noopener noreferrer" href={props.github} className="link github">
+          See code on github
+        </a>
       </div>
     </div>
   )

@@ -23,6 +23,7 @@ let projectSize = window.innerWidth < 576 ? 50 : 50
 const Home = props => {
   let [activeProject, setActiveProject] = useState(0)
   let [transform, setTransform] = useState(projectSize / 2)
+  let [lastTransform, setLastTransform] = useState(projectSize / 2)
   let [rotate, setRotate] = useState(null)
   // eslint-disable-next-line no-unused-vars
   let [spawnComplete, setSpawnComplete] = useState(false)
@@ -119,7 +120,13 @@ const Home = props => {
     context.removeLoader && updateContext("spawnMain", true)
   }, [context.removeLoader, updateContext])
 
-  // let rotate = transform / 100 * 360
+  // useEffect(() => {
+  //   console.log(Math.abs(lastTransform - transform))
+  //   Math.abs(lastTransform - transform) >= 15
+  //     ? gsap.to($projects.current, 0.3, { x: transform + "vw" })
+  //     : gsap.set($projects.current, { x: transform + "vw" })
+  //   setLastTransform(transform)
+  // }, [transform])
 
   return (
     <div onWheel={e => !context.isOpen && window.innerWidth > 576 && scrollHandler(e)} className="home">

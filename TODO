@@ -1,0 +1,22 @@
+TODO LIST PORTFOLIO MARCH 19 2020
+
+home : 
+-pointer events on mobile drag and drop not working correctly
+-last project not perfectly lined up with the "5" on mobile
+
+projects :
+-probably needs an animation on fullscreen images on projects 
+
+about :
+-smoother scroll, all around scroll is kinda wacky
+-content
+
+general :
+-le cercle mousefollower au hover est crop ( bug pas reproductible je sais pas si c'est fixed )
+-do something about noise
+-smooth scroll on projects / about
+-fill in coiny
+-fill in playing grounds
+-enable anti-aliasing on mobile ?
+-make a real loading
+-clean up warnings / console logs

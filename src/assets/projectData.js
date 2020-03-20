@@ -82,7 +82,7 @@ export default [
     role: "Development",
     techs: ["HTML/CSS/JS"],
     description:
-      "Exit The Matrix was a school developped over a week with the goal of creating and immersive experience. In Exit The Matrix, you find yourself in the role of Tank, the matrix operator sending back and forth Neo. Your task is to guide him out of the Matrix as agents are on his tail. This experience was developped entirely in DOM and as a 2 developper team.",
+      "Exit The Matrix was a school project developped over a week with the goal of creating and immersive experience. In Exit The Matrix, you find yourself in the role of Tank, the matrix operator sending back and forth Neo. Your task is to guide him out of the Matrix as agents are on his tail. This experience was developped entirely in DOM and as a 2 developper team.",
     websiteLink: "https://maximedruart.github.io/Exit-The-Matrix/",
     githubLink: "https://github.com/MaximeDruart/Exit-The-Matrix",
     credits: {
