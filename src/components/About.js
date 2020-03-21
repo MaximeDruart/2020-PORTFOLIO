@@ -5,31 +5,42 @@ import { AnimationContext } from "../AnimationContext"
 import gsap, { Power3 } from "gsap"
 
 // handling that wierd width between desktop and mobile
-let textScrollHeight =
-  window.innerWidth > 576 && window.innerWidth < 1100 ? -window.innerHeight * 0.55 : -window.innerHeight * 0.5
-const useMouseWheel = () => {
-  const [scroll, setScroll] = useState(0)
-  useEventListener("wheel", ({ deltaY }) => setScroll(scroll => scroll + deltaY))
+let textScrollHeight = window.innerWidth < 1100 ? -window.innerHeight * 0.6 : -window.innerHeight * 0.5
+textScrollHeight = window.innerWidth < 576 ? -window.innerHeight * 0.53 : textScrollHeight
+
+const useMouseWheel = $container => {
+  const [scroll, setScroll] = useState(textScrollHeight)
+  useEventListener("wheel", ({ deltaY }) => {
+    // console.log(deltaY * 0.5)
+    setScroll(scroll =>
+      gsap.utils.clamp(
+        textScrollHeight,
+        textScrollHeight + ($container?.current?.getBoundingClientRect()?.height || 100000),
+        scroll + deltaY * 0.5
+      )
+    )
+  })
   // useEventListener("touchmove", ({ deltaY }) => setScroll(scroll => scroll + deltaY))
   return scroll
 }
 
 const About = props => {
   const { updateContext, ...context } = useContext(AnimationContext)
+  let [despawnAboutWiggly, setDespawnAboutWiggly] = useState(false)
+  let [animatingStart, setAnimatingStart] = useState(true)
+
   let $preloadCanvas = useRef(null)
   let $content = useRef(null)
   let $title = useRef(null)
   let $preloadContainer = useRef(null)
-  let [animatingStart, setAnimatingStart] = useState(true)
-  // const scroll = { value: Math.max(textScrollHeight + useMouseWheel(), textScrollHeight) }
-  const scroll = {
-    value: gsap.utils.clamp(
-      textScrollHeight,
-      textScrollHeight + ($content?.current?.getBoundingClientRect()?.height || 100000),
-      textScrollHeight + useMouseWheel()
-    )
-  }
-  let [despawnAboutWiggly, setDespawnAboutWiggly] = useState(false)
+
+  const scroll = useMouseWheel($content)
+
+  // animating content scroll
+  useEffect(() => {
+    gsap.to($content.current, 0.3, { y: -scroll })
+    gsap.to($title.current, 0.3, { opacity: Math.max(0, 1 - 2.4 * ((scroll - textScrollHeight) / window.innerHeight)) })
+  }, [scroll])
 
   // about spawn animation
   useEffect(() => {
@@ -70,6 +81,16 @@ const About = props => {
     context.despawnAbout && despawnTl.play()
   }, [context.despawnAbout, props.history, updateContext])
 
+  useEffect(() => {
+    const resizeHandler = () => {
+      console.log("resize")
+      textScrollHeight =
+        window.innerWidth > 576 && window.innerWidth < 1100 ? -window.innerHeight * 0.6 : -window.innerHeight * 0.5
+    }
+    window.addEventListener("resize", resizeHandler)
+    return () => window.removeEventListener("resize", resizeHandler)
+  }, [])
+
   return (
     <div ref={$preloadContainer} className="preload-container about-container">
       <div className="preload-wrapper about-wrapper">
@@ -84,21 +105,10 @@ const About = props => {
             fill={false}
           />
         </div>
-        {/** the opacity maths are purely random don't search any actual reasoning it just looks cool with those values */}
-        <div
-          ref={$title}
-          style={{
-            opacity: animatingStart
-              ? 0
-              : `${Math.max(0, 1 - 2.4 * ((scroll.value - textScrollHeight) / window.innerHeight))}`
-          }}
-          className="about-title">
+        <div ref={$title} style={{ opacity: 0 }} className="about-title">
           Hello
         </div>
-        <div
-          ref={$content}
-          style={{ transform: `translateY(${-scroll.value}px)`, opacity: 0 }}
-          className="about-content">
+        <div ref={$content} style={{ opacity: 0 }} className="about-content">
           <div className="about-intro">
             <aside className="links">
               <ul>

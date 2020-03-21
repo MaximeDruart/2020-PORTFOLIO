@@ -21,26 +21,34 @@ let projectSize = window.innerWidth < 576 ? 50 : 50
 // }
 
 const Home = props => {
+  const { updateContext, ...context } = useContext(AnimationContext)
   let [activeProject, setActiveProject] = useState(0)
   let [transform, setTransform] = useState(projectSize / 2)
+  // eslint-disable-next-line no-unused-vars
   let [lastTransform, setLastTransform] = useState(projectSize / 2)
   let [rotate, setRotate] = useState(null)
-  // eslint-disable-next-line no-unused-vars
-  let [spawnComplete, setSpawnComplete] = useState(false)
+
   let $projects = useRef(null)
   let $projectsWrapper = useRef(null)
   let $progressionCircle = useRef(null)
   const $projectNames = useMemo(() => Array.from({ length: projectData.length }).map(() => createRef()), [])
   const $parentCanvases = useMemo(() => Array.from({ length: projectData.length }).map(() => createRef()), [])
 
-  const { updateContext, ...context } = useContext(AnimationContext)
+  // handling touch scroll
+  const touchHandler = () => {
+    let val = $projectsWrapper.current && $projectsWrapper.current.scrollTop
+    setRotate((val / window.innerHeight) * 100)
+    setActiveProject(Math.round((val / window.innerHeight) * 2))
+  }
 
   const scrollHandler = useCallback(
     e => {
       // e.preventDefault()
-      let valueToUse = Math.max(Math.abs(e.deltaX), Math.abs(e.deltaY))
-      valueToUse = valueToUse === Math.abs(e.deltaY) ? e.deltaY : valueToUse
-      valueToUse = valueToUse === Math.abs(e.deltaX) ? e.deltaX : valueToUse
+      let deltaX = e.deltaX * 0.5
+      let deltaY = e.deltaY * 0.5
+      let valueToUse = Math.max(Math.abs(deltaX), Math.abs(deltaY))
+      valueToUse = valueToUse === Math.abs(deltaY) ? deltaY : valueToUse
+      valueToUse = valueToUse === Math.abs(deltaX) ? deltaX : valueToUse
       setTransform(transform => {
         let t = transform - (valueToUse / window.innerWidth) * 100
         let activeProject = Math.ceil(-t / projectSize)
@@ -53,14 +61,12 @@ const Home = props => {
   )
 
   const setTransformWithAnim = (value, animate) => {
-    if (window.innerWidth < 576) {
+    if (window.innerWidth <= 576) {
       // adding 25vh to the value to compensate for the transformation then converting to pixels
       let scrollToValue = -((value - 25) / 100) * window.innerHeight
       gsap.to($projectsWrapper.current, 0.6, { scrollTo: scrollToValue })
     } else {
-      if (animate) $projects.current.style.transition = "all 0.6s ease-in-out"
-      setTransform(value)
-      setTimeout(() => ($projects.current.style.transition = "none"), 600)
+      gsap.to($projects.current, 0.6, { x: value + "vw" })
     }
   }
 
@@ -96,21 +102,15 @@ const Home = props => {
   useEffect(() => {
     document.body.style.overflow = "hidden"
     updateContext("despawnMainComplete", false)
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // handling touch scroll
-  useEffect(() => {
-    let wrapperDOM = $projectsWrapper.current
-    const touchCb = () => {
-      let val = $projectsWrapper.current && $projectsWrapper.current.scrollTop
-      setRotate((val / window.innerHeight) * 100)
-      setActiveProject(Math.round((val / window.innerHeight) * 2))
-    }
-    window.innerWidth <= 576 && $projectsWrapper.current.addEventListener("scroll", touchCb)
-    return () => wrapperDOM.removeEventListener("scroll", touchCb)
-  }, [])
+  // useEffect(() => {
+  //   let resizeHandler = () => (mappedData = getMappedData(projectData))
+  //   window.addEventListener("resize", resizeHandler)
+
+  //   return () => window.removeEventListener("resize", resizeHandler)
+  // }, [])
 
   useEffect(() => {
     if (context.$transitionHack) context.$transitionHack.current.style.backgroundImage = ""
@@ -120,19 +120,24 @@ const Home = props => {
     context.removeLoader && updateContext("spawnMain", true)
   }, [context.removeLoader, updateContext])
 
-  // useEffect(() => {
-  //   console.log(Math.abs(lastTransform - transform))
-  //   Math.abs(lastTransform - transform) >= 15
-  //     ? gsap.to($projects.current, 0.3, { x: transform + "vw" })
-  //     : gsap.set($projects.current, { x: transform + "vw" })
-  //   setLastTransform(transform)
-  // }, [transform])
+  // animating scroll on main menu and rotation on progress for pc version
+  useEffect(() => {
+    if (window.innerWidth > 576) {
+      gsap.to($projects.current, 0.3, { x: transform + "vw" })
+      gsap.to($progressionCircle.current, 0.3, {
+        rotate: `${-(transform / 100) * 360 * 2 + 90 * 2}deg`
+      })
+    }
+  }, [transform, rotate])
 
   return (
     <div onWheel={e => !context.isOpen && window.innerWidth > 576 && scrollHandler(e)} className="home">
-      <div ref={$projectsWrapper} className="projects-wrapper">
+      <div
+        onScroll={() => window.innerWidth <= 576 && touchHandler()}
+        ref={$projectsWrapper}
+        className="projects-wrapper">
         <ul
-          style={{ transform: window.innerWidth <= 576 ? `translateY(${transform}vh)` : `translateX(${transform}vw)` }}
+          style={{ transform: window.innerWidth <= 576 && `translateY(${transform}vh)` }}
           ref={$projects}
           className="projects">
           {mappedData}
@@ -143,10 +148,7 @@ const Home = props => {
         <div
           ref={$progressionCircle}
           style={{
-            transform:
-              window.innerWidth < 576
-                ? `translate(-50%, -50%) rotate(${(rotate / 100) * 360 * 2}deg)`
-                : `rotate(${-(transform / 100) * 360 * 2 + 90 * 2}deg)`
+            transform: window.innerWidth < 576 && `translate(-50%, -50%) rotate(${(rotate / 100) * 360 * 2}deg)`
           }}
           className="circle-container">
           <div className="circle"></div>

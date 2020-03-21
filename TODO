@@ -8,15 +8,11 @@ projects :
 -probably needs an animation on fullscreen images on projects 
 
 about :
--smoother scroll, all around scroll is kinda wacky
--content
+-scroll on mobile, which would require to rework all the css to make the content and overflow:scroll container and having canvas+title on position:fixed in the background.
 
 general :
 -le cercle mousefollower au hover est crop ( bug pas reproductible je sais pas si c'est fixed )
--do something about noise
--smooth scroll on projects / about
 -fill in coiny
--fill in playing grounds
--enable anti-aliasing on mobile ?
--make a real loading
--clean up warnings / console logs
+-enable anti-aliasing on mobile ? ( done ? not sure if it's good performance wise so i'm keeping it here)
+-make a real loading :)
+-try and fix the resolution with devicepixelratio

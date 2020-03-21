@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useCallback, useContext } from "react"
-import { Sprite, Stage, useTick, Graphics } from "@inlet/react-pixi"
+import { Sprite, Stage, useTick, Graphics, useApp } from "@inlet/react-pixi"
 // import { AdjustmentFilter } from "@pixi/filter-adjustment"
 // import { ShockwaveFilter } from "@pixi/filter-shockwave"
 // import { Graphics as Graph } from "pixi.js"
@@ -27,6 +27,8 @@ const Wiggly = props => {
   let [drawOffset, setDrawOffset] = useState({ x: props.cWidth / 2, y: props.cWidth / 2 })
   let [isOpen, setIsOpen] = useState(false)
   let [allowHover, setAllowHover] = useState(false)
+  // as we have access we could probably try to destroy it somewhere to avoid clogging webgl canvases instances but haven't found where and when.
+  const app = useApp()
 
   // eslint-disable-next-line no-unused-vars
   let [circleData, setCircleData] = useState({
@@ -250,7 +252,6 @@ const Wiggly = props => {
 // 	shockwave: ShockwaveFilter
 // })
 
-// let wWidth = window.innerWidth
 const WigglyContainer = props => {
   let [cWidth, setCWidth] = useState(0.8 * Math.min(window.innerHeight, window.innerWidth))
   let [cHeight, setCHeight] = useState(0.8 * Math.min(window.innerHeight, window.innerWidth))
@@ -261,13 +262,14 @@ const WigglyContainer = props => {
     setCWidth(window.innerWidth)
     setCHeight(window.innerHeight)
   }
+
   return (
     <Stage
       style={{ zIndex }}
       width={cWidth}
       height={cHeight}
       options={{
-        antialias: props.antialias || false,
+        antialias: props.antialias || (window.innerWidth <= 576 ? true : false),
         transparent: true,
         resolution: 1
       }}>
