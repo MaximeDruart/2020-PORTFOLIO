@@ -5,22 +5,18 @@ import { AnimationContext } from "../AnimationContext"
 import gsap, { Power3 } from "gsap"
 
 // handling that wierd width between desktop and mobile
-let textScrollHeight = window.innerWidth < 1100 ? -window.innerHeight * 0.6 : -window.innerHeight * 0.5
-textScrollHeight = window.innerWidth < 576 ? -window.innerHeight * 0.53 : textScrollHeight
+// let textScrollHeight = window.innerWidth < 1100 ? -window.innerHeight * 0.6 : -window.innerHeight * 0.5
+// textScrollHeight = window.innerWidth < 576 ? -window.innerHeight * 0.53 : textScrollHeight
 
-const useMouseWheel = $container => {
-  const [scroll, setScroll] = useState(textScrollHeight)
-  useEventListener("wheel", ({ deltaY }) => {
-    // console.log(deltaY * 0.5)
-    setScroll(scroll =>
-      gsap.utils.clamp(
-        textScrollHeight,
-        textScrollHeight + ($container?.current?.getBoundingClientRect()?.height || 100000),
-        scroll + deltaY * 0.5
-      )
-    )
-  })
-  // useEventListener("touchmove", ({ deltaY }) => setScroll(scroll => scroll + deltaY))
+const useMouseWheel = $element => {
+  const [scroll, setScroll] = useState($element?.current?.scrollTop || 0)
+  useEventListener(
+    "scroll",
+    () => {
+      setScroll(scroll => $element.current.scrollTop)
+    },
+    $element.current
+  )
   return scroll
 }
 
@@ -29,17 +25,20 @@ const About = props => {
   let [despawnAboutWiggly, setDespawnAboutWiggly] = useState(false)
   let [animatingStart, setAnimatingStart] = useState(true)
 
-  let $preloadCanvas = useRef(null)
+  let $aboutCanvas = useRef(null)
   let $content = useRef(null)
   let $title = useRef(null)
-  let $preloadContainer = useRef(null)
+  let $aboutContainer = useRef(null)
 
-  const scroll = useMouseWheel($content)
+  const scroll = useMouseWheel($aboutContainer)
 
   // animating content scroll
   useEffect(() => {
-    gsap.to($content.current, 0.3, { y: -scroll })
-    gsap.to($title.current, 0.3, { opacity: Math.max(0, 1 - 2.4 * ((scroll - textScrollHeight) / window.innerHeight)) })
+    let opacityDecayStrength = window.innerWidth <= 576 ? 350 : 200
+    console.log(opacityDecayStrength)
+    gsap.to($title.current, 0.3, {
+      opacity: Math.max(0, 1 - $aboutContainer.current.scrollTop / opacityDecayStrength)
+    })
   }, [scroll])
 
   // about spawn animation
@@ -82,31 +81,31 @@ const About = props => {
   }, [context.despawnAbout, props.history, updateContext])
 
   useEffect(() => {
-    const resizeHandler = () => {
-      textScrollHeight =
-        window.innerWidth > 576 && window.innerWidth < 1100 ? -window.innerHeight * 0.6 : -window.innerHeight * 0.5
-    }
-    window.addEventListener("resize", resizeHandler)
-    return () => window.removeEventListener("resize", resizeHandler)
+    // const resizeHandler = () => {
+    //   textScrollHeight =
+    //     window.innerWidth > 576 && window.innerWidth < 1100 ? -window.innerHeight * 0.6 : -window.innerHeight * 0.5
+    // }
+    // window.addEventListener("resize", resizeHandler)
+    // return () => window.removeEventListener("resize", resizeHandler)
   }, [])
 
   return (
-    <div ref={$preloadContainer} className="preload-container about-container">
-      <div className="preload-wrapper about-wrapper">
-        <div ref={$preloadCanvas} className="about-canvas">
-          <WigglyContainer
-            parentCanvasRef={$preloadCanvas}
-            duration={1}
-            despawnEase={"Power3.easeIn"}
-            despawn={despawnAboutWiggly}
-            index={0}
-            spawn={context.removeLoader && true}
-            fill={false}
-          />
-        </div>
-        <div ref={$title} style={{ opacity: 0 }} className="about-title">
-          Hello
-        </div>
+    <div ref={$aboutContainer} className="about-container">
+      <div ref={$aboutCanvas} className="about-canvas">
+        <WigglyContainer
+          parentCanvasRef={$aboutCanvas}
+          duration={1}
+          despawnEase={"Power3.easeIn"}
+          despawn={despawnAboutWiggly}
+          index={0}
+          spawn={context.removeLoader && true}
+          fill={false}
+        />
+      </div>
+      <div ref={$title} style={{ opacity: 0 }} className="about-title">
+        Hello
+      </div>
+      <div className="about-wrapper">
         <div ref={$content} style={{ opacity: 0 }} className="about-content">
           <div className="about-intro">
             <aside className="links">

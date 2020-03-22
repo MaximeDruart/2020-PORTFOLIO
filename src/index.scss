@@ -606,28 +606,33 @@ $project-number: 5;
 
     .about-container {
       z-index: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: scroll;
+      .about-canvas {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.4;
+        z-index: -10;
+      }
+      .about-title {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 17.5vh;
+        z-index: -1;
+      }
       .about-wrapper {
         display: flex;
         flex-flow: column nowrap;
-        // position: static;
         width: 68vw;
         align-items: center;
-        .about-canvas {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          opacity: 0.4;
-          z-index: -10;
-        }
-        .about-title {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          font-size: 17.5vh;
-          z-index: -1;
-        }
+        padding-top: 60vh;
+        margin: 0 auto;
+
         .about-content {
           // width: 800px;
           z-index: 10;
@@ -657,6 +662,7 @@ $project-number: 5;
           }
           .about-skills {
             margin-top: 10vh;
+            margin-bottom: 20vh;
             .skills-title {
               font-weight: 600;
               font-family: "DrukWideBold";
@@ -689,19 +695,19 @@ $project-number: 5;
       }
 
       @media screen and (max-width: $med-breakpoint) {
+        .about-canvas {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          z-index: -10;
+          transform: translate(-50%, -50%);
+        }
+
+        .about-title {
+          font-size: 60px;
+        }
         .about-wrapper {
           width: 87vw;
-          .about-canvas {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: -10;
-            transform: translate(-50%, -50%);
-          }
-
-          .about-title {
-            font-size: 60px;
-          }
 
           .about-content {
             * {
@@ -715,6 +721,12 @@ $project-number: 5;
               }
             }
           }
+        }
+      }
+
+      @media screen and (max-width: $sm-breakpoint) {
+        .about-wrapper {
+          padding-top: 55vh;
         }
       }
     }
