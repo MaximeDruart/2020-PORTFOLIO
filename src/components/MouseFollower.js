@@ -32,8 +32,9 @@ const MouseFollower = () => {
         onReverseComplete: () => setIsHovered(false)
       })
       .addLabel("sync")
-    hoverTl.to($innerCircle.current, { scale: 4, opacity: 1, border: "thin solid white", background: "none" }, "sync")
-    hoverTl.to($outerCircle.current, { opacity: 0 }, "sync")
+    $innerCircle.current &&
+      hoverTl.to($innerCircle.current, { scale: 4, opacity: 1, border: "thin solid white", background: "none" }, "sync")
+    $outerCircle.current && hoverTl.to($outerCircle.current, { opacity: 0 }, "sync")
 
     return hoverTl
     // eslint-disable-next-line react-hooks/exhaustive-deps

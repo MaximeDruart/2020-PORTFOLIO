@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useCallback, useContext } from "react"
-import { Sprite, Stage, useTick, Graphics, useApp } from "@inlet/react-pixi"
+import { Sprite, Stage, useTick, Graphics } from "@inlet/react-pixi"
+// import { Sprite, Stage, useTick, Graphics, useApp } from "@inlet/react-pixi"
 // import { AdjustmentFilter } from "@pixi/filter-adjustment"
 // import { ShockwaveFilter } from "@pixi/filter-shockwave"
-// import { Graphics as Graph } from "pixi.js"
 import * as PIXI from "pixi.js"
 import SimplexNoise from "simplex-noise"
 import gsap, { Power2, Power3, Power1 } from "gsap"
@@ -28,7 +28,7 @@ const Wiggly = props => {
   let [isOpen, setIsOpen] = useState(false)
   let [allowHover, setAllowHover] = useState(false)
   // as we have access we could probably try to destroy it somewhere to avoid clogging webgl canvases instances but haven't found where and when.
-  const app = useApp()
+  // const app = useApp()
 
   // eslint-disable-next-line no-unused-vars
   let [circleData, setCircleData] = useState({
