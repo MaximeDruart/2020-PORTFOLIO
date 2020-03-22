@@ -1,3 +1,10 @@
+@use "../../index" as *;
+
+$sm-breakpoint: 576px;
+$med-breakpoint: 768px;
+$lg-breakpoint: 992px;
+$xlg-breakpoint: 1200px;
+
 .full-screen-image-wrapper {
   width: 100vw;
   display: flex;
@@ -40,6 +47,22 @@
       .link {
         margin-top: 5px;
         display: block;
+      }
+    }
+  }
+
+  @media screen and (max-width: $sm-breakpoint) {
+    .playground-item {
+      flex-flow: column nowrap;
+      align-items: center;
+      width: 100vw;
+
+      .left {
+        width: 90%;
+        margin-bottom: 10px;
+      }
+      .right {
+        width: 75%;
       }
     }
   }

@@ -42,7 +42,7 @@ const MouseFollower = () => {
   let hoverTl = useMemo(() => getTimeline(), [getTimeline])
 
   useEffect(() => {
-    $outerCircle.current && target && target.getAttribute("href")
+    $outerCircle.current && target && (target.getAttribute("href") || target.parentNode.getAttribute("href"))
       ? hoverTl.play()
       : $outerCircle.current && isHovered && hoverTl.reverse()
   })

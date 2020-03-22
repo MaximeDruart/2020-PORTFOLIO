@@ -83,7 +83,6 @@ const About = props => {
 
   useEffect(() => {
     const resizeHandler = () => {
-      console.log("resize")
       textScrollHeight =
         window.innerWidth > 576 && window.innerWidth < 1100 ? -window.innerHeight * 0.6 : -window.innerHeight * 0.5
     }
@@ -138,6 +137,7 @@ const About = props => {
               Hello ! My name is Maxime Druart and i'm a Paris based web developer with a keen interest in visual
               creation through programming. Currently studying at
               <a href="https://hetic.net" target="_blank" rel="noopener noreferrer">
+                {" "}
                 HETIC
               </a>
               , learning design and web development. I like building interactive experiences on the web with Javascript

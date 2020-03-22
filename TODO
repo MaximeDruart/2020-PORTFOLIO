@@ -11,6 +11,7 @@ about :
 -scroll on mobile, which would require to rework all the css to make the content and overflow:scroll container and having canvas+title on position:fixed in the background.
 
 general :
+-small animation on header elements hover ?
 -le cercle mousefollower au hover est crop ( bug pas reproductible je sais pas si c'est fixed )
 -fill in coiny
 -enable anti-aliasing on mobile ? ( done ? not sure if it's good performance wise so i'm keeping it here)

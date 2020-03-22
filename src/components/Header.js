@@ -53,10 +53,10 @@ const Header = props => {
   return (
     <header>
       <div className="left">
-        <p href="#" className="p1">
+        <p onClick={() => props.location.pathname !== "/" && goToPageFromProject("/")} href="#" className="p1">
           maxime druart
         </p>
-        <p onClick={() => goToPageFromProject("/")} href="#" className="p2">
+        <p onClick={() => props.location.pathname !== "/" && goToPageFromProject("/")} href="#" className="p2">
           {props.location.pathname.indexOf("project") >= 0 ? "go back" : "web developper"}
         </p>
       </div>
