@@ -379,9 +379,6 @@ $project-number: 5;
             .project {
               width: 100vw;
               height: 50vh;
-
-              &:last-child {
-              }
             }
           }
         }
@@ -531,9 +528,6 @@ $project-number: 5;
 
         @media screen and (max-width: $sm-breakpoint) {
           width: 80vw;
-        }
-
-        .credits-title {
         }
 
         .credit-list {

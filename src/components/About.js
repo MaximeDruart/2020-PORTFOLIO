@@ -4,26 +4,16 @@ import useEventListener from "@use-it/event-listener"
 import { AnimationContext } from "../AnimationContext"
 import gsap, { Power3 } from "gsap"
 
-// handling that wierd width between desktop and mobile
-// let textScrollHeight = window.innerWidth < 1100 ? -window.innerHeight * 0.6 : -window.innerHeight * 0.5
-// textScrollHeight = window.innerWidth < 576 ? -window.innerHeight * 0.53 : textScrollHeight
-
+let opacityDecayStrength = window.innerWidth <= 576 ? 350 : 200
 const useMouseWheel = $element => {
   const [scroll, setScroll] = useState($element?.current?.scrollTop || 0)
-  useEventListener(
-    "scroll",
-    () => {
-      setScroll(scroll => $element.current.scrollTop)
-    },
-    $element.current
-  )
+  useEventListener("scroll", () => setScroll($element.current.scrollTop), $element.current)
   return scroll
 }
 
 const About = props => {
   const { updateContext, ...context } = useContext(AnimationContext)
   let [despawnAboutWiggly, setDespawnAboutWiggly] = useState(false)
-  let [animatingStart, setAnimatingStart] = useState(true)
 
   let $aboutCanvas = useRef(null)
   let $content = useRef(null)
@@ -34,8 +24,6 @@ const About = props => {
 
   // animating content scroll
   useEffect(() => {
-    let opacityDecayStrength = window.innerWidth <= 576 ? 350 : 200
-    console.log(opacityDecayStrength)
     gsap.to($title.current, 0.3, {
       opacity: Math.max(0, 1 - $aboutContainer.current.scrollTop / opacityDecayStrength)
     })
@@ -53,8 +41,7 @@ const About = props => {
       gsap.to($title.current, {
         duration: 0.5,
         ease: Power3.easeOut,
-        opacity: 1,
-        onComplete: () => setAnimatingStart(false)
+        opacity: 1
       })
     }
   }, [context.removeLoader])

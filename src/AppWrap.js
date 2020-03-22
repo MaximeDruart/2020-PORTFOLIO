@@ -38,6 +38,7 @@ const AppWrap = () => {
           <Route path="/" exact render={props => <Home {...props} />} />
           <Route path="/about" exact component={About} />
           {projectRoutes}
+          <Route path="*" render={props => <Home {...props} />} />
         </Switch>
       </HashRouter>
     </div>
