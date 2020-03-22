@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useContext } from "react"
-import { HashRouter, Route, Switch } from "react-router-dom"
-// import { BrowserRouter as Router, HashRouter, Route, Switch } from "react-router-dom"
+// import { HashRouter, Route, Switch } from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import projectData from "./assets/projectData"
 import Home from "./components/Home"
 import About from "./components/About"
@@ -29,7 +29,7 @@ const AppWrap = () => {
   return (
     <div className="wrapper">
       <div ref={$transitionHack} className="transition-hack"></div>
-      <HashRouter basename="/">
+      <Router>
         <MouseFollower />
         <div className="noise-filter"></div>
         {!context.removeLoader && <Loader />}
@@ -40,7 +40,7 @@ const AppWrap = () => {
           {projectRoutes}
           <Route path="*" render={props => <Home {...props} />} />
         </Switch>
-      </HashRouter>
+      </Router>
     </div>
   )
 }
