@@ -8,7 +8,6 @@ projects :
 -probably needs an animation on fullscreen images on projects 
 
 about :
--scroll on mobile, which would require to rework all the css to make the content and overflow:scroll container and having canvas+title on position:fixed in the background.
 
 general :
 -small animation on header elements hover ?
@@ -17,3 +16,4 @@ general :
 -enable anti-aliasing on mobile ? ( done ? not sure if it's good performance wise so i'm keeping it here)
 -make a real loading :)
 -try and fix the resolution with devicepixelratio
+-ipad
