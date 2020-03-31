@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useContext } from "react"
+import React, { useRef, useEffect, useState, useContext, useMemo } from "react"
 import WigglyContainer from "./Wiggly"
 import useEventListener from "@use-it/event-listener"
 import { AnimationContext } from "../AnimationContext"
@@ -12,7 +12,7 @@ const useMouseWheel = $element => {
 }
 
 const About = props => {
-  const { updateContext, ...context } = useContext(AnimationContext)
+  const { updateContext, removeLoader, despawnAbout } = useContext(AnimationContext)
   let [despawnAboutWiggly, setDespawnAboutWiggly] = useState(false)
 
   let $aboutCanvas = useRef(null)
@@ -32,7 +32,7 @@ const About = props => {
   // about spawn animation
   useEffect(() => {
     document.body.style.overflowY = "hidden"
-    if (context.removeLoader) {
+    if (removeLoader) {
       gsap.to($content.current, {
         duration: 0.5,
         ease: Power3.easeOut,
@@ -44,7 +44,7 @@ const About = props => {
         opacity: 1
       })
     }
-  }, [context.removeLoader])
+  }, [removeLoader])
 
   // despawn animation
   useEffect(() => {
@@ -64,8 +64,8 @@ const About = props => {
       .addLabel("sync")
     despawnTl.to($content.current, { y: window.innerHeight }, "sync")
     despawnTl.to($title.current, { opacity: 0 }, "sync")
-    context.despawnAbout && despawnTl.play()
-  }, [context.despawnAbout, props.history, updateContext])
+    despawnAbout && despawnTl.play()
+  }, [despawnAbout, props.history, updateContext])
 
   useEffect(() => {
     // const resizeHandler = () => {
@@ -76,18 +76,40 @@ const About = props => {
     // return () => window.removeEventListener("resize", resizeHandler)
   }, [])
 
+  useEffect(() => {
+    console.log("about rendering", updateContext, removeLoader, despawnAbout)
+  })
+
+  const wiggly = useMemo(
+    () => (
+      <WigglyContainer
+        parentCanvasRef={$aboutCanvas}
+        render={console.log("rendering wiggly !")}
+        duration={1}
+        despawnEase={"Power3.easeIn"}
+        despawn={despawnAboutWiggly}
+        index={0}
+        spawn={removeLoader && true}
+        fill={false}
+      />
+    ),
+    [$aboutCanvas, despawnAboutWiggly, removeLoader]
+  )
+
   return (
     <div ref={$aboutContainer} className="about-container">
       <div ref={$aboutCanvas} className="about-canvas">
-        <WigglyContainer
+        {/* <WigglyContainer
           parentCanvasRef={$aboutCanvas}
+          render={console.log("rendering wiggly !")}
           duration={1}
           despawnEase={"Power3.easeIn"}
           despawn={despawnAboutWiggly}
           index={0}
-          spawn={context.removeLoader && true}
+          spawn={removeLoader && true}
           fill={false}
-        />
+        /> */}
+        {wiggly}
       </div>
       <div ref={$title} style={{ opacity: 0 }} className="about-title">
         Hello

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useCallback, useContext } from "react"
-import { Sprite, Stage, useTick, Graphics } from "@inlet/react-pixi"
-// import { Sprite, Stage, useTick, Graphics, useApp } from "@inlet/react-pixi"
+// import { Sprite, Stage, useTick, Graphics } from "@inlet/react-pixi"
+import { Sprite, Stage, useTick, Graphics, useApp } from "@inlet/react-pixi"
 // import { AdjustmentFilter } from "@pixi/filter-adjustment"
 // import { ShockwaveFilter } from "@pixi/filter-shockwave"
 import * as PIXI from "pixi.js"
@@ -28,7 +28,8 @@ const Wiggly = props => {
   let [isOpen, setIsOpen] = useState(false)
   let [allowHover, setAllowHover] = useState(false)
   // as we have access we could probably try to destroy it somewhere to avoid clogging webgl canvases instances but haven't found where and when.
-  // const app = useApp()
+  const app = useApp()
+  // console.log(app)
 
   // eslint-disable-next-line no-unused-vars
   let [circleData, setCircleData] = useState({
@@ -128,6 +129,7 @@ const Wiggly = props => {
   }, [props])
 
   const getCurrents = refs => {
+    console.log(refs)
     let currs = []
     refs.forEach((name, index) => (currs[index] = name.current))
     return currs
@@ -155,10 +157,14 @@ const Wiggly = props => {
   }, [props.spawn, props.context.spawnMain])
 
   const getDespawnMainTl = useCallback(() => {
+    console.log(props.$projectNames)
     let despawnTl = new gsap.timeline({
       paused: true,
       defaults: { ease: Power1.easeIn, duration: 0.7 },
-      onComplete: () => props.updateContext("despawnMainComplete", true)
+      onComplete: () => {
+        props.updateContext("despawnMainComplete", true)
+        destroyCanvas()
+      }
     }).addLabel("sync")
     despawnTl.to(circleData.size, { baseValue: 0, variation: 0 }, "sync")
     despawnTl.to(getCurrents(props.$projectNames), { opacity: 0 }, "sync")
@@ -166,15 +172,23 @@ const Wiggly = props => {
   }, [])
 
   useEffect(() => {
-    props.context.despawnMain && getDespawnMainTl().play()
+    props.context.despawnMain && props.fill && getDespawnMainTl().play()
   }, [props.context.despawnMain])
+
+  const destroyCanvas = () => {
+    // app.ticker.destroy()
+    // app.stage.destroy()*
+    // console.log("destroying canvas", app)
+    // app.stop()
+  }
 
   useEffect(() => {
     props.despawn &&
       gsap.to(circleData.size, props.duration || 1.3, {
         ease: props.despawnEase || Power2.easeInOut,
         baseValue: 0,
-        variation: 0
+        variation: 0,
+        onComplete: destroyCanvas
       })
   }, [props.despawn])
 

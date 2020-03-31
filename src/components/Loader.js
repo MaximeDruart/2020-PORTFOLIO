@@ -23,13 +23,12 @@ const Loader = props => {
       paused: true,
       onReverseComplete: () => {
         // on reverse complete, loader fades out
-        gsap.to($preloadContainer.current, 0.6, {
+        gsap.to($preloadContainer.current, 0.45, {
           ease: Power3.easeInOut,
           opacity: 0,
           pointerEvents: "none",
           onComplete: () => {
             // triggering the spawn animation for main
-            // props.setSpawnMain(true)
             $preloadContainer.current.style.display = "none"
             updateContext("removeLoader", true)
             updateContext("spawnMain", true)
@@ -37,7 +36,7 @@ const Loader = props => {
         })
       }
     })
-    preloadSpawnTl.to([name.current, role.current], 1, { ease: Power3.easeInOut, x: "105%" })
+    preloadSpawnTl.to([name.current, role.current], 0.9, { ease: Power3.easeInOut, x: "105%" })
     preloadSpawnTl.play()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
