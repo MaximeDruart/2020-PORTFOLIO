@@ -1,16 +1,9 @@
 import React, { useRef, useEffect, useState, useContext, useMemo } from "react"
 import WigglyContainer from "./Wiggly"
-import useEventListener from "@use-it/event-listener"
 import { AnimationContext } from "../AnimationContext"
 import gsap, { Power3 } from "gsap"
 
 let opacityDecayStrength = window.innerWidth <= 576 ? 350 : 200
-const useMouseWheel = $element => {
-  const [scroll, setScroll] = useState($element?.current?.scrollTop || 0)
-  useEventListener("scroll", () => setScroll($element.current.scrollTop), $element.current)
-  return scroll
-}
-
 const About = props => {
   const { updateContext, removeLoader, despawnAbout } = useContext(AnimationContext)
   let [despawnAboutWiggly, setDespawnAboutWiggly] = useState(false)
@@ -20,14 +13,16 @@ const About = props => {
   let $title = useRef(null)
   let $aboutContainer = useRef(null)
 
-  const scroll = useMouseWheel($aboutContainer)
-
-  // animating content scroll
+  // animating title opacity on scroll
   useEffect(() => {
-    gsap.to($title.current, 0.3, {
-      opacity: Math.max(0, 1 - $aboutContainer.current.scrollTop / opacityDecayStrength)
-    })
-  }, [scroll])
+    const updateScroll = () => {
+      gsap.to($title.current, 0.3, {
+        opacity: Math.max(0, 1 - $aboutContainer.current.scrollTop / opacityDecayStrength)
+      })
+    }
+    $aboutContainer.current.addEventListener("scroll", updateScroll)
+    return () => $aboutContainer.current.removeEventListener("scroll", updateScroll)
+  }, [])
 
   // about spawn animation
   useEffect(() => {
