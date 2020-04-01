@@ -29,7 +29,8 @@ const ProjectDetail = ({ project, index, history }) => {
         },
         onStart: () => {
           setisScrollEnabled(false)
-          $transitionHack.current.style.backgroundImage = `url(${projectData[index + 1].coverImg})`
+          if ($transitionHack?.current)
+            $transitionHack.current.style.backgroundImage = `url(${projectData[index + 1].coverImg})`
         },
         onComplete: () => history.push(`/projects/${projectData[index + 1].path}`)
       })

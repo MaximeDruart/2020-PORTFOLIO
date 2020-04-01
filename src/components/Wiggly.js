@@ -31,7 +31,7 @@ const Wiggly = props => {
   let [isOpen, setIsOpen] = useState(false)
   let [allowHover, setAllowHover] = useState(false)
   // as we have access we could probably try to destroy it somewhere to avoid clogging webgl canvases instances but haven't found where and when.
-  // const app = useApp()
+  const app = useApp()
 
   // eslint-disable-next-line no-unused-vars
   let [circleData, setCircleData] = useState({
@@ -179,7 +179,7 @@ const Wiggly = props => {
     // app.ticker.destroy()
     // app.stage.destroy()*
     // console.log("destroying canvas", app)
-    // app.stop()
+    app.stop()
   }
 
   useEffect(() => {
