@@ -11,7 +11,7 @@ const FullScreenImage = ({ src, scrollDOM }) => {
     // console.log("calculating relax", scrollDOM.current.scrollHeight, $img.current.scrollHeight)
     $img.current.style.transform = ""
 
-    let rellax
+    // let rellax
     // let rellax = new Rellax($img.current, {
     //   speed: -2,
     //   center: true,
@@ -21,18 +21,18 @@ const FullScreenImage = ({ src, scrollDOM }) => {
     //   horizontal: false
     // })
 
-    if (lastScrollDOMHeight !== scrollDOM.current.scrollHeight) {
-      setLastScrollDOMHeight(scrollDOM.current.scrollHeight)
-      rellax && rellax.destroy()
-      rellax = new Rellax($img.current, {
-        speed: -2,
-        center: true,
-        wrapper: scrollDOM.current,
-        round: true,
-        vertical: true,
-        horizontal: false
-      })
-    }
+    // if (lastScrollDOMHeight !== scrollDOM.current.scrollHeight) {
+    //   setLastScrollDOMHeight(scrollDOM.current.scrollHeight)
+    //   rellax && rellax.destroy()
+    //   rellax = new Rellax($img.current, {
+    //     speed: -2,
+    //     center: true,
+    //     wrapper: scrollDOM.current,
+    //     round: true,
+    //     vertical: true,
+    //     horizontal: false
+    //   })
+    // }
   }, [scrollDOM, lastScrollDOMHeight, setLastScrollDOMHeight])
   return (
     <div className="full-screen-image-wrapper">
