@@ -11,18 +11,19 @@ const FullScreenImage = ({ src, scrollDOM }) => {
     // console.log("calculating relax", scrollDOM.current.scrollHeight, $img.current.scrollHeight)
     $img.current.style.transform = ""
 
-    let rellax = new Rellax($img.current, {
-      speed: -2,
-      center: true,
-      wrapper: scrollDOM.current,
-      round: true,
-      vertical: true,
-      horizontal: false
-    })
+    let rellax
+    // let rellax = new Rellax($img.current, {
+    //   speed: -2,
+    //   center: true,
+    //   wrapper: scrollDOM.current,
+    //   round: true,
+    //   vertical: true,
+    //   horizontal: false
+    // })
 
     if (lastScrollDOMHeight !== scrollDOM.current.scrollHeight) {
       setLastScrollDOMHeight(scrollDOM.current.scrollHeight)
-      rellax.destroy()
+      rellax && rellax.destroy()
       rellax = new Rellax($img.current, {
         speed: -2,
         center: true,
