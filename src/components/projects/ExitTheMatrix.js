@@ -5,12 +5,12 @@ import etmGame from "../../assets/img/etm/etm-game.jpg"
 import etmMenu from "../../assets/img/etm/etm-menu.jpg"
 import FullScreenImage from "./FullScreenImage"
 
-const ExitTheMatrix = () => {
+const ExitTheMatrix = ({ scrollDOM }) => {
   return (
     <div className="exit-the-matrix">
-      <FullScreenImage src={etmLogo} />
-      <FullScreenImage src={etmMenu} />
-      <FullScreenImage src={etmGame} />
+      <FullScreenImage scrollDOM={scrollDOM} src={etmLogo} />
+      <FullScreenImage scrollDOM={scrollDOM} src={etmMenu} />
+      <FullScreenImage scrollDOM={scrollDOM} src={etmGame} />
     </div>
   )
 }

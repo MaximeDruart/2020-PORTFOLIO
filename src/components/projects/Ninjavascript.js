@@ -8,15 +8,15 @@ import home2 from "../../assets/img/njs/njs-home-2.jpg"
 import levels from "../../assets/img/njs/njs-levels.jpg"
 import ninjas from "../../assets/img/njs/njs-ninjas.jpg"
 
-const Ninjavascript = () => {
+const Ninjavascript = ({ scrollDOM }) => {
   return (
     <div className="ninjavascript">
-      <FullScreenImage src={game} />
-      <FullScreenImage src={home} />
-      <FullScreenImage src={home2} />
-      <FullScreenImage src={help} />
-      <FullScreenImage src={levels} />
-      <FullScreenImage src={ninjas} />
+      <FullScreenImage scrollDOM={scrollDOM} src={game} />
+      <FullScreenImage scrollDOM={scrollDOM} src={home} />
+      <FullScreenImage scrollDOM={scrollDOM} src={home2} />
+      <FullScreenImage scrollDOM={scrollDOM} src={help} />
+      <FullScreenImage scrollDOM={scrollDOM} src={levels} />
+      <FullScreenImage scrollDOM={scrollDOM} src={ninjas} />
     </div>
   )
 }

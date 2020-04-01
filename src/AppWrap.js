@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from "react"
+import React, { useEffect, useRef, useContext, useMemo } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import projectData from "./assets/projectData"
 import Home from "./components/Home"
@@ -14,17 +14,33 @@ const AppWrap = () => {
   const { updateContext, removeLoader } = useContext(AnimationContext)
   const $transitionHack = useRef(null)
 
-  let projectRoutes = projectData.map((project, index) => (
-    <Route
-      path={`/projects/${project.path}`}
-      key={uuid()}
-      component={props => <ProjectDetail index={index} project={project} {...props} />}
-    />
-  ))
+  // let projectRoutes = projectData.map((project, index) => (
+  //   <Route
+  //     path={`/projects/${project.path}`}
+  //     key={uuid()}
+  //     component={props => <ProjectDetail index={index} project={project} {...props} />}
+  //   />
+  // ))
+
+  let projectRoutes = useMemo(
+    () =>
+      projectData.map((project, index) => (
+        <Route
+          path={`/projects/${project.path}`}
+          key={uuid()}
+          component={props => <ProjectDetail index={index} project={project} {...props} />}
+        />
+      )),
+    []
+  )
 
   useEffect(() => {
     updateContext("$transitionHack", $transitionHack)
   }, [])
+
+  useEffect(() => {
+    console.log("rendering app")
+  })
 
   return (
     <div className="wrapper">

@@ -8,6 +8,7 @@ import ScrollToPlugin from "gsap/ScrollToPlugin"
 gsap.registerPlugin(ScrollToPlugin)
 
 const ProjectDetail = ({ project, index, history }) => {
+  const { updateContext, $transitionHack, removeLoader } = useContext(AnimationContext)
   const $projectDetail = useRef(null)
   const $banner = useRef(null)
   const $bannerImg = useRef(null)
@@ -16,7 +17,6 @@ const ProjectDetail = ({ project, index, history }) => {
   const $filter = useRef(null)
   const $text1 = useRef(null)
   const $text2 = useRef(null)
-  const { $transitionHack, removeLoader } = useContext(AnimationContext)
 
   const [isScrollEnabled, setisScrollEnabled] = useState(true)
 
@@ -76,11 +76,16 @@ const ProjectDetail = ({ project, index, history }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isScrollEnabled])
 
-  // useEffect(() => {
-  //   updateContext("$projectDetail", $projectDetail)
-  // }, [])
+  useEffect(() => {
+    // updateContext("$projectDetail", "test")
+  }, [])
 
   useEffect(() => {
+    // console.log("rendering component")
+  })
+
+  useEffect(() => {
+    // updateContext("$projectDetail", $projectDetail)
     window.scrollTo(0, 0)
     document.body.style.overflowY = "visible"
     let projectSpawnTl = gsap.timeline({
@@ -99,6 +104,7 @@ const ProjectDetail = ({ project, index, history }) => {
     removeLoader && projectSpawnTl.play()
   }, [removeLoader])
 
+  const SpecificComponent = project.component
   return (
     <div ref={$projectDetail} className="project-detail">
       <div ref={$banner} className="banner">
@@ -159,7 +165,7 @@ const ProjectDetail = ({ project, index, history }) => {
             </div>
           </div>
         </div>
-        {project?.component()}
+        <SpecificComponent scrollDOM={$projectDetail} />
         {project.credits && (
           <div className="credits">
             <h3 className="credits-title">Credits</h3>

@@ -11,8 +11,22 @@ $xlg-breakpoint: 1200px;
   align-items: center;
   justify-content: center;
   margin-bottom: 8vh;
+  overflow: hidden;
   .full-screen-image {
     width: 90%;
+  }
+}
+
+.coiny {
+  .coiny-group {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100vw;
+    }
   }
 }
 

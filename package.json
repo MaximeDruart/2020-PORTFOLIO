@@ -20,6 +20,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-transition-group": "^4.3.0",
+    "rellax": "^1.12.1",
     "simplex-noise": "^2.4.0",
     "uuid": "^3.4.0"
   },

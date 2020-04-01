@@ -5,12 +5,12 @@ import home from "../../assets/img/lab/lab-home.jpg"
 import game from "../../assets/img/lab/lab-game.jpg"
 import game2 from "../../assets/img/lab/lab-game-2.jpg"
 
-const Labyrinth = () => {
+const Labyrinth = ({ scrollDOM }) => {
   return (
     <div className="labyrinth">
-      <FullScreenImage src={home} />
-      <FullScreenImage src={game} />
-      <FullScreenImage src={game2} />
+      <FullScreenImage scrollDOM={scrollDOM} src={home} />
+      <FullScreenImage scrollDOM={scrollDOM} src={game} />
+      <FullScreenImage scrollDOM={scrollDOM} src={game2} />
     </div>
   )
 }

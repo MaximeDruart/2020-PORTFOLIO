@@ -1,24 +1,41 @@
-import React, { useRef } from "react"
-// import gsap from "gsap"
-// import { AnimationContext } from "../../AnimationContext"
+import React, { useRef, useEffect, useContext, useState } from "react"
+import Rellax from "rellax"
+import AnimationContext from "../../AnimationContext"
 
-const FullScreenImage = ({ src }) => {
+const FullScreenImage = ({ src, scrollDOM }) => {
   const $img = useRef(null)
-  // const { $projectDetail } = useContext(AnimationContext)
-  // useEffect(() => {
-  //   // let projectPageHeight =
-  //   //   $projectTitle?.current.getBoundingClientRect().height + $content?.current.getBoundingClientRect().height
-  //   // const scrollCb = () => {
-  //   //   if ($projectDetail.current) {
-  //   //     console.log($projectDetail.current.scrollTop)
-  //   //   }
-  //   // }
-  //   // window.addEventListener("wheel", scrollCb)
-  //   // return () => window.removeEventListener("scroll", scrollCb)
-  // }, [$projectDetail])
+  const $projectDetail = useContext(AnimationContext)
+  const [lastScrollDOMHeight, setLastScrollDOMHeight] = useState(scrollDOM?.current?.scrollHeight || 0)
+
+  useEffect(() => {
+    console.log("calculating relax", scrollDOM.current.scrollHeight, $img.current.scrollHeight)
+    $img.current.style.transform = ""
+
+    let rellax = new Rellax($img.current, {
+      speed: -2,
+      center: true,
+      wrapper: scrollDOM.current,
+      round: true,
+      vertical: true,
+      horizontal: false
+    })
+
+    if (lastScrollDOMHeight !== scrollDOM.current.scrollHeight) {
+      setLastScrollDOMHeight(scrollDOM.current.scrollHeight)
+      rellax.destroy()
+      rellax = new Rellax($img.current, {
+        speed: -2,
+        center: true,
+        wrapper: scrollDOM.current,
+        round: true,
+        vertical: true,
+        horizontal: false
+      })
+    }
+  }, [scrollDOM, lastScrollDOMHeight, setLastScrollDOMHeight])
   return (
     <div className="full-screen-image-wrapper">
-      <img ref={$img} className="full-screen-image" src={src} alt="" />
+      <img ref={$img} className="full-screen-image rellax" src={src} alt="" />
     </div>
   )
 }

@@ -6,13 +6,13 @@ import etmScene3 from "../../assets/img/atom/atom-scene3.JPG"
 import etmPg from "../../assets/img/atom/atom-pg.JPG"
 import FullScreenImage from "./FullScreenImage"
 
-const Atomium = () => {
+const Atomium = ({ scrollDOM }) => {
   return (
     <div className="atomium">
-      <FullScreenImage src={etmIntro} />
-      <FullScreenImage src={etmScene2} />
-      <FullScreenImage src={etmScene3} />
-      <FullScreenImage src={etmPg} />
+      <FullScreenImage scrollDOM={scrollDOM} src={etmIntro} />
+      <FullScreenImage scrollDOM={scrollDOM} src={etmScene2} />
+      <FullScreenImage scrollDOM={scrollDOM} src={etmScene3} />
+      <FullScreenImage scrollDOM={scrollDOM} src={etmPg} />
     </div>
   )
 }

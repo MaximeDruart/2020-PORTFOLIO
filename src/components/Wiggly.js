@@ -10,6 +10,9 @@ import gsap, { Power2, Power3, Power1 } from "gsap"
 import projectData from "../assets/projectData"
 import { AnimationContext } from "../AnimationContext"
 
+// gsap.ticker.useRAF(true)
+// console.log(gsap.ticker)
+gsap.ticker.lagSmoothing(0)
 // import PixiPlugin from 'gsap/PixiPlugin'
 // gsap.registerPlugin(PixiPlugin)
 
