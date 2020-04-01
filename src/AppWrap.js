@@ -39,7 +39,7 @@ const AppWrap = () => {
   }, [])
 
   useEffect(() => {
-    console.log("rendering app")
+    // console.log("rendering app")
   })
 
   return (

@@ -8,7 +8,7 @@ const FullScreenImage = ({ src, scrollDOM }) => {
   const [lastScrollDOMHeight, setLastScrollDOMHeight] = useState(scrollDOM?.current?.scrollHeight || 0)
 
   useEffect(() => {
-    console.log("calculating relax", scrollDOM.current.scrollHeight, $img.current.scrollHeight)
+    // console.log("calculating relax", scrollDOM.current.scrollHeight, $img.current.scrollHeight)
     $img.current.style.transform = ""
 
     let rellax = new Rellax($img.current, {
