@@ -26,10 +26,6 @@ const AppWrap = () => {
     updateContext("$transitionHack", $transitionHack)
   }, [])
 
-  useEffect(() => {
-    console.log("rendering")
-  })
-
   return (
     <div className="wrapper">
       <div ref={$transitionHack} className="transition-hack"></div>

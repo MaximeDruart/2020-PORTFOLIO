@@ -62,7 +62,7 @@ a {
 
 $project-width: 50vw;
 $project-height: 80vh;
-$project-number: 5;
+$project-number: 6;
 
 #root {
   width: 100%;
@@ -503,9 +503,14 @@ $project-number: 5;
             font-family: "Helvetica";
             text-transform: initial;
 
-            .info-link {
-              font-weight: 600;
-              font-size: 18px;
+            .info-links {
+              margin-top: 1vh;
+              .info-link {
+                font-weight: 600;
+                font-family: "DrukWideBold";
+                text-transform: uppercase;
+                // font-size: 18px;
+              }
             }
           }
 
@@ -525,6 +530,7 @@ $project-number: 5;
       .credits {
         width: 70vw;
         margin: 5vh auto;
+        font-size: 3vmin;
 
         @media screen and (max-width: $sm-breakpoint) {
           width: 80vw;

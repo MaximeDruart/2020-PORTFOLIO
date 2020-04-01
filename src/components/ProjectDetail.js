@@ -137,19 +137,25 @@ const ProjectDetail = ({ project, index, history }) => {
           </div>
           <div className="right">
             <div className="info-decription">{project?.description}</div>
-            <div>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={project?.websiteLink}
-                className="info-link info-website">
-                {project.websiteLink && "Visit site"}
-              </a>
-            </div>
-            <div>
-              <a target="_blank" rel="noopener noreferrer" href={project?.githubLink} className="info-link info-github">
-                {project.githubLink && "See on github"}
-              </a>
+            <div className="info-links">
+              <div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={project?.websiteLink}
+                  className="info-link info-website">
+                  {project.websiteLink && "Visit site"}
+                </a>
+              </div>
+              <div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={project?.githubLink}
+                  className="info-link info-github">
+                  {project.githubLink && "See on github"}
+                </a>
+              </div>
             </div>
           </div>
         </div>

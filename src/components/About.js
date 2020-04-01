@@ -76,15 +76,10 @@ const About = props => {
     // return () => window.removeEventListener("resize", resizeHandler)
   }, [])
 
-  useEffect(() => {
-    console.log("about rendering", updateContext, removeLoader, despawnAbout)
-  })
-
   const wiggly = useMemo(
     () => (
       <WigglyContainer
         parentCanvasRef={$aboutCanvas}
-        render={console.log("rendering wiggly !")}
         duration={1}
         despawnEase={"Power3.easeIn"}
         despawn={despawnAboutWiggly}
@@ -99,16 +94,6 @@ const About = props => {
   return (
     <div ref={$aboutContainer} className="about-container">
       <div ref={$aboutCanvas} className="about-canvas">
-        {/* <WigglyContainer
-          parentCanvasRef={$aboutCanvas}
-          render={console.log("rendering wiggly !")}
-          duration={1}
-          despawnEase={"Power3.easeIn"}
-          despawn={despawnAboutWiggly}
-          index={0}
-          spawn={removeLoader && true}
-          fill={false}
-        /> */}
         {wiggly}
       </div>
       <div ref={$title} style={{ opacity: 0 }} className="about-title">

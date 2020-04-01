@@ -2,6 +2,7 @@
 import Coiny from "../components/projects/Coiny"
 import Ninjavascript from "../components/projects/Ninjavascript"
 import PlayingGrounds from "../components/projects/PlayingGrounds"
+import Atomium from "../components/projects/Atomium"
 import ExitTheMatrix from "../components/projects/ExitTheMatrix"
 import Labyrinth from "../components/projects/Labyrinth"
 
@@ -10,6 +11,7 @@ import labCover from "../assets/img/lab/lab-home.jpg"
 import njsCover from "../assets/img/njs/njs.svg"
 import pgCover from "../assets/img/pg/css-piano.jpg"
 import etmCover from "../assets/img/etm/logo.jpg"
+import atomCover from "../assets/img/atom/atom-intro.JPG"
 
 export default [
   {
@@ -72,6 +74,30 @@ export default [
       "Here are multiple experiments that I've done over the last few years with Javascript, with DOM, Canvas, p5.js or Pixi.js (and soon WebGL :)).",
     websiteLink: "",
     githubLink: "https://github.com/MaximeDruart"
+  },
+  {
+    name: "Atomium",
+    path: "atomium",
+    coverImg: atomCover,
+    component: Atomium,
+    date: "March 2020",
+    role: "Development",
+    techs: ["HTML/CSS/JS", "THREE.js"],
+    description:
+      "Atomium was a school project developped over a week with the goal of creating a 3D museum. In this museum you can dive in the atomic world and discover what molecules and atoms are made of. You can also create your own molecules in an interactive playground ! ( still a work in progress ).",
+    websiteLink: "https://atumyum.netlify.com/",
+    githubLink: "https://github.com/MaximeDruart/Atomium",
+    credits: {
+      "Front end development 1": { name: "Maxime Druart" },
+      "Designer 1": {
+        name: "Johann Givre",
+        link: "https://www.behance.net/"
+      },
+      "Designer 2": {
+        name: "Zoe Lesouef",
+        link: "https://www.behance.net/"
+      }
+    }
   },
   {
     name: "Exit The Matrix",

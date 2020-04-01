@@ -28,8 +28,7 @@ const Wiggly = props => {
   let [isOpen, setIsOpen] = useState(false)
   let [allowHover, setAllowHover] = useState(false)
   // as we have access we could probably try to destroy it somewhere to avoid clogging webgl canvases instances but haven't found where and when.
-  const app = useApp()
-  // console.log(app)
+  // const app = useApp()
 
   // eslint-disable-next-line no-unused-vars
   let [circleData, setCircleData] = useState({
@@ -129,7 +128,6 @@ const Wiggly = props => {
   }, [props])
 
   const getCurrents = refs => {
-    console.log(refs)
     let currs = []
     refs.forEach((name, index) => (currs[index] = name.current))
     return currs
@@ -157,7 +155,6 @@ const Wiggly = props => {
   }, [props.spawn, props.context.spawnMain])
 
   const getDespawnMainTl = useCallback(() => {
-    console.log(props.$projectNames)
     let despawnTl = new gsap.timeline({
       paused: true,
       defaults: { ease: Power1.easeIn, duration: 0.7 },
