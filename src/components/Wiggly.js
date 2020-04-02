@@ -111,10 +111,15 @@ const Wiggly = props => {
     setIsInteractive(false)
     setIsOpen(true)
     props.updateContext("isOpen", true)
+    console.log(props)
+    if (props.context.$transitionHack) {
+      console.log("changing background image")
+    }
     let openProjectTl = gsap
       .timeline({
         defaults: { ease: Power2.easeInOut },
         onComplete: () => {
+          props.context.$transitionHack.current.style.backgroundImage = `url("${props.img}")`
           props.updateContext("isOpen", false)
           props.setRedirectWithParam(projectData[props.index].path)
         }
@@ -269,12 +274,16 @@ const Wiggly = props => {
 const WigglyContainer = props => {
   let [cWidth, setCWidth] = useState(0.8 * Math.min(window.innerHeight, window.innerWidth))
   let [cHeight, setCHeight] = useState(0.8 * Math.min(window.innerHeight, window.innerWidth))
+  // let [cWidth, setCWidth] = useState(window.innerWidth)
+  // let [cHeight, setCHeight] = useState(window.innerHeight)
   let [zIndex, setZIndex] = useState(0)
   const { updateContext, ...context } = useContext(AnimationContext)
 
   const updateCSize = () => {
     setCWidth(window.innerWidth)
     setCHeight(window.innerHeight)
+    // setCHeight(1000)
+    // setCWidth(1000)
   }
 
   return (

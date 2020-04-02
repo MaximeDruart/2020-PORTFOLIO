@@ -312,6 +312,10 @@ $project-number: 6;
             width: $project-width;
             position: relative;
 
+            canvas {
+              position: absolute;
+            }
+
             .canvasContainer {
               z-index: -1;
             }
