@@ -38,7 +38,7 @@ const AppWrap = () => {
 
   useEffect(() => {
     updateContext("$transitionHack", $transitionHack)
-  }, [])
+  }, [updateContext])
 
   useEffect(() => {
     // console.log("rendering app")

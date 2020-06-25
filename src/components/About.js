@@ -4,7 +4,7 @@ import { AnimationContext } from "../AnimationContext"
 import gsap, { Power3 } from "gsap"
 
 let opacityDecayStrength = window.innerWidth <= 576 ? 350 : 200
-const About = props => {
+const About = (props) => {
   const { updateContext, removeLoader, despawnAbout } = useContext(AnimationContext)
   let [despawnAboutWiggly, setDespawnAboutWiggly] = useState(false)
 
@@ -15,13 +15,14 @@ const About = props => {
 
   // animating title opacity on scroll
   useEffect(() => {
+    const container = $aboutContainer.current
     const updateScroll = () => {
       gsap.to($title.current, 0.3, {
-        opacity: Math.max(0, 1 - $aboutContainer.current.scrollTop / opacityDecayStrength)
+        opacity: Math.max(0, 1 - container.scrollTop / opacityDecayStrength),
       })
     }
-    $aboutContainer.current.addEventListener("scroll", updateScroll)
-    return () => $aboutContainer.current.removeEventListener("scroll", updateScroll)
+    container.addEventListener("scroll", updateScroll)
+    return () => container.removeEventListener("scroll", updateScroll)
   }, [])
 
   // about spawn animation
@@ -31,12 +32,12 @@ const About = props => {
       gsap.to($content.current, {
         duration: 0.5,
         ease: Power3.easeOut,
-        opacity: 1
+        opacity: 1,
       })
       gsap.to($title.current, {
         duration: 0.5,
         ease: Power3.easeOut,
-        opacity: 1
+        opacity: 1,
       })
     }
   }, [removeLoader])
@@ -48,13 +49,13 @@ const About = props => {
         paused: true,
         defaults: {
           ease: Power3.easeIn,
-          duration: 1
+          duration: 1,
         },
         onStart: () => setDespawnAboutWiggly(true),
         onComplete: () => {
           updateContext("despawnAbout", false)
           setTimeout(() => props.history.goBack(), 220)
-        }
+        },
       })
       .addLabel("sync")
     despawnTl.to($content.current, { y: window.innerHeight }, "sync")

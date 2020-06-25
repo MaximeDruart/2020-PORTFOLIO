@@ -8,7 +8,7 @@ import ScrollToPlugin from "gsap/ScrollToPlugin"
 gsap.registerPlugin(ScrollToPlugin)
 
 const ProjectDetail = ({ project, index, history }) => {
-  const { updateContext, $transitionHack, removeLoader } = useContext(AnimationContext)
+  const { $transitionHack, removeLoader } = useContext(AnimationContext)
   const $projectDetail = useRef(null)
   const $banner = useRef(null)
   const $bannerImg = useRef(null)
@@ -25,14 +25,14 @@ const ProjectDetail = ({ project, index, history }) => {
       .timeline({
         defaults: {
           ease: Power2.easeInOut,
-          duration: 0.5
+          duration: 0.5,
         },
         onStart: () => {
           setisScrollEnabled(false)
           if ($transitionHack?.current)
             $transitionHack.current.style.backgroundImage = `url(${projectData[index + 1].coverImg})`
         },
-        onComplete: () => history.push(`/projects/${projectData[index + 1].path}`)
+        onComplete: () => history.push(`/projects/${projectData[index + 1].path}`),
       })
       .addLabel("sync", "+=0.3")
     goToNextProjectTl.to($projectDetail.current, { scrollTo: "max" })
@@ -59,8 +59,9 @@ const ProjectDetail = ({ project, index, history }) => {
       if ($projectDetail.current) {
         if ($projectDetail.current.style.overflowY === "scroll") {
           $projectTitle.current.style.transform = `translateX(-${$projectDetail.current.scrollTop}px)`
-          $bannerImg.current.style.transform = `scale(${1 +
-            $projectDetail.current.scrollTop / (window.innerHeight * 4)})`
+          $bannerImg.current.style.transform = `scale(${
+            1 + $projectDetail.current.scrollTop / (window.innerHeight * 4)
+          })`
         }
         // if we're on the bottom of the page automatically go to next project
         if ($projectDetail.current.scrollTop + 100 > projectPageHeight && projectData.length - 1 !== index) {
@@ -93,11 +94,11 @@ const ProjectDetail = ({ project, index, history }) => {
       paused: true,
       defaults: {
         ease: Power3.easeInOut,
-        duration: 0.6
+        duration: 0.6,
       },
       onComplete: () => {
         if ($projectDetail.current) $projectDetail.current.style.overflowY = "scroll"
-      }
+      },
     })
     projectSpawnTl.to($banner.current, { height: "89vh" })
     projectSpawnTl.from($projectTitle.current, { x: "100vw" })
@@ -116,7 +117,8 @@ const ProjectDetail = ({ project, index, history }) => {
           // kinda sketchy solution but haven't found better
           style={{ width: project.name === "Exit The Matrix" ? "285vw" : "initial" }}
           className="project-title"
-          ref={$projectTitle}>
+          ref={$projectTitle}
+        >
           {project?.name}
         </h1>
       </div>
@@ -134,7 +136,7 @@ const ProjectDetail = ({ project, index, history }) => {
             <div className="info-techs info-block">
               <div className="info-label">Techs</div>
               <ul className="info-content">
-                {project?.techs.map(tech => (
+                {project?.techs.map((tech) => (
                   <li key={uuid()} className="tech">
                     {tech}
                   </li>
@@ -150,7 +152,8 @@ const ProjectDetail = ({ project, index, history }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   href={project?.websiteLink}
-                  className="info-link info-website">
+                  className="info-link info-website"
+                >
                   {project.websiteLink && "Visit site"}
                 </a>
               </div>
@@ -159,7 +162,8 @@ const ProjectDetail = ({ project, index, history }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   href={project?.githubLink}
-                  className="info-link info-github">
+                  className="info-link info-github"
+                >
                   {project.githubLink && "See on github"}
                 </a>
               </div>
@@ -171,7 +175,7 @@ const ProjectDetail = ({ project, index, history }) => {
           <div className="credits">
             <h3 className="credits-title">Credits</h3>
             <ul className="credit-list">
-              {Object.keys(project.credits).map(cred => (
+              {Object.keys(project.credits).map((cred) => (
                 <li className="credit" key={uuid()}>
                   <span className="key">{cred}</span> :
                   <a target="_blank" rel="noopener noreferrer" href={project.credits[cred].link} className="value">

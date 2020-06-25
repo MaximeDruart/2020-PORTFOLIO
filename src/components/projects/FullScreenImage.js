@@ -1,10 +1,7 @@
-import React, { useRef, useEffect, useContext, useState } from "react"
-import Rellax from "rellax"
-import AnimationContext from "../../AnimationContext"
+import React, { useRef, useEffect, useState } from "react"
 
 const FullScreenImage = ({ src, scrollDOM }) => {
   const $img = useRef(null)
-  const $projectDetail = useContext(AnimationContext)
   const [lastScrollDOMHeight, setLastScrollDOMHeight] = useState(scrollDOM?.current?.scrollHeight || 0)
 
   useEffect(() => {
