@@ -1,6 +1,7 @@
 @font-face {
   font-family: "DrukWideBold";
   src: local("DrukWideBold"), url("./assets/fonts/DrukWideBold.woff") format("woff");
+  font-display: swap;
 }
 
 @font-face {
@@ -133,6 +134,11 @@ $project-number: 6;
       background-image: url("./assets/img/noise.gif");
       z-index: 1000;
       pointer-events: none;
+
+      video {
+        width: 100%;
+        height: 100%;
+      }
     }
 
     .background {

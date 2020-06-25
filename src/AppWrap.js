@@ -9,6 +9,8 @@ import Header from "./components/Header"
 import MouseFollower from "./components/MouseFollower"
 import ProjectDetail from "./components/ProjectDetail"
 import { AnimationContext } from "./AnimationContext"
+import { noiseWebm } from "./assets/img/noise.webm"
+import { noiseMp4 } from "./assets/img/noise.mp4"
 
 const AppWrap = () => {
   const { updateContext, removeLoader } = useContext(AnimationContext)
@@ -28,7 +30,7 @@ const AppWrap = () => {
         <Route
           path={`/projects/${project.path}`}
           key={uuid()}
-          component={props => <ProjectDetail index={index} project={project} {...props} />}
+          component={(props) => <ProjectDetail index={index} project={project} {...props} />}
         />
       )),
     []
@@ -48,14 +50,19 @@ const AppWrap = () => {
       {/* <div className="transition-hack"></div> */}
       <Router>
         <MouseFollower />
-        <div className="noise-filter"></div>
+        <div className="noise-filter">
+          <video autoPlay loop muted playsInline>
+            <source src={noiseWebm} type="video/webm" />
+            <source src={noiseMp4} type="video/mp4" />
+          </video>
+        </div>
         {!removeLoader && <Loader />}
-        <Route path="/" render={props => <Header {...props} />} />
+        <Route path="/" render={(props) => <Header {...props} />} />
         <Switch>
-          <Route path="/" exact render={props => <Home {...props} />} />
+          <Route path="/" exact render={(props) => <Home {...props} />} />
           <Route path="/about" exact component={About} />
           {projectRoutes}
-          <Route path="*" render={props => <Home {...props} />} />
+          <Route path="*" render={(props) => <Home {...props} />} />
         </Switch>
       </Router>
     </div>
