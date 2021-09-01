@@ -16,26 +16,6 @@ import atomCover from "../assets/img/atom/atom-intro.JPG"
 
 export default [
   {
-    name: "Sandwich Studio",
-    path: "sandwich-studio",
-    coverImg: sandwichCover,
-    component: Sandwich,
-    date: "Avr. 2021",
-    role: "Front end dev, back end dev",
-    techs: ["HTML/CSS/JS", "WebGL", "React (Gatsby)"],
-    description:
-      "I was contacted by a classmate of mine to create the website of his agency. Sandwich Studio offers support to brands specialising in CBD in the creation of their graphic identity, digital presence, packaging and marketing. The aim of the website was to showcase the agency's creative capabilities so we focused on creating a site that was as interactive as possible and with 3D.",
-    websiteLink: "https://sandwich-studio.netlify.app/",
-    githubLink: "https://github.com/MaximeDruart/sandwich-studio-gatsby",
-    credits: {
-      Development: { name: "Maxime Druart" },
-      Designer: {
-        name: "Sandro Raspaldo",
-        link: "https://www.sandroraspaldo.com/",
-      },
-    },
-  },
-  {
     name: "Pitchfork",
     path: "pitchfork",
     coverImg: pitchforkCover,
@@ -52,6 +32,26 @@ export default [
       Designer: {
         name: "Aurélie Do",
         link: "https://www.behance.net/aureliedo",
+      },
+    },
+  },
+  {
+    name: "Sandwich Studio",
+    path: "sandwich-studio",
+    coverImg: sandwichCover,
+    component: Sandwich,
+    date: "Avr. 2021",
+    role: "Front end dev, back end dev",
+    techs: ["HTML/CSS/JS", "WebGL", "React (Gatsby)"],
+    description:
+      "I was contacted by a classmate of mine to create the website of his agency. Sandwich Studio offers support to brands specialising in CBD in the creation of their graphic identity, digital presence, packaging and marketing. The aim of the website was to showcase the agency's creative capabilities so we focused on creating a site that was as interactive as possible and with 3D.",
+    websiteLink: "https://sandwich-studio.netlify.app/",
+    githubLink: "https://github.com/MaximeDruart/sandwich-studio-gatsby",
+    credits: {
+      Development: { name: "Maxime Druart" },
+      Designer: {
+        name: "Sandro Raspaldo",
+        link: "https://www.sandroraspaldo.com/",
       },
     },
   },
