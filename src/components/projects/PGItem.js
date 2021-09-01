@@ -1,6 +1,6 @@
 import React from "react"
 
-const PGItem = props => {
+const PGItem = (props) => {
   return (
     <div className="playground-item">
       <div className="left">
@@ -11,9 +11,11 @@ const PGItem = props => {
       <div className="right">
         <div className="title">{props.title}</div>
         <div className="description">{props.description}</div>
-        <a target="_blank" rel="noopener noreferrer" href={props.link} className="link">
-          Visit site
-        </a>
+        {props.link && (
+          <a target="_blank" rel="noopener noreferrer" href={props.link} className="link">
+            Visit site
+          </a>
+        )}
         <a target="_blank" rel="noopener noreferrer" href={props.github} className="link github">
           See code on github
         </a>
