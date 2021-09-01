@@ -124,16 +124,22 @@ const About = (props) => {
             </aside>
             <div className="description">
               Hello ! My name is Maxime Druart and i'm a Paris based web developer with a keen interest in visual
-              creation through programming. Currently studying at
-              <a href="https://hetic.net" target="_blank" rel="noopener noreferrer">
-                {" "}
-                HETIC
-              </a>
-              , learning design and web development. I like building interactive experiences on the web with Javascript
-              and/or canvas. I'm always looking forward to learning new things and as of now I'm interested in learning
-              about creating back-end systems and WebGL.
-              <div style={{ fontWeight: 600 }}>
-                Hey ! I'm also looking for an internship in Paris from July 2020 to September 2020, hit me up !
+              creation through programming.
+              <div className="description-section">
+                Currently studying for a Master (Design & Management de l'innovation intéractive) at
+                <a href="https://gobelins.fr/" target="_blank" rel="noopener noreferrer">
+                  {" "}
+                  Gobelins
+                </a>
+                , learning interactive web development. I like building interactive experiences on the web with
+                Javascript and/or canvas.
+              </div>
+              <div className="description-section">
+                I'm always looking forward to learning new things and as of now I'm interested in learning about
+                creating back-end systems and WebGL.
+              </div>
+              <div className="description-section" style={{ fontWeight: 600 }}>
+                Hey ! I'm also looking for an internship in Paris for 2 years starting in November 2021, hit me up !
               </div>
             </div>
           </div>
@@ -146,12 +152,16 @@ const About = (props) => {
                 <li>css</li>
                 <li>javascript</li>
                 <li>react</li>
+                <li>redux</li>
                 <li>gsap</li>
                 <li>canvas</li>
+                <li>THREE.js</li>
                 <li>pixi.js</li>
                 <li>sass</li>
                 <li>nodejs</li>
                 <li>mongodb</li>
+                <li>php</li>
+                <li>laravel</li>
                 <li>python</li>
               </ul>
             </div>
@@ -161,6 +171,7 @@ const About = (props) => {
                 <li>photoshop</li>
                 <li>illustrator</li>
                 <li>xd</li>
+                <li>blender</li>
               </ul>
             </div>
           </div>

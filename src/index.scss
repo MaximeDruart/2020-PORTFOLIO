@@ -669,6 +669,10 @@ $project-number: 6;
             }
             .description {
               width: 70%;
+
+              .description-section {
+                margin-top: 5px;
+              }
             }
           }
           .about-skills {
